@@ -34,7 +34,7 @@
         <junit.version>4.13-beta-3</junit.version>
         <junit.surefire.version>3.0.0-M3</junit.surefire.version>
         <assertj.version>3.11.1</assertj.version>
-        <webdrivermanager.version>3.6.2</webdrivermanager.version>
+        <webdrivermanager.version>3.7.1</webdrivermanager.version>
         <rest-assured.version>2.9.0</rest-assured.version>
         <maven.failsafe.plugin.version>3.0.0-M3</maven.failsafe.plugin.version>
         <maven.build.helper.plugin.version>3.0.0</maven.build.helper.plugin.version>
