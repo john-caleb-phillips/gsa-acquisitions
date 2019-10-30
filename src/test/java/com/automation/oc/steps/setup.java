@@ -1,5 +1,4 @@
-package com.automattion.oc.steps;
-
+package com.automation.oc.steps;
 
 import com.automation.oc.projectsetup.UsersAndURL;
 import eyethink.automation.bots.Register.AuthorizedProject;

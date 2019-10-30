@@ -1,6 +1,6 @@
 package com.automation.oc.projectsetup;
 
-import eyethink.automation.bots.controller.EnvironmentFetcher;
+import eyethink.automation.bots.Register.EnvironmentFetcher;
 import eyethink.automation.bots.controller.UsersController;
 
 public class UsersAndURL implements UsersController {
@@ -24,31 +24,32 @@ public class UsersAndURL implements UsersController {
     @Override
     public String getUserName(String userLevel) {
         String userName = null;
-        if ((EnvironmentFetcher.environmentName != null) && (EnvironmentFetcher.environmentName.contains("QA"))) {
+        if ((EnvironmentFetcher.getEnvironmentName() != null) && (EnvironmentFetcher.getEnvironmentName().contains("QA"))) {
             userName = getQAEnvironmentUser(userLevel);
-        } else if ((EnvironmentFetcher.environmentName != null) && (EnvironmentFetcher.environmentName.contains("UAT"))) {
-         // To be implemented
-        }else if ((EnvironmentFetcher.environmentName != null) && (EnvironmentFetcher.environmentName.contains("DEMO"))) {
-           userName = getDemoEnvironmentUser(userLevel);
+        } else if ((EnvironmentFetcher.getEnvironmentName()!= null) && (EnvironmentFetcher.getEnvironmentName().contains("UAT"))) {
+            // To be implemented
+        } else if ((EnvironmentFetcher.getEnvironmentName() != null) && (EnvironmentFetcher.getEnvironmentName().contains("DEMO"))) {
+            userName = getDemoEnvironmentUser(userLevel);
         } else {
             userName = getQAEnvironmentUser(userLevel);
-        } 
+        }
         return userName;
     }
-    
+
     @Override
     public String getPassword(String userLevel) {
-        String password = null;      
-        if (EnvironmentFetcher.environmentName.contains("QA")) {
+        String password = null;
+        if (EnvironmentFetcher.getEnvironmentName().contains("QA")) {
             password = getQAEnvironmentPassword(userLevel);
-        } else if (EnvironmentFetcher.environmentName.contains("uat")) {
+        } else if (EnvironmentFetcher.getEnvironmentName().contains("uat")) {
             // To be implemented
-        } else if (EnvironmentFetcher.environmentName.contains("DEMO")) {
+        } else if (EnvironmentFetcher.getEnvironmentName().contains("DEMO")) {
             password = getDemoEnvironmentPassword(userLevel);
         }
         return password;
     }
-    
+
+
     public String getQAEnvironmentPassword(String userLevel) {
         String password;    
         switch (userLevel.toUpperCase()) {

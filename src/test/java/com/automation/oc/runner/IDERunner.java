@@ -1,4 +1,4 @@
-package com.automattion.oc.runner;
+package com.automation.oc.runner;
 
 
 import io.cucumber.junit.Cucumber;

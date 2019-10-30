@@ -1,4 +1,4 @@
-package com.automattion.oc.pageobject;
+package com.automation.oc.pageobject;
 
 import com.automation.oc.projectsetup.ProjectManager;
 import eyethink.automation.bots.Register.EyeThink;

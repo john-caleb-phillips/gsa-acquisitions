@@ -1,6 +1,6 @@
-package com.automattion.oc.steps;
+package com.automation.oc.steps;
 
-import com.automattion.oc.pageobject.LoginPage;
+import com.automation.oc.pageobject.LoginPage;
 
 public class LoginSteps {
     private LoginPage loginPage;
