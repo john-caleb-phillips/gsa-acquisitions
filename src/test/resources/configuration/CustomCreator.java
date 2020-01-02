@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         glue = {"setup","com.automation.oc.steps","com.automation.rei.govgrantsSteps","eyethink.automation.bots.bdd","eyethink.automation.bots.Register"},
         features = {"target/parallel/features/[CUCABLE:FEATURE].feature"},
-        plugin = {"json:target/cucumber-report/[CUCABLE:RUNNER].json","pretty"},
+        plugin = {"json:target/cucumber-report/[CUCABLE:RUNNER].json","eyethink.automation.bots.controller.ReportingLogsPlugin"},
         tags = {"not @wip"},
         monochrome = true
 )
