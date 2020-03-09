@@ -18,12 +18,12 @@
         <dependency>
             <groupId>rei.cats</groupId>
             <artifactId>cats-operations</artifactId>
-            <version>${project.version}</version>
+            <version>${cats.version}</version>
         </dependency>
         <dependency>
             <groupId>rei.saas.automation</groupId>
             <artifactId>govgrants-library</artifactId>
-            <version>${project.version}</version>
+            <version>${saas.version}</version>
         </dependency>
     </dependencies>
 
