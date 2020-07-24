@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>rei.saas.automation</groupId>
-    <artifactId>nwfw-project</artifactId>
+    <artifactId>orange-county-project</artifactId>
     <packaging>jar</packaging>
     <name>REI SAAS Automation - Orange County Project</name>
 
@@ -94,8 +94,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <sourceRunnerTemplateFile>src/test/resources/configuration/CustomCreator.java
-                    </sourceRunnerTemplateFile>
+                    <sourceRunnerTemplateFile>src/test/resources/configuration/CustomCreator.java</sourceRunnerTemplateFile>
                     <sourceFeatures>src/test/resources/features</sourceFeatures>
                     <generatedFeatureDirectory>${generated.feature.directory}</generatedFeatureDirectory>
                     <generatedRunnerDirectory>${generated.runner.directory}</generatedRunnerDirectory>
