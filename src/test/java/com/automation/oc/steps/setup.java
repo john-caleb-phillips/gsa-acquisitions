@@ -1,10 +1,9 @@
 package com.automation.oc.steps;
 
 import com.automation.oc.projectsetup.UsersAndURL;
-import eyethink.automation.bots.Register.AuthorizedProject;
-import eyethink.automation.bots.Register.EyeThink;
-import eyethink.automation.bots.Report.CSS;
-import eyethink.automation.bots.controller.TestSetupController;
+import com.testingblaze.controller.TestSetupController;
+import com.testingblaze.register.EnvironmentFactory;
+import com.testingblaze.report.CSS;
 import io.cucumber.java.Before;
 
 import java.awt.*;
@@ -22,10 +21,12 @@ public class setup {
 
     public setup(TestSetupController userController) {
         this.userController = userController;
-        EyeThink.setRegister(AuthorizedProject.SAAS_GOVGRANTS_OC);
-        if(report == null) {
+        if (report == null) {
             this.report = new CSS();
-            report.reportConfigWriteUp(System.getProperty("user.dir"),"GovGrants Orange County Test Automation");
+            EnvironmentFactory.setProjectName("GovGrants Orange County Test Automation");
+            EnvironmentFactory.setOrgName("REI Systems [Saas Business Unit]");
+            EnvironmentFactory.setProjectPath(System.getProperty("user.dir"));
+            report.reportConfigWriteUp();
         }
     }
 

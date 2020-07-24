@@ -1,7 +1,7 @@
 package com.automation.oc.pageobject;
 
 import com.automation.oc.projectsetup.ProjectManager;
-import eyethink.automation.bots.Register.EyeThink;
+import com.testingblaze.register.I;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 
@@ -16,7 +16,7 @@ public class LoginPage extends ProjectManager {
     //Just a sample method. Remove it
     public void assertLoggedIn() {
         By logo = By.xpath("//img[@id='govGrantsHeaderImagePlaceHolderId']");
-        Assert.assertTrue(EyeThink.core().is().onWeb().isDisplayed(logo));
+        Assert.assertTrue(I.amPerforming().checkToSee().isDisplayed(logo));
     }
 
     /******* "Local Methods with Limited functionality " **********/

@@ -1,9 +1,9 @@
 package com.automation.oc.projectsetup;
 
-import eyethink.automation.bots.Register.EnvironmentFetcher;
+import com.testingblaze.register.EnvironmentFactory;
 
 public class ProjectWebServices {
-    private static String endPoint = EnvironmentFetcher.getEnvironmentUrl();
+    private static String endPoint = EnvironmentFactory.getEnvironmentUrl();
 
     
 }
