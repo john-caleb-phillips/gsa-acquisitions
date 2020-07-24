@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>rei.cats</groupId>
-        <artifactId>cats-parent</artifactId>
+        <groupId>com.testing</groupId>
+        <artifactId>blaze-parent</artifactId>
         <version>1.0.0</version>
     </parent>
 
@@ -16,14 +16,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>rei.cats</groupId>
-            <artifactId>cats-operations</artifactId>
-            <version>${cats.version}</version>
+            <groupId>com.testing</groupId>
+            <artifactId>blaze-operations</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>rei.saas.automation</groupId>
             <artifactId>govgrants-library</artifactId>
-            <version>${saas.version}</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 
@@ -100,6 +100,7 @@
                     <generatedRunnerDirectory>${generated.runner.directory}</generatedRunnerDirectory>
                     <parallelizationMode>scenarios</parallelizationMode>
                     <includeScenarioTags>(${tags}) and not @wip</includeScenarioTags>
+                    <numberOfTestRuns>${numberOfTimesRunTag}</numberOfTestRuns>
                     <logLevel>minimal</logLevel>
                 </configuration>
             </plugin>
@@ -138,11 +139,12 @@
                 <configuration>
                     <sourceJsonReportDirectory>${cucumber.report.json.location}</sourceJsonReportDirectory>
                     <generatedHtmlReportDirectory>${generated.report.location}</generatedHtmlReportDirectory>
-                    <customPageTitle>EyeThink Automation Report</customPageTitle>
+                    <customPageTitle>Testing Blaze Automation Report</customPageTitle>
                     <failScenariosOnPendingOrUndefinedSteps>true</failScenariosOnPendingOrUndefinedSteps>
                     <expandBeforeAfterHooks>true</expandBeforeAfterHooks>
-                    <customCss>target/Automation-Report/eyethink_css/custom.css</customCss>
-                    <customParametersFile>target/Automation-Report/eyethink_css/custom.properties</customParametersFile>
+                    <customCss>target/Automation-Report/test_blaze_config/custom.css</customCss>
+                    <customParametersFile>target/Automation-Report/test_blaze_config/custom.properties
+                    </customParametersFile>
                     <logLevel>off</logLevel>
                 </configuration>
             </plugin>
