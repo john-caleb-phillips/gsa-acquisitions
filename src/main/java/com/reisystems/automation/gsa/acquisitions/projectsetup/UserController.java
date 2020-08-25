@@ -1,34 +1,29 @@
-package com.automation.oc.projectsetup;
+package com.reisystems.automation.gsa.acquisitions.projectsetup;
 
-import com.testingblaze.controller.UsersController;
-import com.testingblaze.register.EnvironmentFactory;
 
-public class UsersAndURL implements UsersController {
+import com.reisystems.blaze.controller.EnvironmentController;
+import com.reisystems.blaze.interfaces.UserInfoController;
 
-    /**
-     * @REI-Systems
-     * @author nauman.shahid
-     * @category Handles users based on different environments
-     */
+public class UserController implements UserInfoController {
 
-    /****
-     * BELOW ARE SAMPLE METHODS TO HANDLE USERS BASED ON DIFFERENT ENVIRONEMNTS
-     *******/
-    /****
-     * IT ALSO HANDLE ANY ADDITIONAL URL IN ADDITION TO STANDARD PROJECT
-     **********/
-    /****
-     * SINCE THESE ARE GENERIC METHODS SO YOU MAY KEEP THE SAME WITH MODIFICTION
-     ******/
 
     @Override
+    public String getUserInfo(String userIdentifier, String userInfo) {
+        return switch (userInfo) {
+            case "Username" -> getUserName(userIdentifier);
+            case "Password" -> getPassword(userIdentifier);
+            case "Email" -> getEmail(userIdentifier);
+            default -> throw new RuntimeException("This info is not supported");
+        };
+    }
+
     public String getUserName(String userLevel) {
         String userName = null;
-        if ((EnvironmentFactory.getEnvironmentName() != null) && (EnvironmentFactory.getEnvironmentName().contains("QA"))) {
+        if ((EnvironmentController.getEnvironmentName() != null) && (EnvironmentController.getEnvironmentName().contains("QA"))) {
             userName = getQAEnvironmentUser(userLevel);
-        } else if ((EnvironmentFactory.getEnvironmentName()!= null) && (EnvironmentFactory.getEnvironmentName().contains("UAT"))) {
+        } else if ((EnvironmentController.getEnvironmentName()!= null) && (EnvironmentController.getEnvironmentName().contains("UAT"))) {
             // To be implemented
-        } else if ((EnvironmentFactory.getEnvironmentName() != null) && (EnvironmentFactory.getEnvironmentName().contains("DEMO"))) {
+        } else if ((EnvironmentController.getEnvironmentName() != null) && (EnvironmentController.getEnvironmentName().contains("DEMO"))) {
             userName = getDemoEnvironmentUser(userLevel);
         } else {
             userName = getQAEnvironmentUser(userLevel);
@@ -36,14 +31,25 @@ public class UsersAndURL implements UsersController {
         return userName;
     }
 
-    @Override
     public String getPassword(String userLevel) {
         String password = null;
-        if (EnvironmentFactory.getEnvironmentName().contains("QA")) {
+        if (EnvironmentController.getEnvironmentName().contains("QA")) {
             password = getQAEnvironmentPassword(userLevel);
-        } else if (EnvironmentFactory.getEnvironmentName().contains("uat")) {
+        } else if (EnvironmentController.getEnvironmentName().contains("uat")) {
             // To be implemented
-        } else if (EnvironmentFactory.getEnvironmentName().contains("DEMO")) {
+        } else if (EnvironmentController.getEnvironmentName().contains("DEMO")) {
+            password = getDemoEnvironmentPassword(userLevel);
+        }
+        return password;
+    }
+
+    public String getEmail(String userLevel) {
+        String password = null;
+        if (EnvironmentController.getEnvironmentName().contains("QA")) {
+            password = getQAEnvironmentPassword(userLevel);
+        } else if (EnvironmentController.getEnvironmentName().contains("uat")) {
+            // To be implemented
+        } else if (EnvironmentController.getEnvironmentName().contains("DEMO")) {
             password = getDemoEnvironmentPassword(userLevel);
         }
         return password;

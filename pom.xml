@@ -4,150 +4,70 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.testing</groupId>
-        <artifactId>blaze-parent</artifactId>
+        <groupId>com.reisystems.automation</groupId>
+        <artifactId>blaze.parent-pom</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <groupId>rei.saas.automation</groupId>
-    <artifactId>orange-county-project</artifactId>
+    <artifactId>gsa.acquisitions</artifactId>
     <packaging>jar</packaging>
-    <name>REI SAAS Automation - Orange County Project</name>
+    <name>REI GSA Automation - Acquisitions.gov</name>
 
     <dependencies>
         <dependency>
-            <groupId>com.testing</groupId>
-            <artifactId>blaze-operations</artifactId>
+            <groupId>com.reisystems.automation</groupId>
+            <artifactId>blaze.operations</artifactId>
             <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.blaze.library/library/target/blaze.operations-1.0.0.jar
+            </systemPath>
         </dependency>
-        <dependency>
-            <groupId>rei.saas.automation</groupId>
-            <artifactId>govgrants-library</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-    </dependencies>
 
-    <repositories>
-        <repository>
-            <id>rei.cats</id>
-            <url>http://nexus.reisys.com:8081/nexus/content/repositories/rei.cats</url>
-        </repository>
-        <repository>
-            <id>saasbusinesslayer.automation</id>
-            <url>http://nexus.reisys.com:8081/nexus/content/repositories/saasbusinesslayer.automation</url>
-        </repository>
-    </repositories>
+        <dependency>
+            <groupId>com.reisystems.automation</groupId>
+            <artifactId>blaze.plugin</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.blaze.library/plugin/target/blaze.plugin-1.0.0.jar</systemPath>
+        </dependency>
+
+    </dependencies>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${maven.failsafe.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>Run parallel tests</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <forkCount>${threads}</forkCount>
-                    <testFailureIgnore>true</testFailureIgnore>
-                    <disableXmlReport>true</disableXmlReport>
-                    <argLine>-Dfile.encoding=UTF-8</argLine>
-                    <excludes>
-                        <exclude>**/IT*.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
+
             <plugin>
-                <groupId>com.trivago.rta</groupId>
-                <artifactId>cucable-plugin</artifactId>
-                <version>${cucable.version}</version>
+                <groupId>com.reisystems.automation</groupId>
+                <artifactId>blaze.plugin</artifactId>
+                <version>1.0.0</version>
                 <executions>
                     <execution>
-                        <id>generate-test-resources</id>
-                        <phase>generate-test-resources</phase>
                         <goals>
-                            <goal>parallel</goal>
+                            <goal>generate-test-resources</goal>
+                            <goal>generate-test-sources</goal>
+                            <goal>integration-test</goal>
+                            <goal>post-integration-test</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <sourceRunnerTemplateFile>src/test/resources/configuration/CustomCreator.java</sourceRunnerTemplateFile>
-                    <sourceFeatures>src/test/resources/features</sourceFeatures>
-                    <generatedFeatureDirectory>${generated.feature.directory}</generatedFeatureDirectory>
-                    <generatedRunnerDirectory>${generated.runner.directory}</generatedRunnerDirectory>
-                    <parallelizationMode>scenarios</parallelizationMode>
-                    <includeScenarioTags>(${tags}) and not @wip</includeScenarioTags>
-                    <numberOfTestRuns>${numberOfTimesRunTag}</numberOfTestRuns>
-                    <logLevel>minimal</logLevel>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${maven.build.helper.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>add-test-source</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${generated.runner.directory}</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.trivago.rta</groupId>
-                <artifactId>cluecumber-report-plugin</artifactId>
-                <version>${report.version}</version>
-                <executions>
-                    <execution>
-                        <id>report</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>reporting</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <sourceJsonReportDirectory>${cucumber.report.json.location}</sourceJsonReportDirectory>
-                    <generatedHtmlReportDirectory>${generated.report.location}</generatedHtmlReportDirectory>
-                    <customPageTitle>Testing Blaze Automation Report</customPageTitle>
-                    <failScenariosOnPendingOrUndefinedSteps>true</failScenariosOnPendingOrUndefinedSteps>
-                    <expandBeforeAfterHooks>true</expandBeforeAfterHooks>
-                    <customCss>target/Automation-Report/test_blaze_config/custom.css</customCss>
-                    <customParametersFile>target/Automation-Report/test_blaze_config/custom.properties
-                    </customParametersFile>
-                    <logLevel>off</logLevel>
+                    <stepPackages>
+                        <stepPackage>com.reisystems.automation.gsa.acquisitions.steps</stepPackage>
+                    </stepPackages>
+                    <userControllerClass>com.reisystems.automation.gsa.acquisitions.projectsetup.UserController</userControllerClass>
+                    <portalControllerClass>com.reisystems.automation.gsa.acquisitions.projectsetup.PortalController</portalControllerClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
 </project>
