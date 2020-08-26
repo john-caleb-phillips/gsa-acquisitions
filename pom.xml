@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.reisystems.automation</groupId>
         <artifactId>blaze.parent-pom</artifactId>
-        <version>1.0.0</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>gsa.acquisitions</artifactId>
@@ -17,18 +17,18 @@
         <dependency>
             <groupId>com.reisystems.automation</groupId>
             <artifactId>blaze.operations</artifactId>
-            <version>1.0.0</version>
+            <version>0.0.1</version>
             <scope>system</scope>
-            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.blaze.library/library/target/blaze.operations-1.0.0.jar
+            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.blaze.library/library/target/blaze.operations-0.0.1.jar
             </systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.reisystems.automation</groupId>
             <artifactId>blaze.plugin</artifactId>
-            <version>1.0.0</version>
+            <version>0.0.1</version>
             <scope>system</scope>
-            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.blaze.library/plugin/target/blaze.plugin-1.0.0.jar</systemPath>
+            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.blaze.library/plugin/target/blaze.plugin-0.0.1.jar</systemPath>
         </dependency>
 
     </dependencies>
@@ -48,7 +48,7 @@
             <plugin>
                 <groupId>com.reisystems.automation</groupId>
                 <artifactId>blaze.plugin</artifactId>
-                <version>1.0.0</version>
+                <version>0.0.1</version>
                 <executions>
                     <execution>
                         <goals>

@@ -1,7 +1,7 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject;
 
 import com.reisystems.blaze.blazeElement.BlazeWebElement;
-import com.reisystems.blaze.controller.BlazeDriver;
+import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
@@ -9,10 +9,16 @@ import java.util.List;
 
 public class NewsPage {
 
+    BlazeLibrary blazeLibrary;
+
+    public NewsPage(BlazeLibrary blazeLibrary) {
+        this.blazeLibrary = blazeLibrary;
+    }
+
     public List<NewsItem> getNewsItems(Integer numberOfNewsItems) {
         List<NewsItem> newsItems = new ArrayList<>();
 
-        List<BlazeWebElement> newsElements = BlazeDriver.getElements(By.xpath("//div[@class='item-list']//li[contains(@class, 'views-row')]"));
+        List<BlazeWebElement> newsElements = blazeLibrary.getElements(By.xpath("//div[@class='item-list']//li[contains(@class, 'views-row')]"));
 
         for (int i = 0; i < numberOfNewsItems; i++) {
             if (i == newsElements.size()) {
