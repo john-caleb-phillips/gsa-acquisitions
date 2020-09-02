@@ -37,4 +37,20 @@ public class Header {
     public By policyNetworkDropdownLink(String linkText) {
         return By.xpath(String.format("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Policy Network Home']]//li/a[normalize-space(.)='%s']", linkText));
     }
+
+    public By searchTextBox() {
+        return By.xpath("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Search']]//input[@type='text']");
+    }
+
+    public By searchSiteToggle() {
+        return By.xpath("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Search']]//label[@for='website']");
+    }
+
+    public By searchRegulationsToggle() {
+        return By.xpath("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Search']]//label[@for='other-checkbox-2']");
+    }
+
+    public By searchSubmitButton() {
+        return By.xpath("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Search']]//input[@type='submit']");
+    }
 }

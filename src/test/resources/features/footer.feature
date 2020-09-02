@@ -1,4 +1,4 @@
-@footer @all
+@all @footer
 Feature: Test all footer scenarios
 
   @verify-useful-links-link

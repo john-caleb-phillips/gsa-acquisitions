@@ -44,7 +44,7 @@ Feature: Test all header scenarios
     Then I see the url is "https://www.acquisition.gov/search/advanced/"
 
   @policy-network-dropdown-links-go-to-correct-pages
-  Scenario Outline: Policy Network dropdown links goes to correct pages
+  Scenario Outline: Policy Network dropdown link "<Link Text>" goes to "<Destination>"
     Given I am on the homepage
     When I click on header Policy Network dropdown link "<Link Text>"
     Then I see the url is "<Destination>"
@@ -56,7 +56,7 @@ Feature: Test all header scenarios
       | Interagency Suspension and Debarment Committee (ISDC) | https://www.acquisition.gov/isdc-home                                        |
 
   @regulations-dropdown-links-go-to-correct-pages
-  Scenario Outline: Regulation dropdown links goes to correct pages
+  Scenario Outline: Regulation dropdown link "<Link Text>" goes to "<Destination>"
     Given I am on the homepage
     When I click on header Regulations dropdown link "<Link Text>"
     Then I see the url is "<Destination>"
@@ -97,4 +97,38 @@ Feature: Test all header scenarios
       | TAR              | https://www.acquisition.gov/tar               |
       | VAAR             | https://www.acquisition.gov/vaar              |
 
+  @header-blank-search
+  Scenario: Generic search without search term leads to correct page
+    Given I am on the homepage
+    When I perform header generic search for ""
+    Then I see the url is "https://www.acquisition.gov/search/advanced/*"
 
+  @header-blank-search-with-term
+  Scenario: Generic search with search term leads to correct page
+    Given I am on the homepage
+    When I perform header generic search for "term"
+    Then I see the url is "https://www.acquisition.gov/search/advanced/*"
+
+  @header-website-search
+  Scenario: Site search without search term leads to correct page
+    Given I am on the homepage
+    When I perform header site search for ""
+    Then I see the url is "https://www.acquisition.gov/search/site/*"
+
+  @header-website-search-with-term
+  Scenario: Site search with search term leads to correct page
+    Given I am on the homepage
+    When I perform header site search for "term"
+    Then I see the url is "https://www.acquisition.gov/search/site/term"
+
+  @header-regulation-search
+  Scenario: Regulation search without search term leads to correct page
+    Given I am on the homepage
+    When I perform header regulation search for ""
+    Then I see the url is "https://www.acquisition.gov/search/advanced"
+
+  @header-regulation-search-with-term
+  Scenario: Regulation search with search term leads to correct page
+    Given I am on the homepage
+    When I perform header regulation search for "term"
+    Then I see the url is "https://www.acquisition.gov/search/advanced/term"

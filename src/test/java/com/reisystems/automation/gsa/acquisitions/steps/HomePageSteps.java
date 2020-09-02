@@ -78,7 +78,7 @@ public class HomePageSteps {
                     }
 
                     public String toString() {
-                        return "all fields match, ignoring the year";
+                        return "field by field comparator on fields [\"day\", \"month\", \"title\", \"content\"]";
                     }
                 })
                 .containsExactlyElementsOf(gson.fromJson(blazeLibrary.properties().getProperty(valueKey), type));
