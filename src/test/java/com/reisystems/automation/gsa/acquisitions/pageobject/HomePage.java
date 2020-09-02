@@ -16,8 +16,8 @@ public class HomePage {
         this.blazeLibrary = blazeLibrary;
     }
 
-    public void goToHomePage() {
-        blazeLibrary.browser().navigateToUrl(ExecutionController.getPortalController().getPortalUrl("INTERNAL"));
+    public void goToPage() {
+        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/");
     }
 
     public By ovalButtonLocator(String buttonText) {

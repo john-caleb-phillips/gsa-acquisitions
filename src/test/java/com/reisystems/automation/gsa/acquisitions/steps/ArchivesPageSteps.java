@@ -30,7 +30,7 @@ public class ArchivesPageSteps {
 
     @Given("I am on the archives page")
     public void goToArchivesPage() {
-        blazeLibrary.browser().navigateToUrl(archiveSearchPage.getUrl());
+        archiveSearchPage.goToPage();
     }
 
     @When("I set the archive type to {string}")
@@ -130,6 +130,15 @@ public class ArchivesPageSteps {
     @Then("I see all archive details are correct")
     public void testArchiveDetails() {
         archiveSearchPage.forEachRowInTheSearchResults(this::parseArchive);
+    }
+
+    @Then("I see that all archive effective dates are before {int}-{int}-{int}")
+    public void verifyEffectiveDates(int year, int month, int day) {
+        LocalDate desiredDate = LocalDate.of(year, month, day);
+        archiveSearchPage.forEachRowInTheSearchResults(el -> blazeLibrary.assertion().assertThat(desiredDate)
+                .as("[%s:%s] Effective Date is too far in the future", el.getArchiveType(), el.getFacNumber())
+                .isAfterOrEqualTo(el.getEffectiveDate())
+        );
     }
 
     private void parseArchive(ArchiveSearchPage.ArchiveSearchRow archiveRow) {

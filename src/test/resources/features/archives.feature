@@ -131,10 +131,11 @@ Feature: Test all archives scenarios
       | TRANSFARS    |
       | VAAR         |
 
-  Scenario Outline: Something something
-    When I am on the archives page
-    And I perform an archive search for "<Archive Type>"
-    And I see all archive details are correct
+  @verify-archive-details
+  Scenario Outline: Check archive details for archive type "<Archive Type>"
+    Given I am on the archives page
+    When I perform an archive search for "<Archive Type>"
+    Then I see all archive details are correct
     Examples:
       | Archive Type |
       | AFARS        |
@@ -169,3 +170,10 @@ Feature: Test all archives scenarios
       | TAR          |
       | TRANSFARS    |
       | VAAR         |
+
+  @effective-date-filter-works-correctly
+  Scenario: Effective date filter works correctly
+    Given I am on the archives page
+    When I set the effective date to 2020-01-01
+    And I perform an archive search for "- Any -"
+    Then I see that all archive effective dates are before 2020-01-01

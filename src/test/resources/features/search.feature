@@ -1,16 +1,16 @@
 @all @search
 Feature: Test all search scenarios
 
-  @qwe123
+  @blank-site-search
   Scenario: Search with no terms returns nothing
     Given I am on the site search page
     When I perform site search for ""
     Then I see the site search error message saying:
-       """
-       Please enter some keywords.
-       """
+      """
+      Please enter some keywords.
+      """
 
-  @qwe123
+  @invalid-site-search
   Scenario: Search with unfound term returns nothing
     Given I am on the site search page
     When I perform site search for "ThisWillNotBeFound"

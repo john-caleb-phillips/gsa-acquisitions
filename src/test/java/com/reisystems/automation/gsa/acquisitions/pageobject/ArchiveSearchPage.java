@@ -18,8 +18,8 @@ public class ArchiveSearchPage {
         this.blazeLibrary = blazeLibrary;
     }
 
-    public String getUrl() {
-        return "https://www.acquisition.gov/archives";
+    public void goToPage() {
+        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/archives");
     }
 
     public ArchiveSearchPage setArchiveType(String archiveType) {

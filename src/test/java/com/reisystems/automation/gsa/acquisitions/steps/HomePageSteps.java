@@ -7,6 +7,7 @@ import com.reisystems.automation.gsa.acquisitions.pageobject.NewsPage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.UpdatePage;
 import com.reisystems.blaze.blazeElement.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
@@ -32,9 +33,9 @@ public class HomePageSteps {
         this.newsPage = newsPage;
     }
 
-    @When("I am on the homepage")
-    public void qwe() {
-        homePage.goToHomePage();
+    @Given("I am on the homepage")
+    public void navigateToHomepage() {
+        homePage.goToPage();
     }
 
     @When("I click on homepage oval button {string}")
@@ -103,7 +104,7 @@ public class HomePageSteps {
                 .usingElementComparator(new Comparator<>() {
                     @Override
                     public int compare(UpdatePage.UpdateItem o1, UpdatePage.UpdateItem o2) {
-                        return o2.section.contains(o1.section) && o1.caseNumber.equals(o2.caseNumber) ? 0 : 1;
+                        return (o1.section.contains(o2.section) || o2.section.contains(o1.section)) && o1.caseNumber.equals(o2.caseNumber) ? 0 : 1;
                     }
 
                     public String toString() {
