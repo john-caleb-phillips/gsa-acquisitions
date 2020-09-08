@@ -54,8 +54,8 @@ public class ArchiveSearchPage {
 
     public void forEachRowInTheSearchResults(Consumer<ArchiveSearchRow> consumer) {
         forEachRowOnThePage(consumer);
-        while (blazeLibrary.getElement(By.xpath("//a[@title='Go to next page']")).isPresent()) {
-            blazeLibrary.getElement(By.xpath("//a[@title='Go to next page']")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        while (hasNextPage()) {
+            goToNextPage();
             forEachRowOnThePage(consumer);
         }
     }
@@ -66,6 +66,30 @@ public class ArchiveSearchPage {
 
     public ArchiveSearchRow getSearchRow(int rowNumber) {
         return new ArchiveSearchRow(rowNumber);
+    }
+
+    public boolean hasPreviousPage() {
+        return blazeLibrary.getElement(By.xpath("//a[@title='Go to previous page']")).isPresent();
+    }
+
+    public boolean hasNextPage() {
+        return blazeLibrary.getElement(By.xpath("//a[@title='Go to next page']")).isPresent();
+    }
+
+    public void goToFirstPage() {
+        blazeLibrary.getElement(By.xpath("//a[@title='Go to first page']")).click(blazeLibrary.defaults().REFRESH_PAGE);
+    }
+
+    public void goToPreviousPage() {
+        blazeLibrary.getElement(By.xpath("//a[@title='Go to previous page']")).click(blazeLibrary.defaults().REFRESH_PAGE);
+    }
+
+    public void goToNextPage() {
+        blazeLibrary.getElement(By.xpath("//a[@title='Go to next page']")).click(blazeLibrary.defaults().REFRESH_PAGE);
+    }
+
+    public void goToLastPage() {
+        blazeLibrary.getElement(By.xpath("//a[@title='Go to last page']")).click(blazeLibrary.defaults().REFRESH_PAGE);
     }
 
     public class ArchiveSearchRow {
@@ -90,7 +114,12 @@ public class ArchiveSearchPage {
 
         public URL getPdfFileUrl() {
             try {
-                return new URL(blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[3]", rowNumber))).getAttribute("href"));
+                BlazeWebElement pdfFileLink = blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[3]//a", rowNumber)));
+                if (pdfFileLink.isPresent()) {
+                    return new URL(pdfFileLink.getAttribute("href"));
+                } else {
+                    return null;
+                }
             } catch (MalformedURLException e) {
                 return null;
             }
@@ -102,7 +131,12 @@ public class ArchiveSearchPage {
 
         public URL getZipFileUrl() {
             try {
-                return new URL(blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[4]", rowNumber))).getAttribute("href"));
+                BlazeWebElement zipFileLink = blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[4]//a", rowNumber)));
+                if (zipFileLink.isPresent()) {
+                    return new URL(zipFileLink.getAttribute("href"));
+                } else {
+                    return null;
+                }
             } catch (MalformedURLException e) {
                 return null;
             }

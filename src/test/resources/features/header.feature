@@ -19,29 +19,17 @@ Feature: Test all header scenarios
     When I click on header logo
     Then I see the url is "https://www.acquisition.gov/"
 
-  @regulation-link-goes-to-correct-page
-  Scenario: Regulation link goes to correct page
+  @verify-header-links
+  Scenario Outline: "<Link Text>" link goes to correct page
     Given I am on the homepage
-    When I click on header link "Regulations"
-    Then I see the url is "https://www.acquisition.gov/content/regulations"
-
-  @archives-link-goes-to-correct-page
-  Scenario: Archives link goes to correct page
-    Given I am on the homepage
-    When I click on header link "Archives"
-    Then I see the url is "https://www.acquisition.gov/archives?type=FAR"
-
-  @policy-network-link-goes-to-correct-page
-  Scenario: Policy Network link goes to correct page
-    Given I am on the homepage
-    When I click on header link "Policy Network"
-    Then I see the url is "https://www.acquisition.gov/policy-network"
-
-  @search-link-goes-to-correct-page
-  Scenario: Search link goes to correct page
-    Given I am on the homepage
-    When I click on header link "Search"
-    Then I see the url is "https://www.acquisition.gov/search/advanced/"
+    When I click on header link "<Link Text>"
+    Then I see the url is "<Destination Url>"
+    Examples:
+      | Link Text      | Destination Url                                 |
+      | Regulations    | https://www.acquisition.gov/content/regulations |
+      | Archives       | https://www.acquisition.gov/archives?type=FAR   |
+      | Policy Network | https://www.acquisition.gov/policy-network      |
+      | Search         | https://www.acquisition.gov/search/advanced/    |
 
   @policy-network-dropdown-links-go-to-correct-pages
   Scenario Outline: Policy Network dropdown link "<Link Text>" goes to "<Destination>"

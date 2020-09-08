@@ -23,17 +23,28 @@ Feature: Test all homepage scenarios
       | FAR Archives          | far-archives.png |
       | Procurement Forecasts | forecasts.png    |
 
-  @verify-browse-the-far-link
-  Scenario: "Browse the FAR" link goes to the correct page
+  @verify-oval-buttons
+  Scenario Outline: "<Button Text>" link goes to the correct page
     Given I am on the homepage
-    When I click on homepage oval button "Browse the FAR"
-    Then I see the url is "https://www.acquisition.gov/browse/index/far"
+    When I click on homepage oval button "<Button Text>"
+    Then I see the url is "<Destination Url>"
+    Examples:
+      | Button Text     | Destination Url                                            |
+      | Browse the FAR  | https://www.acquisition.gov/browse/index/far               |
+      | See all updates | https://www.acquisition.gov/content/list-sections-affected |
+      | Browse all news | https://www.acquisition.gov/news                           |
 
-  @verify-see-all-updates-link
-  Scenario: "See all Updates" link goes to the correct page
+  @verify-square-buttons
+  Scenario Outline: "<Button Text>" link goes to the correct page
     Given I am on the homepage
-    When I click on homepage oval button "See all updates"
-    Then I see the url is "https://www.acquisition.gov/content/list-sections-affected"
+    When I click on homepage square button "<Button Text>"
+    Then I see the url is "<Destination Url>"
+    Examples:
+      | Button Text           | Destination Url                                   |
+      | Smart Matrix          | https://www.acquisition.gov/far-smart-matrix      |
+      | PSC Manual            | https://www.acquisition.gov/psc-manual            |
+      | FAR Archives          | https://www.acquisition.gov/archives/far          |
+      | Procurement Forecasts | https://www.acquisition.gov/procurement-forecasts |
 
   @verify-list-of-updates-matches-update-page
   Scenario: The list of updates matches the update page
@@ -42,36 +53,6 @@ Feature: Test all homepage scenarios
     And I save the top 4 updates as "updates"
     And I navigate back
     Then I see the homepage updates match the updates saved as "updates"
-
-  @verify-smart-matrix-link
-  Scenario: "Smart Matrix" link goes to the correct page
-    Given I am on the homepage
-    When I click on homepage square button "Smart Matrix"
-    Then I see the url is "https://www.acquisition.gov/far-smart-matrix"
-
-  @verify-psc-manual-link
-  Scenario: "PSC Manual" link goes to the correct page
-    Given I am on the homepage
-    When I click on homepage square button "PSC Manual"
-    Then I see the url is "https://www.acquisition.gov/psc-manual"
-
-  @verify-far-archives-link
-  Scenario: "FAR Archives" link goes to the correct page
-    Given I am on the homepage
-    When I click on homepage square button "FAR Archives"
-    Then I see the url is "https://www.acquisition.gov/archives/far"
-
-  @verify-procurement-forecasts-link
-  Scenario: "Procurement Forecasts" link goes to the correct page
-    Given I am on the homepage
-    When I click on homepage square button "Procurement Forecasts"
-    Then I see the url is "https://www.acquisition.gov/procurement-forecasts"
-
-  @verify-browse-all-news-link
-  Scenario: "Browse all news" link goes to the correct page
-    Given I am on the homepage
-    When I click on homepage oval button "Browse all news"
-    Then I see the url is "https://www.acquisition.gov/news"
 
   @verify-list-of-news-items-matches-news-page
   Scenario: The list of new items matches the news page

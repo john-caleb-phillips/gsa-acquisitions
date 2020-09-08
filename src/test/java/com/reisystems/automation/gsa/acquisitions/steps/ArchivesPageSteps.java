@@ -66,8 +66,8 @@ public class ArchivesPageSteps {
     @Then("I see that all archives have an archive type")
     public void ensureAllArchivesHaveArchiveType() {
         archiveSearchPage.forEachRowInTheSearchResults(
-                el -> blazeLibrary.assertion().assertThat(!"".equals(el.getArchiveType()))
-                        .as("[%s] There is no Archive Type", el.getFacNumber())
+                row -> blazeLibrary.assertion().assertThat(!"".equals(row.getArchiveType()))
+                        .as("[%s] There is no Archive Type", row.getFacNumber())
                         .isTrue()
         );
     }
@@ -75,8 +75,8 @@ public class ArchivesPageSteps {
     @Then("I see every archive has the archive type {string}")
     public void ensureCorrectArchiveType(String expectedArchiveType) {
         archiveSearchPage.forEachRowInTheSearchResults(
-                el -> blazeLibrary.assertion().assertThat(el.getArchiveType())
-                        .as("[%s] Has the wrong archive Type", el.getFacNumber())
+                row -> blazeLibrary.assertion().assertThat(row.getArchiveType())
+                        .as("[%s] Has the wrong archive Type", row.getFacNumber())
                         .isEqualTo(expectedArchiveType)
         );
     }
@@ -90,9 +90,9 @@ public class ArchivesPageSteps {
             sorter.click(blazeLibrary.defaults().REFRESH_PAGE);
         }
         archiveSearchPage.forEachRowInTheSearchResults(
-                el -> {
-                    String foundFacNumber = el.getFacNumber();
-                    String foundArchiveType = el.getArchiveType();
+                row -> {
+                    String foundFacNumber = row.getFacNumber();
+                    String foundArchiveType = row.getArchiveType();
                     foundFacNumbers.putIfAbsent(foundFacNumber, new ArrayList<>());
                     blazeLibrary.assertion().assertThat(!foundFacNumbers.get(foundFacNumber).contains(foundArchiveType))
                             .as("Fac Number '%s' found for archive type '%s'. It was previously found for {%s}", foundFacNumber, foundArchiveType,
@@ -106,15 +106,15 @@ public class ArchivesPageSteps {
     }
 
     @When("I count the number of archives with archive type {string} as {string}")
-    public void qwe(String archiveType, String valueKey) {
+    public void countArchives(String archiveType, String valueKey) {
         BlazeWebElement sorter = blazeLibrary.getElement(By.xpath("//a[@title='sort by FAC Number']"));
         if (sorter.isPresent()) {
             sorter.click(blazeLibrary.defaults().REFRESH_PAGE);
         }
 
         AtomicInteger numberOfInstances = new AtomicInteger(0);
-        archiveSearchPage.forEachRowInTheSearchResults(el -> {
-            if (el.getArchiveType().equals(archiveType)) {
+        archiveSearchPage.forEachRowInTheSearchResults(row -> {
+            if (row.getArchiveType().equals(archiveType)) {
                 numberOfInstances.incrementAndGet();
             }
         });
@@ -122,115 +122,291 @@ public class ArchivesPageSteps {
         blazeLibrary.properties().setProperty(valueKey, String.valueOf(numberOfInstances));
     }
 
-    @Then("I see that {string} and {string} are the same")
-    public void compareTwoValues(String value1, String value2) {
-        blazeLibrary.assertion().assertThat(blazeLibrary.properties().getProperty(value1)).as("This is a boring test").isEqualTo(blazeLibrary.properties().getProperty(value2));
-    }
-
-    @Then("I see all archive details are correct")
-    public void testArchiveDetails() {
-        archiveSearchPage.forEachRowInTheSearchResults(this::parseArchive);
+    @When("I gather the archive details")
+    public void gatherArchiveDetails() {
+        archiveSearchPage.forEachRowInTheSearchResults(this::getArchiveDetails);
     }
 
     @Then("I see that all archive effective dates are before {int}-{int}-{int}")
-    public void verifyEffectiveDates(int year, int month, int day) {
+    public void verifyEffectiveDateFilter(int year, int month, int day) {
         LocalDate desiredDate = LocalDate.of(year, month, day);
-        archiveSearchPage.forEachRowInTheSearchResults(el -> blazeLibrary.assertion().assertThat(desiredDate)
-                .as("[%s:%s] Effective Date is too far in the future", el.getArchiveType(), el.getFacNumber())
-                .isAfterOrEqualTo(el.getEffectiveDate())
+        archiveSearchPage.forEachRowInTheSearchResults(row -> blazeLibrary.assertion().assertThat(desiredDate)
+                .as("[%s:%s] Effective Date is too far in the future", row.getArchiveType(), row.getFacNumber())
+                .isAfterOrEqualTo(row.getEffectiveDate())
         );
     }
 
-    private void parseArchive(ArchiveSearchPage.ArchiveSearchRow archiveRow) {
+    @Then("I see that {string} and {string} are the same")
+    public void compareTwoValues(String value1, String value2) {
+        blazeLibrary.assertion().assertThat(blazeLibrary.properties().getProperty(value1)).as("Two values should be the same").isEqualTo(blazeLibrary.properties().getProperty(value2));
+    }
+
+    @Then("I see the fac number in the search row matches the fac number in the detail page")
+    public void verifyFacNumber() {
+        for (ArchiveDetails detail : theSavedDetails) {
+            blazeLibrary.assertion().assertThat(detail.detailFacNumber != null)
+                    .as("[%s:%s] 'FAC Number' was not present in detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+            if (blazeLibrary.assertion().wasSuccess()) {
+                blazeLibrary.assertion().assertThat(detail.rowFacNumber)
+                        .as("[%s:%s] 'FAC Number' on detail page did not match 'FAC Number' in search table", detail.rowArchiveType, detail.rowFacNumber)
+                        .isEqualTo(detail.rowFacNumber);
+            }
+        }
+    }
+
+    @Then("I see the archive type in the search row matches the archive type in the detail page")
+    public void verifyArchiveType() {
+        for (ArchiveDetails detail : theSavedDetails) {
+            blazeLibrary.assertion().assertThat(detail.detailArchiveType != null)
+                    .as("[%s:%s] 'Archive Type' was not present in detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+            if (blazeLibrary.assertion().wasSuccess()) {
+                blazeLibrary.assertion().assertThat(detail.detailArchiveType)
+                        .as("[%s:%s] 'Archive Type' on detail page did not match 'Archive Type' in search table", detail.rowArchiveType, detail.rowFacNumber)
+                        .isEqualTo(detail.rowArchiveType);
+            }
+        }
+    }
+
+    @Then("I see the effective date in the search row matches the effective date in the detail page")
+    public void verifyEffectiveDate() {
+        for (ArchiveDetails detail : theSavedDetails){
+            blazeLibrary.assertion().assertThat(detail.detailEffectiveDate != null)
+                    .as("[%s:%s] 'Effective Date' was not present in detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+            if (blazeLibrary.assertion().wasSuccess()) {
+                blazeLibrary.assertion().assertThat(detail.detailEffectiveDate)
+                        .as("[%s:%s] 'Effective Date' on detail page did not match 'Effective Date' in search table", detail.rowArchiveType, detail.rowFacNumber)
+                        .isEqualTo(detail.rowEffectiveDate);
+            }
+        }
+    }
+
+    @Then("I see the year header is present for every archive detail")
+    public void verifyPresenceOfYearHeader() {
+        for (ArchiveDetails detail : theSavedDetails) {
+            blazeLibrary.assertion().assertThat(detail.detailYear != null)
+                    .as("[%s:%s] 'Year' was not present in detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+        }
+    }
+
+    @Then("I see the pdf file in the search row matches the pdf file in the detail page")
+    public void verifyPdfFile() {
+        ArchiveDownloadLink detailPdfLink;
+        for (ArchiveDetails detail : theSavedDetails) {
+            // make sure either the table row or the detail page has a pdf file link
+            if (!"".equals(detail.rowPdfFile.text) || detail.downloadLinks.stream().anyMatch(link -> "PDF File".equals(link.header))) {
+                // make sure both the table row and the detail page have a pdf file link
+                blazeLibrary.assertion().assertThat(!"".equals(detail.rowPdfFile.text))
+                        .as("[%s:%s] PDF file download link was present in detail page, but not present in search table", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+                if (blazeLibrary.assertion().wasSuccess()) {
+                    blazeLibrary.assertion().assertThat(detail.downloadLinks.stream().anyMatch(link -> "PDF File".equals(link.header)))
+                            .as("[%s:%s] PDF file download link was present in search table, but not present in detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+                }
+
+                detailPdfLink = null;
+                for (ArchiveDownloadLink link : detail.downloadLinks) {
+                    if ("PDF File".equals(link.header)) {
+                        detailPdfLink = link;
+                        break;
+                    }
+                }
+
+                if (blazeLibrary.assertion().wasSuccess() && detailPdfLink != null) {
+                    blazeLibrary.assertion().assertThat(detailPdfLink.text)
+                            .as("[%s:%s] PDF file name on detail page did not match PDF file name in search table",
+                                    detail.rowArchiveType, detail.rowFacNumber)
+                            .isEqualTo(detail.rowPdfFile.text);
+
+                    try {
+                        blazeLibrary.assertion().assertThat(IOUtils.contentEquals(detailPdfLink.url.openStream(), detail.rowPdfFile.url.openStream()))
+                                .as("[%s:%s] PDF file content did not match between table and detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+                    } catch (NullPointerException | IOException e) {
+                        blazeLibrary.assertion().assertThat(true)
+                                .as("[%s:%s] PDF file contents could not be read from either search table or detail page", detail.rowArchiveType, detail.rowFacNumber).isFalse();
+                    }
+                }
+            }
+        }
+    }
+
+    @Then("I see the zip file in the search row matches the zip file in the detail page")
+    public void verifyZipFile() {
+        ArchiveDownloadLink detailZipLink;
+        for (ArchiveDetails detail : theSavedDetails) {
+            // make sure either the table row or the detail page has a pdf file link
+            if (!"".equals(detail.rowZipFile.text) || detail.downloadLinks.stream().anyMatch(link -> "Zip file".equals(link.header))) {
+                // make sure both the table row and the detail page have a pdf file link
+                blazeLibrary.assertion().assertThat(!"".equals(detail.rowZipFile.text))
+                        .as("[%s:%s] Zip file download link was present in detail page, but not present in search table", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+                if (blazeLibrary.assertion().wasSuccess()) {
+                    blazeLibrary.assertion().assertThat(detail.downloadLinks.stream().anyMatch(link -> "Zip file".equals(link.header)))
+                            .as("[%s:%s] Zip file download link was present in search table, but not present in detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+                }
+
+                detailZipLink = null;
+                for (ArchiveDownloadLink link : detail.downloadLinks) {
+                    if ("Zip file".equals(link.header)) {
+                        detailZipLink = link;
+                        break;
+                    }
+                }
+
+                if (blazeLibrary.assertion().wasSuccess() && detailZipLink != null) {
+                    blazeLibrary.assertion().assertThat(detailZipLink.text)
+                            .as("[%s:%s] Zip file name on detail page did not match Zip file name in search table",
+                                    detail.rowArchiveType, detail.rowFacNumber)
+                            .isEqualTo(detail.rowZipFile.text);
+
+                    try {
+                        blazeLibrary.assertion().assertThat(IOUtils.contentEquals(detailZipLink.url.openStream(), detail.rowZipFile.url.openStream()))
+                                .as("[%s:%s] Zip file content did not match between table and detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+                    } catch (IOException e) {
+                        blazeLibrary.assertion().assertThat(true)
+                                .as("[%s:%s] Zip file contents could not be read from either search table or detail page", detail.rowArchiveType, detail.rowFacNumber).isFalse();
+                    } catch (NullPointerException e) {
+                        blazeLibrary.assertion().assertThat(true)
+                                .as("[%s:%s] Null pointer exception: row: %s, detail: %s",
+                                        detail.rowArchiveType, detail.rowFacNumber, detail.rowZipFile.url, detailZipLink.url).isFalse();
+                    }
+                }
+            }
+        }
+    }
+
+    @Then("I see there is at least one download link for each archive")
+    public void verifyPresenceOfDownloadLinks() {
+        for (ArchiveDetails detail : theSavedDetails) {
+            blazeLibrary.assertion().assertThat(detail.downloadLinks.size() == 0)
+                    .as("[%s:%s] There are no download links", detail.rowArchiveType, detail.rowFacNumber)
+                    .isFalse();
+        }
+    }
+
+    @Then("I see that every download link can be downloaded")
+    public void verifyDownloadLinks() {
+        for (ArchiveDetails detail : theSavedDetails) {
+            for (ArchiveDownloadLink downloadLink : detail.downloadLinks) {
+                try {
+                    downloadLink.url.openStream();
+                } catch (NullPointerException | IOException e) {
+                    blazeLibrary.assertion().assertThat(true).as("[%s:%s] Could not open stream to URL '%s'",
+                            detail.rowArchiveType, detail.rowFacNumber, downloadLink.header).isFalse();
+                }
+            }
+        }
+    }
+
+    @Then("I see that only the following download links are present:")
+    public void verifyDownloadHeaders(List<String> expectedDownloadLinks) {
+        for (ArchiveDetails detail : theSavedDetails) {
+            for (ArchiveDownloadLink downloadLink : detail.downloadLinks) {
+                blazeLibrary.assertion().assertThat(expectedDownloadLinks)
+                        .as(String.format("[%s:%s] There was an unexpected download link: %s",
+                                detail.rowArchiveType, detail.rowFacNumber, downloadLink.header))
+                        .contains(downloadLink.header);
+            }
+        }
+    }
+
+    @Then("I see that only the following headers are present:")
+    public void verifyHeaders(List<String> expectedHeaders) {
+        for (ArchiveDetails detail : theSavedDetails) {
+            for (String header : detail.headers) {
+                blazeLibrary.assertion().assertThat(expectedHeaders)
+                        .as(String.format("[%s:%s] There was an unexpected header: %s",
+                                detail.rowArchiveType, detail.rowFacNumber, header))
+                        .contains(header);
+            }
+        }
+    }
+
+    private final List<ArchiveDetails> theSavedDetails = new ArrayList<>();
+
+    private void getArchiveDetails(ArchiveSearchPage.ArchiveSearchRow archiveRow) {
 
         // get archive information from row
-
         String rowFacNumber = archiveRow.getFacNumber();
         String rowArchiveType = archiveRow.getArchiveType();
-        String rowPdfFile = archiveRow.getPdfFileName();
-        String rowZipFile = archiveRow.getZipFileName();
-        LocalDate rowEffectiveDate = archiveRow.getEffectiveDate();
+        ArchiveDownloadLink rowPdfFile = new ArchiveDownloadLink(null, archiveRow.getPdfFileName(), archiveRow.getPdfFileUrl());
+        ArchiveDownloadLink rowZipFile = new ArchiveDownloadLink(null, archiveRow.getZipFileName(), archiveRow.getZipFileUrl());
 
-        URL rowPdfUrl = archiveRow.getPdfFileUrl();
-        URL rowZipUrl = archiveRow.getZipFileUrl();
+        LocalDate rowEffectiveDate = archiveRow.getEffectiveDate();
 
         // Go to the archive detail page
         archiveRow.clickFacNumber();
 
-        blazeLibrary.assertion().assertThat(archiveDetailPage.isArchiveTypePresent())
-                .as("[%s:%s] 'Archive Type' was not present in detail page", rowArchiveType, rowFacNumber).isTrue();
-        if (blazeLibrary.assertion().wasSuccess()) {
-            blazeLibrary.assertion().assertThat(archiveDetailPage.getArchiveType())
-                    .as("[%s:%s] 'Archive Type' on detail page did not match 'Archive Type' in search table", rowArchiveType, rowFacNumber)
-                    .isEqualTo(rowArchiveType);
-        }
-
-        blazeLibrary.assertion().assertThat(archiveDetailPage.isFacNumberPresent())
-                .as("[%s:%s] 'FAC Number' was not present in detail page", rowArchiveType, rowFacNumber).isTrue();
-        if (blazeLibrary.assertion().wasSuccess()) {
-            blazeLibrary.assertion().assertThat(archiveDetailPage.getFacNumber())
-                    .as("[%s:%s] 'FAC Number' on detail page did not match 'FAC Number' in search table", rowArchiveType, rowFacNumber)
-                    .isEqualTo(rowFacNumber);
-        }
-
-        blazeLibrary.assertion().assertThat(archiveDetailPage.isYearPresent())
-                .as("[%s:%s] 'Year' was not present in detail page", rowArchiveType, rowFacNumber).isTrue();
-
-        blazeLibrary.assertion().assertThat(archiveDetailPage.isEffectiveDatePresent())
-                .as("[%s:%s] 'Effective Date' was not present in detail page", rowArchiveType, rowFacNumber).isTrue();
-        if (blazeLibrary.assertion().wasSuccess()) {
-            blazeLibrary.assertion().assertThat(archiveDetailPage.getEffectiveDate())
-                    .as("[%s:%s] 'Effective Date' on detail page did not match 'Effective Date' in search table", rowArchiveType, rowFacNumber)
-                    .isEqualTo(rowEffectiveDate);
-        }
-
-        if (!"".equals(rowPdfFile) || archiveDetailPage.isHeaderPresent("PDF File")) {
-            blazeLibrary.assertion().assertThat(archiveDetailPage.isHeaderPresent("PDF File"))
-                    .as("[%s:%s] 'PDF File' was present in search table, but not present in detail page", rowArchiveType, rowFacNumber).isTrue();
-            if (blazeLibrary.assertion().wasSuccess()) {
-                blazeLibrary.assertion().assertThat(archiveDetailPage.getHeaderContent("PDF File"))
-                        .as("[%s:%s] 'PDF File' on detail page did not match 'PDF File' in search table", rowArchiveType, rowFacNumber)
-                        .isEqualTo(rowPdfFile);
-            }
-        }
-
-        if (!"".equals(rowZipFile) || archiveDetailPage.isHeaderPresent("Zip file")) {
-            blazeLibrary.assertion().assertThat(archiveDetailPage.isHeaderPresent("Zip file"))
-                    .as("[%s:%s] 'Zip file' was present in search table, but not present in detail page", rowArchiveType, rowFacNumber).isTrue();
-            if (blazeLibrary.assertion().wasSuccess()) {
-                blazeLibrary.assertion().assertThat(archiveDetailPage.getHeaderContent("Zip file"))
-                        .as("[%s:%s] 'Zip file' on detail page did not match 'Zip file' in search table", rowArchiveType, rowFacNumber)
-                        .isEqualTo(rowZipFile);
-            }
-        }
-
-        blazeLibrary.assertion().assertThat(archiveDetailPage.getDownloadLinkHeaders().size() != 0)
-                .as("[%s:%s] There are download links: ", rowArchiveType, rowFacNumber)
-                .isTrue();
-        for (String headerText : archiveDetailPage.getDownloadLinkHeaders()) {
-            try {
-                if (rowPdfUrl != null && "application/pdf".equals(archiveDetailPage.getDownloadLinkType(headerText))) {
-                    blazeLibrary.assertion().assertThat(IOUtils.contentEquals(archiveDetailPage.getDownloadLinkUrl(headerText).openStream(), rowPdfUrl.openStream()))
-                            .as("[%s:%s] PDF File content did not match between table and detail page", rowArchiveType, rowFacNumber).isTrue();
-                }
-                if (rowZipUrl != null && "application/zip".equals(archiveDetailPage.getDownloadLinkType(headerText))) {
-                    blazeLibrary.assertion().assertThat(IOUtils.contentEquals(archiveDetailPage.getDownloadLinkUrl(headerText).openStream(), rowZipUrl.openStream()))
-                            .as("[%s:%s] Zip file content did not match between table and detail page", rowArchiveType, rowFacNumber).isTrue();
-                }
-            } catch (IOException e) {
-                blazeLibrary.assertion().assertThat(true).as("[%s:%s] URL: %s", rowArchiveType, rowFacNumber, archiveDetailPage.getDownloadLinkUrl(headerText)).isFalse();
-            }
-
-            blazeLibrary.assertion().assertThat(Set.of("PDF File", "Zip file", "Word File", "ePub", "Dita Package File", "Change Order"))
-                    .as(String.format("[%s:%s] There was an unexpected download link: %s", rowArchiveType, rowFacNumber, headerText)).contains(headerText);
-        }
+        // get archive information from detail page
+        String detailArchiveType = archiveDetailPage.getArchiveType();
+        String detailFacNumber = archiveDetailPage.getFacNumber();
+        LocalDate detailEffectiveDate = archiveDetailPage.getEffectiveDate();
+        String detailYear = archiveDetailPage.getYear();
 
         List<String> headers = archiveDetailPage.getHeaders();
-        headers.removeAll(archiveDetailPage.getDownloadLinkHeaders());
-        blazeLibrary.assertion().assertThat(headers)
-                .as(String.format("[%s:%s] There was an unexpected header", rowArchiveType, rowFacNumber))
-                .allMatch(el -> Set.of("Archive Type", "FAC Number", "Effective Date", "Year").contains(el));
+        List<ArchiveDownloadLink> downloadLinks = new ArrayList<>();
 
+        for (String headerText : archiveDetailPage.getDownloadLinkHeaders()) {
+            headers.remove(headerText);
+            downloadLinks.add(new ArchiveDownloadLink(headerText,
+                    archiveDetailPage.getHeaderContent(headerText),
+                    archiveDetailPage.getDownloadLinkUrl(headerText))
+            );
+        }
+
+        // save archive information
+        theSavedDetails.add(new ArchiveDetails(rowFacNumber, rowArchiveType, rowPdfFile, rowZipFile, rowEffectiveDate,
+                detailFacNumber, detailArchiveType, detailEffectiveDate, detailYear, headers, downloadLinks));
+
+        // return to the search page
         blazeLibrary.browser().navigateBack();
+    }
+
+    private static class ArchiveDetails {
+        String rowFacNumber;
+        String rowArchiveType;
+        ArchiveDownloadLink rowPdfFile;
+        ArchiveDownloadLink rowZipFile;
+        LocalDate rowEffectiveDate;
+
+        String detailFacNumber;
+        String detailArchiveType;
+        LocalDate detailEffectiveDate;
+        String detailYear;
+
+        List<String> headers;
+        List<ArchiveDownloadLink> downloadLinks;
+
+        private ArchiveDetails(String rowFacNumber, String rowArchiveType, ArchiveDownloadLink rowPdfFile, ArchiveDownloadLink rowZipFile,
+                               LocalDate rowEffectiveDate, String detailFacNumber, String detailArchiveType, LocalDate detailEffectiveDate,
+                               String detailYear, List<String> headers, List<ArchiveDownloadLink> downloadLinks) {
+
+            this.rowFacNumber = rowFacNumber;
+            this.rowArchiveType = rowArchiveType;
+            this.rowPdfFile = rowPdfFile;
+            this.rowZipFile = rowZipFile;
+            this.rowEffectiveDate = rowEffectiveDate;
+
+            this.detailFacNumber = detailFacNumber;
+            this.detailArchiveType = detailArchiveType;
+            this.detailEffectiveDate = detailEffectiveDate;
+            this. detailYear = detailYear;
+
+            this.headers = headers;
+            this.downloadLinks = downloadLinks;
+        }
+    }
+
+    private static class ArchiveDownloadLink {
+        String header;
+        String text;
+        URL url;
+
+        private ArchiveDownloadLink(String header, String text, URL url) {
+            this.header = header;
+            this.text = text;
+            this.url = url;
+        }
+
+        public String toString() {
+            return String.format("ArchiveDownloadLink(header='%s',text='%s',url='%s')", header, text, url);
+        }
     }
 }
