@@ -5,7 +5,7 @@
 
     <parent>
         <groupId>com.reisystems.automation</groupId>
-        <artifactId>blaze.parent-pom</artifactId>
+        <artifactId>super.parent-pom</artifactId>
         <version>0.0.1</version>
     </parent>
 
@@ -16,21 +16,19 @@
     <dependencies>
         <dependency>
             <groupId>com.reisystems.automation</groupId>
-            <artifactId>blaze.operations</artifactId>
+            <artifactId>super.library</artifactId>
             <version>0.0.1</version>
             <scope>system</scope>
-            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.blaze.library/library/target/blaze.operations-0.0.1.jar
-            </systemPath>
+            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.super.library/library/target/super.library-0.0.1.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.reisystems.automation</groupId>
-            <artifactId>blaze.plugin</artifactId>
+            <artifactId>super.plugin</artifactId>
             <version>0.0.1</version>
             <scope>system</scope>
-            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.blaze.library/plugin/target/blaze.plugin-0.0.1.jar</systemPath>
+            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.super.library/plugin/target/super.plugin-0.0.1.jar</systemPath>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -47,7 +45,7 @@
 
             <plugin>
                 <groupId>com.reisystems.automation</groupId>
-                <artifactId>blaze.plugin</artifactId>
+                <artifactId>super.plugin</artifactId>
                 <version>0.0.1</version>
                 <executions>
                     <execution>

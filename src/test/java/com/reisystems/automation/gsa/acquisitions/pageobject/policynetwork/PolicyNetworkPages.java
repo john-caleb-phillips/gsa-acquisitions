@@ -1,9 +1,6 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
-import com.reisystems.blaze.controller.BlazeLibrary;
-
-public class PolicyNetworkPage extends PageObject {
+public class PolicyNetworkPages {
 
     private final MainPage mainPage;
     private final CaacPage caacPage;
@@ -11,13 +8,12 @@ public class PolicyNetworkPage extends PageObject {
     private final FarcPage farcPage;
     private final IsdcPage isdcPage;
 
-    public PolicyNetworkPage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
-        this.mainPage = new MainPage(blazeLibrary);
-        this.caacPage = new CaacPage(blazeLibrary);
-        this.caocPage = new CaocPage(blazeLibrary);
-        this.farcPage = new FarcPage(blazeLibrary);
-        this.isdcPage = new IsdcPage(blazeLibrary);
+    public PolicyNetworkPages(MainPage main, CaacPage caac, CaocPage caoc, FarcPage farc, IsdcPage isdc) {
+        this.mainPage = main;
+        this.caacPage = caac;
+        this.caocPage = caoc;
+        this.farcPage = farc;
+        this.isdcPage = isdc;
     }
 
     public MainPage main() {

@@ -1,9 +1,12 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.general;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
+import com.reisystems.blaze.blazeElement.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import com.reisystems.blaze.interfaces.ClickResult;
 import org.openqa.selenium.By;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -55,6 +58,9 @@ public class SearchPage extends PageObject {
     }
 
     public void forEachRowInTheSearchResults(Consumer<SearchResult> consumer) {
+        if (hasPreviousPage()) {
+            goToFirstPage();
+        }
         forEachRowOnThePage(consumer);
         while (hasNextPage()) {
             goToNextPage();
@@ -86,6 +92,18 @@ public class SearchPage extends PageObject {
         blazeLibrary.getElement(By.xpath("//a[@title='Go to last page']")).click(blazeLibrary.defaults().REFRESH_PAGE);
     }
 
+    public void setFarRegulationCriteria() {
+        blazeLibrary.getElement(By.xpath("//label[@for='far-checkbox']")).click();
+    }
+
+    public void setOtherRegulationsCriteria(List<String> desiredOrigins) {
+        blazeLibrary.getElement(By.xpath("//label[@for='other-checkbox']")).click();
+        for (String desiredOrigin : desiredOrigins) {
+            blazeLibrary.getElement(By.xpath("//form[@id='advanced-search-form']//label[.='%s']/preceding-sibling::input".formatted(desiredOrigin))).click();
+        }
+        blazeLibrary.getElement(By.xpath("//form[@id='advanced-search-form']//input[@class='ad-submit']")).click();
+    }
+
     public class SearchResult {
         private final int rowNumber;
 
@@ -101,7 +119,10 @@ public class SearchPage extends PageObject {
             return new SearchRow(
                     blazeLibrary.getElement(By.xpath("//li[@class='search-result'][%s]//h3/a".formatted(rowNumber))).getText().trim(),
                     blazeLibrary.getElement(By.xpath("//li[@class='search-result'][%s]//div[@class='search-snippet-info']".formatted(rowNumber))).getText().trim(),
-                    blazeLibrary.getElement(By.xpath("//li[@class='search-result'][%s]//div[@class='download']".formatted(rowNumber))).getText().trim()
+                    blazeLibrary.getElement(By.xpath("//li[@class='search-result'][%s]//div[@class='download']".formatted(rowNumber))).getText().trim(),
+                    blazeLibrary.getElements(By.xpath("//li[@class='search-result'][%s]//div[@class='search-snippet-info']//*".formatted(rowNumber)))
+                            .stream().filter(el -> el.getCssValue("background-color").equals("rgba(255, 255, 0, 1)"))
+                            .map(BlazeWebElement::getText).collect(Collectors.toList())
             );
         }
     }
@@ -110,11 +131,13 @@ public class SearchPage extends PageObject {
         public final String title;
         public final String content;
         public final String origin;
+        public final List<String> highlightedTerms;
 
-        public SearchRow(String title, String content, String origin) {
+        public SearchRow(String title, String content, String origin, List<String> highlightedTerms) {
             this.title = title;
             this.content = content;
             this.origin = origin;
+            this.highlightedTerms = List.copyOf(highlightedTerms);
         }
 
         public String toString() {

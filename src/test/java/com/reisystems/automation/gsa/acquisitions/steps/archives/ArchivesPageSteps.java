@@ -1,7 +1,7 @@
 package com.reisystems.automation.gsa.acquisitions.steps.archives;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchiveDetailPage;
-import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchiveSearchPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.archives.SearchPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchivesPages;
 import com.reisystems.blaze.blazeElement.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.ParameterType;
@@ -20,53 +20,51 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ArchivesPageSteps {
 
     BlazeLibrary blazeLibrary;
-    ArchiveSearchPage archiveSearchPage;
-    ArchiveDetailPage archiveDetailPage;
+    ArchivesPages archive;
 
-    public ArchivesPageSteps(BlazeLibrary blazeLibrary, ArchiveSearchPage archiveSearchPage, ArchiveDetailPage archiveDetailPage) {
+    public ArchivesPageSteps(BlazeLibrary blazeLibrary, ArchivesPages archive) {
         this.blazeLibrary = blazeLibrary;
-        this.archiveSearchPage = archiveSearchPage;
-        this.archiveDetailPage = archiveDetailPage;
+        this.archive = archive;
     }
 
     @Given("I am on the archives page")
     public void goToArchivesPage() {
-        archiveSearchPage.goToPage();
+        archive.search().goToPage();
     }
 
     @When("I set the archive type to {string}")
     public void setArchiveType(String archiveType) {
-        archiveSearchPage.setArchiveType(archiveType);
+        archive.search().setArchiveType(archiveType);
     }
 
     @When("I set the fac number to {string}")
     public void setFacNumber(String facNumber) {
-        archiveSearchPage.setFacNumber(facNumber);
+        archive.search().setFacNumber(facNumber);
     }
 
     @When("I clear the fac number")
     public void clearFacNumber() {
-        archiveSearchPage.setFacNumber("");
+        archive.search().setFacNumber("");
     }
 
     @When("I set the effective date to {int}-{int}-{int}")
     public void setEffectiveDate(int year, int month, int day) {
-        archiveSearchPage.setEffectiveDate(LocalDate.of(year, month, day));
+        archive.search().setEffectiveDate(LocalDate.of(year, month, day));
     }
 
     @When("I clear the effective date")
     public void clearEffectiveDate() {
-        archiveSearchPage.setEffectiveDate(null);
+        archive.search().setEffectiveDate(null);
     }
 
     @When("I perform an archive search for {string}")
     public void performSearch(String archiveType) {
-        archiveSearchPage.setArchiveType(archiveType).performSearch();
+        archive.search().setArchiveType(archiveType).performSearch();
     }
 
     @Then("I see that all archives have an archive type")
     public void ensureAllArchivesHaveArchiveType() {
-        archiveSearchPage.forEachRowInTheSearchResults(
+        archive.search().forEachRowInTheSearchResults(
                 row -> blazeLibrary.assertion().assertThat(!"".equals(row.getArchiveType()))
                         .as("[%s] There is no Archive Type", row.getFacNumber())
                         .isTrue()
@@ -75,7 +73,7 @@ public class ArchivesPageSteps {
 
     @Then("I see every archive has the archive type {string}")
     public void ensureCorrectArchiveType(String expectedArchiveType) {
-        archiveSearchPage.forEachRowInTheSearchResults(
+        archive.search().forEachRowInTheSearchResults(
                 row -> blazeLibrary.assertion().assertThat(row.getArchiveType())
                         .as("[%s] Has the wrong archive Type", row.getFacNumber())
                         .isEqualTo(expectedArchiveType)
@@ -90,7 +88,7 @@ public class ArchivesPageSteps {
         if (sorter.isPresent()) {
             sorter.click(blazeLibrary.defaults().REFRESH_PAGE);
         }
-        archiveSearchPage.forEachRowInTheSearchResults(
+        archive.search().forEachRowInTheSearchResults(
                 row -> {
                     String foundFacNumber = row.getFacNumber();
                     String foundArchiveType = row.getArchiveType();
@@ -114,7 +112,7 @@ public class ArchivesPageSteps {
         }
 
         AtomicInteger numberOfInstances = new AtomicInteger(0);
-        archiveSearchPage.forEachRowInTheSearchResults(row -> {
+        archive.search().forEachRowInTheSearchResults(row -> {
             if (row.getArchiveType().equals(archiveType)) {
                 numberOfInstances.incrementAndGet();
             }
@@ -125,13 +123,13 @@ public class ArchivesPageSteps {
 
     @When("I gather the archive details")
     public void gatherArchiveDetails() {
-        archiveSearchPage.forEachRowInTheSearchResults(this::getArchiveDetails);
+        archive.search().forEachRowInTheSearchResults(this::getArchiveDetails);
     }
 
     @Then("I see that all archive effective dates are before {int}-{int}-{int}")
     public void verifyEffectiveDateFilter(int year, int month, int day) {
         LocalDate desiredDate = LocalDate.of(year, month, day);
-        archiveSearchPage.forEachRowInTheSearchResults(row -> blazeLibrary.assertion().assertThat(desiredDate)
+        archive.search().forEachRowInTheSearchResults(row -> blazeLibrary.assertion().assertThat(desiredDate)
                 .as("[%s:%s] Effective Date is too far in the future", row.getArchiveType(), row.getFacNumber())
                 .isAfterOrEqualTo(row.getEffectiveDate())
         );
@@ -322,7 +320,7 @@ public class ArchivesPageSteps {
 
     private final List<ArchiveDetails> theSavedDetails = new ArrayList<>();
 
-    private void getArchiveDetails(ArchiveSearchPage.ArchiveSearchRow archiveRow) {
+    private void getArchiveDetails(SearchPage.ArchiveSearchRow archiveRow) {
 
         // get archive information from row
         String rowFacNumber = archiveRow.getFacNumber();
@@ -336,19 +334,19 @@ public class ArchivesPageSteps {
         archiveRow.clickFacNumber();
 
         // get archive information from detail page
-        String detailArchiveType = archiveDetailPage.getArchiveType();
-        String detailFacNumber = archiveDetailPage.getFacNumber();
-        LocalDate detailEffectiveDate = archiveDetailPage.getEffectiveDate();
-        String detailYear = archiveDetailPage.getYear();
+        String detailArchiveType = archive.detail().getArchiveType();
+        String detailFacNumber = archive.detail().getFacNumber();
+        LocalDate detailEffectiveDate = archive.detail().getEffectiveDate();
+        String detailYear = archive.detail().getYear();
 
-        List<String> headers = archiveDetailPage.getHeaders();
+        List<String> headers = archive.detail().getHeaders();
         List<ArchiveDownloadLink> downloadLinks = new ArrayList<>();
 
-        for (String headerText : archiveDetailPage.getDownloadLinkHeaders()) {
+        for (String headerText : archive.detail().getDownloadLinkHeaders()) {
             headers.remove(headerText);
             downloadLinks.add(new ArchiveDownloadLink(headerText,
-                    archiveDetailPage.getHeaderContent(headerText),
-                    archiveDetailPage.getDownloadLinkUrl(headerText))
+                    archive.detail().getHeaderContent(headerText),
+                    archive.detail().getDownloadLinkUrl(headerText))
             );
         }
 

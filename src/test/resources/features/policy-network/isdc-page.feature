@@ -375,7 +375,6 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Reporting                         | https://www.acquisition.gov/isdc-reporting             |
       | Compelling Reasons Determinations | https://www.acquisition.gov/isdc-compelling-reasons    |
 
-  @qwe123
   Scenario: Compelling Reasons Determinations Page Layout
     Given I am on the ISDC page
     When I click on ISDC footer link "Compelling Reasons Determinations"

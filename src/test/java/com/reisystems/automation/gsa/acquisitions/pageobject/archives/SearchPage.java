@@ -11,9 +11,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 
-public class ArchiveSearchPage extends PageObject {
+public class SearchPage extends PageObject {
 
-    public ArchiveSearchPage(BlazeLibrary blazeLibrary) {
+    public SearchPage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
     }
 
@@ -21,19 +21,19 @@ public class ArchiveSearchPage extends PageObject {
         blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/archives");
     }
 
-    public ArchiveSearchPage setArchiveType(String archiveType) {
+    public SearchPage setArchiveType(String archiveType) {
         blazeLibrary.getElement(By.xpath("//form[@id='views-exposed-form-archives-page']//select[@id='edit-type']")).asDropdown().selectByVisibleText(archiveType);
         return this;
     }
 
-    public ArchiveSearchPage setFacNumber(String facNumber) {
+    public SearchPage setFacNumber(String facNumber) {
         BlazeWebElement textBox = blazeLibrary.getElement(By.xpath("//form[@id='views-exposed-form-archives-page']//input[@id='edit-title']"));
         textBox.clear();
         textBox.sendKeys(facNumber);
         return this;
     }
 
-    public ArchiveSearchPage setEffectiveDate(LocalDate date) {
+    public SearchPage setEffectiveDate(LocalDate date) {
         BlazeWebElement textBox = blazeLibrary.getElement(By.xpath("//form[@id='views-exposed-form-archives-page']//input[@id='edit-date-value-datepicker-popup-0']"));
         textBox.clear();
         textBox.sendKeys(date != null ? date.format(DateTimeFormatter.ofPattern("uuuu-MM-dd")) : "");
@@ -52,6 +52,9 @@ public class ArchiveSearchPage extends PageObject {
     }
 
     public void forEachRowInTheSearchResults(Consumer<ArchiveSearchRow> consumer) {
+        if (hasPreviousPage()) {
+            goToFirstPage();
+        }
         forEachRowOnThePage(consumer);
         while (hasNextPage()) {
             goToNextPage();

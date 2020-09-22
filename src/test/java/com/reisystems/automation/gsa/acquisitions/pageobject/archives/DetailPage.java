@@ -12,9 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ArchiveDetailPage extends PageObject {
+public class DetailPage extends PageObject {
 
-    public ArchiveDetailPage(BlazeLibrary blazeLibrary) {
+    public DetailPage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
     }
 

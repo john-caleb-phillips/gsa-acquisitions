@@ -1,6 +1,6 @@
 package com.reisystems.automation.gsa.acquisitions.steps.general;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchiveDetailPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.archives.DetailPage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.SearchPage;
 import com.reisystems.blaze.blazeElement.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
@@ -9,23 +9,22 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class SearchPageSteps {
 
     BlazeLibrary blazeLibrary;
     SearchPage searchPage;
-    ArchiveDetailPage archiveDetailPage;
+    DetailPage detailPage;
 
-    public SearchPageSteps(BlazeLibrary blazeLibrary, SearchPage searchPage, ArchiveDetailPage archiveDetailPage) {
+    public SearchPageSteps(BlazeLibrary blazeLibrary, SearchPage searchPage, DetailPage detailPage) {
         this.blazeLibrary = blazeLibrary;
         this.searchPage = searchPage;
-        this.archiveDetailPage = archiveDetailPage;
+        this.detailPage = detailPage;
     }
 
     @Given("^I am on the (site|regulation) search page$")
@@ -35,6 +34,11 @@ public class SearchPageSteps {
         } else {
             searchPage.goToRegulationPage();
         }
+    }
+
+    @When("I click the link to go to the regulation search page")
+    public void navigateToRegulationSearchPage() {
+        blazeLibrary.getElement(By.xpath("//p[contains(@class, 'search-snippet')]/a")).click(blazeLibrary.defaults().REFRESH_PAGE);
     }
 
     @When("I perform search for {string}")
@@ -51,6 +55,17 @@ public class SearchPageSteps {
         }
     }
 
+    @When("I set the regulation search criteria to the following origins:")
+    public void setRegulationSearchCriteria(List<String> desiredOrigins) {
+        if (desiredOrigins.contains("FAR")) {
+            searchPage.setFarRegulationCriteria();
+            desiredOrigins.removeIf(el -> el.equals("FAR"));
+        }
+        if (desiredOrigins.size() != 0) {
+            searchPage.setOtherRegulationsCriteria(desiredOrigins.stream().distinct().collect(Collectors.toList()));
+        }
+    }
+
     @Then("I see the site search error message saying:")
     public void checkErrorMessage(String theMessage) {
         String actualMessage = blazeLibrary.getElement(By.xpath("//div[@id='main-content-wrapper']")).getText().replace("ERROR MESSAGE\n", "");
@@ -59,60 +74,65 @@ public class SearchPageSteps {
                 .isEqualTo(theMessage);
     }
 
-    @Then("I see the following site search results:")
-    public void verifySiteSearchResults(List<List<String>> expectedResults) {
-        List<SearchPage.SearchRow> expectedSearchResults = expectedResults.stream().map(expectedResult ->
-                new SearchPage.SearchRow(
-                        expectedResult.get(0),
-                        "",
-                        expectedResult.get(1).toUpperCase()
-                )).collect(Collectors.toList()
-        );
-
-        List<SearchPage.SearchRow> actualSearchResults = new ArrayList<>();
-        searchPage.forEachRowOnThePage(row -> actualSearchResults.add(row.getInfo()));
-
-        blazeLibrary.assertion().assertThat(actualSearchResults).as("Comparing search results")
-                .usingElementComparator((o1, o2) -> (o1.origin.equals(o2.origin) && o1.title.equals(o2.title)) ? 0 : 1)
-                .containsAll(expectedSearchResults);
-    }
-
-    @Then("I see every search result contains {string}")
-    public void verifySearchResults(String searchTerm) {
-        searchPage.forEachRowInTheSearchResults(el -> {
-            blazeLibrary.assertion().assertThat(el.getInfo().content)
-                    .as("Verifying that the search results contain '%s'", searchTerm)
-                    .containsIgnoringCase(searchTerm);
+    @Then("I see every search result contains at least one of the following terms:")
+    public void verifySearchResults(List<String> searchTerms) {
+        searchPage.forEachRowInTheSearchResults(result -> {
+            SearchPage.SearchRow contents = result.getInfo();
+            blazeLibrary.assertion().assertThat(searchTerms.stream().anyMatch(searchTerm -> contents.content.toUpperCase().contains(searchTerm.toUpperCase())))
+                    .as("Search result did not contain any of '%s'.%nSearch result:%n%s%n%s%n", searchTerms, contents.title, contents.content)
+                    .isTrue();
         });
     }
 
-    @Then("I see that {string} is highlighted in the search results")
-    public void searchResultIsHighlighted(String searchTerm) {
-        List<BlazeWebElement> snippets = blazeLibrary.getElements(By.xpath("//div[@class='search-snippet-info']"));
-        for (BlazeWebElement snippet : snippets) {
-            blazeLibrary.assertion()
-                    .assertThat(snippet.findElement(
-                            By.xpath(".//strong[" + blazeLibrary.xpath().contains(".", searchTerm) + "]")).isPresent()
-                    )
-                    .as("Should be present")
-                    .isTrue();
-            if (blazeLibrary.assertion().wasSuccess()) {
-                for (BlazeWebElement el : snippet.findElements(
-                        By.xpath(".//strong[" + blazeLibrary.xpath().contains(".", searchTerm) + "]"))
-                ) {
-                    String color = el.getCssValue("background-color").substring(5);
-                    StringTokenizer tokenizer = new StringTokenizer(color);
-                    blazeLibrary.assertion()
-                            .assertThat(new Color(
-                                    Integer.parseInt(tokenizer.nextToken(",").trim()),
-                                    Integer.parseInt(tokenizer.nextToken(",").trim()),
-                                    Integer.parseInt(tokenizer.nextToken(",").trim())
-                            ))
-                            .as("Should be yellow")
-                            .isEqualTo(Color.YELLOW);
-                }
+    @Then("I see that at least one of the following are highlighted in each search result:")
+    public void verifyCorrectTermsAreHighlighted(List<String> expectedTerms) {
+        searchPage.forEachRowInTheSearchResults(result -> {
+            SearchPage.SearchRow theInfo = result.getInfo();
+            blazeLibrary.assertion().assertThat(theInfo.highlightedTerms)
+                    .as("Verifying that highlighted term is in the search results", theInfo.title)
+                    .anyMatch(el -> expectedTerms.stream().anyMatch(el::equalsIgnoreCase));
+        });
+    }
+
+    @Then("I see that only the following are highlighted in each search result:")
+    public void verifyOnlyCorrectTermsAreHighlighted(List<String> expectedTerms) {
+        searchPage.forEachRowInTheSearchResults(result -> {
+            SearchPage.SearchRow theInfo = result.getInfo();
+            blazeLibrary.assertion().assertThat(theInfo.highlightedTerms)
+                    .as("Verifying that all highlighted terms are in the search results", theInfo.title)
+                    .allMatch(el -> expectedTerms.stream().anyMatch(el::equalsIgnoreCase));
+        });
+    }
+
+    @Then("I see nothing highlighted in the search result details")
+    public void verifyNoHighlightingOnDetailPage() {
+        searchPage.forEachRowInTheSearchResults(result -> {
+            result.goToDetailPage();
+            blazeLibrary.assertion().assertThat(blazeLibrary.getElements(By.xpath("//*[not(ancestor::div[@class='top-wrapper' or @id='footer-link'])]"))
+                    .stream().filter(el -> {
+                        String color = el.getCssValue("background-color");
+                        return color.equals("yellow") || color.equals("rgba(255, 255, 0, 1)") || color.equals("rgb(255, 255, 0)");
+                    })
+                    .collect(Collectors.toList()))
+                    .as("Verifying number of highlighted elements on the detail page")
+                    .hasSize(0);
+            blazeLibrary.browser().navigateBack();
+        });
+    }
+
+    @Then("I see something highlighted in the search result details")
+    public void verifyHighlightingOnDetailPage() {
+        searchPage.forEachRowInTheSearchResults(result -> {
+            result.goToDetailPage();
+            List<BlazeWebElement> highlightedElements = blazeLibrary.getElements(By.xpath("//*[not(ancestor::div[@class='top-wrapper' or @id='footer-link'])][contains(@style, 'background-color: rgb(255, 255, 0)')]"));
+            if (highlightedElements.size() == 0) {
+                String currentUrl = blazeLibrary.browser().getCurrentUrl();
+                blazeLibrary.assertion().assertThat(highlightedElements.size() != 0)
+                        .as("Verifying number of highlighted elements on the detail page.%nURL was: %s", currentUrl)
+                        .isTrue();
             }
-        }
+            blazeLibrary.browser().navigateBack();
+        });
     }
 
     @Then("I see the following filter headers:")
@@ -127,7 +147,7 @@ public class SearchPageSteps {
         List<String> actualSideBarOptions = searchPage.getFilterOptions(sidebarHeader).stream().map(option -> option.text).collect(Collectors.toList());
         blazeLibrary.assertion().assertThat(actualSideBarOptions)
                 .as("Checking options under sidebar header '%s'", sidebarHeader)
-                .containsExactlyElementsOf(expectedSidebarOptions);
+                .containsExactlyElementsOf(expectedSidebarOptions.stream().filter(Predicate.not(String::isEmpty)).collect(Collectors.toList()));
     }
 
     @Then("I see every search result is from {string} archive")
@@ -137,7 +157,7 @@ public class SearchPageSteps {
                     blazeLibrary.assertion().assertThat(row.getInfo().origin).isEqualTo("ARCHIVES");
                     if (blazeLibrary.assertion().wasSuccess()) {
                         row.goToDetailPage();
-                        blazeLibrary.assertion().assertThat(archiveDetailPage.getArchiveType())
+                        blazeLibrary.assertion().assertThat(detailPage.getArchiveType())
                                 .as("Testing archive type").isEqualTo(expectedArchiveType);
                         blazeLibrary.browser().navigateBack();
                     }
@@ -151,7 +171,7 @@ public class SearchPageSteps {
                     blazeLibrary.assertion().assertThat(row.getInfo().origin).isEqualTo("ARCHIVES");
                     if (blazeLibrary.assertion().wasSuccess()) {
                         row.goToDetailPage();
-                        blazeLibrary.assertion().assertThat(archiveDetailPage.getYear())
+                        blazeLibrary.assertion().assertThat(detailPage.getYear())
                                 .as("Testing year").isEqualTo(expectedYear);
                         blazeLibrary.browser().navigateBack();
                     }
@@ -161,7 +181,7 @@ public class SearchPageSteps {
     @Then("I see the search results are sorted by title")
     public void verifySortByTitle() {
         List<String> titles = new ArrayList<>();
-        searchPage.forEachRowInTheSearchResults(row -> titles.add(row.getInfo().title));
+        searchPage.forEachRowInTheSearchResults(row -> titles.add(row.getInfo().title.toUpperCase()));
         blazeLibrary.assertion().assertThat(titles).as("Table should be ordered").isSorted();
     }
 
@@ -190,11 +210,21 @@ public class SearchPageSteps {
         AtomicInteger count = new AtomicInteger(0);
         searchPage.forEachRowInTheSearchResults(row -> {
             row.goToDetailPage();
-            if (desiredArchiveType.equals(archiveDetailPage.getArchiveType())) {
+            if (desiredArchiveType.equals(detailPage.getArchiveType())) {
                 count.incrementAndGet();
             }
             blazeLibrary.browser().navigateBack();
         });
         blazeLibrary.properties().setProperty(savedValueKey, String.valueOf(count.get()));
+    }
+
+    @Then("I see the origin of every regulation is one of the following:")
+    public void verifyRegulationOrigins(List<String> expectedOrigins) {
+        searchPage.forEachRowInTheSearchResults(el -> {
+            SearchPage.SearchRow row = el.getInfo();
+            blazeLibrary.assertion().assertThat(expectedOrigins)
+                    .as("Verifying origin of row '%s'", row.title)
+                    .contains(row.origin);
+        });
     }
 }

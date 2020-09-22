@@ -1,6 +1,6 @@
 package com.reisystems.automation.gsa.acquisitions.steps.policynetwork;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.PolicyNetworkPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.PolicyNetworkPages;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -11,9 +11,9 @@ import java.util.List;
 public class FarcPageSteps {
 
     BlazeLibrary blazeLibrary;
-    PolicyNetworkPage policyNetworkPage;
+    PolicyNetworkPages policyNetworkPage;
 
-    public FarcPageSteps(BlazeLibrary blazeLibrary, PolicyNetworkPage policyNetworkPage) {
+    public FarcPageSteps(BlazeLibrary blazeLibrary, PolicyNetworkPages policyNetworkPage) {
         this.blazeLibrary = blazeLibrary;
         this.policyNetworkPage = policyNetworkPage;
     }

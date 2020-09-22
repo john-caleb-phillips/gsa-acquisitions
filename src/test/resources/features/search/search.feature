@@ -3,6 +3,13 @@ Feature: Search
 
   #Site Searches
 
+  @link-to-regulation-search-work-correctly
+  Scenario: Link to regulation search page
+    Given I am on the site search page
+    When I click the link to go to the regulation search page
+    Then I see the url is "https://www.acquisition.gov/search/advanced/*"
+
+
   @blank-site-search
   Scenario: Search with no terms gives an error message
     Given I am on the site search page
@@ -23,14 +30,6 @@ Feature: Search
       You can require or exclude terms using + and -: big +blue drop will require a match on blue while big blue -drop will exclude results that contain drop.
       """
 
-#  @site-search-with-valid-value
-#  Scenario: Site search works correctly
-#    Given I am on the site search page
-#    When I perform search for "Manager"
-#    Then I see the following site search results:
-#      | Training            | Site Content |
-#      | Category Management | Site Content |
-
   @site-search-correct-sidebar
   Scenario: Correct Site Sidebar
     Given I am on the site search page
@@ -42,9 +41,10 @@ Feature: Search
       | Sort by                 |
       | Type                    |
     And I see the following options under filter "Filter by archive type:":
-      | DFARS | FAR       | NFS   | DLAD  | GSAM  | AFFARS | AFARS | NMCARS | DEARS | DARS  |
-      | EPAAR | TRANSFARS | VAAR  | DOSAR | DTAR  | HSAR   | HUDAR | FEHBAR | HHSAR | DIAR  |
-      | CAR   | AGAR      | AIDAR | EDAR  | LIFAR | TAR    | DOLAR | IAAR   | JAR   | NRCAR |
+      | DFARS | FAR    | NFS   | DLAD      | GSAM | AFFARS | AFARS    | NMCARS |
+      | DEARS | DARS   | EPAAR | TRANSFARS | VAAR | DOSAR  | DTAR     | HSAR   |
+      | HUDAR | FEHBAR | HHSAR | DIAR      | CAR  | AGAR   | AIDAR    | EDAR   |
+      | LIFAR | TAR    | DOLAR | IAAR      | JAR  | NRCAR  | DFARSPGI |        |
     And I see the following options under filter "Filter by year:":
       | 2014 | 2018 | 2017 | 2016 | 2013 | 2012 | 2006 | 2015 | 2011 | 2008 | 2010 | 1970 | 2004 |
       | 2009 | 2019 | 2005 | 2007 | 2002 | 2003 | 1999 | 2000 | 1998 | 2020 | 2001 | 1997 | 1996 |
@@ -158,19 +158,23 @@ Feature: Search
   Scenario: Search term is in search result
     Given I am on the site search page
     When I perform search for "Manage"
-    Then I see every search result contains "Manag"
+    Then I see every search result contains at least one of the following terms:
+      | Manage | Manages | Managed | Manager | Managers | Managing | Management |
 
   @site-search-highlights-search-result
   Scenario: Searched words are highlighted in the search page
     Given I am on the site search page
     When I perform search for "Manage"
-    Then I see that "Manage" is highlighted in the search results
+    Then I see that at least one of the following are highlighted in each search result:
+      | Manage | Manages | Managed | Manager | Managers | Managing | Management |
+    And I see that only the following are highlighted in each search result:
+      | Manage | Manages | Managed | Manager | Managers | Managing | Management |
 
   @site-search-does-not-highlight-detail-page
   Scenario: Searched words on the site are not highlighted in the actual page
     Given I am on the site search page
     When I perform search for "Manage"
-    Then I see that "Manage" is not highlighted in the search result details
+    Then I see nothing highlighted in the search result details
 
   #Regulation searches
 
@@ -218,10 +222,51 @@ Feature: Search
       | PGI Part | JAR               | EDAR     | FEHBAR | LIFAR | Annex     | NRCAR |
       | MP Part  | Table of Contents | Appendix | DTAR   | IAAR  | TRANSFARS | 2019  |
 
-  @regulation-search-works-correctly
-  Scenario: Regulation search works correctly
+  @regulation-search-term-is-in-search-results
+  Scenario: Search term is in search result
     Given I am on the regulation search page
-    When I perform search for ""
-    Then I see that FAR search is enabled
-    And I see that all regular
-    And I see there are 9637 search results
+    When I perform search for "Question"
+    Then I see every search result contains at least one of the following terms:
+      | Question | Questions | Questioned |
+
+  @regulation-search-highlights-search-result
+  Scenario: Searched words are highlighted in the search page
+    Given I am on the regulation search page
+    When I perform search for "Question"
+    Then I see that at least one of the following are highlighted in each search result:
+      | Question | Questions | Questioned | Questioning | Questionable |
+    And I see that only the following are highlighted in each search result:
+      | Question | Questions | Questioned | Questioning | Questionable |
+
+  @regulation-search-highlights-detail-page
+  Scenario: Searched words in the regulations are highlighted in the actual page
+    Given I am on the regulation search page
+    When I perform search for "Question"
+    Then I see something highlighted in the search result details
+
+  @limit-regulation-search-to-far
+  Scenario: Regulations can be limited to just the FAR
+    Given I am on the regulation search page
+    When I set the regulation search criteria to the following origins:
+      | FAR |
+    And I perform search for "Question"
+    Then I see the origin of every regulation is one of the following:
+      | FAR |
+
+  @limit-regulation-search-to-other-regulation
+  Scenario: Regulations can be limited to just an other regulation
+    Given I am on the regulation search page
+    When I set the regulation search criteria to the following origins:
+      | DIAR |
+    And I perform search for "Question"
+    Then I see the origin of every regulation is one of the following:
+      | DIAR |
+
+  @limit-regulation-search-to-far-and-other-regulation
+  Scenario: Regulations can be limited to just the FAR and other regulations
+    Given I am on the regulation search page
+    When I set the regulation search criteria to the following origins:
+      | FAR | DIAR |
+    And I perform search for "Question"
+    Then I see the origin of every regulation is one of the following:
+      | FAR | DIAR |

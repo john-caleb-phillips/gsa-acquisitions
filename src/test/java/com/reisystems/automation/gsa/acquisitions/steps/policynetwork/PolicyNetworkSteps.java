@@ -1,6 +1,6 @@
 package com.reisystems.automation.gsa.acquisitions.steps.policynetwork;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.PolicyNetworkPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.PolicyNetworkPages;
 import com.reisystems.blaze.blazeElement.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Given;
@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 public class PolicyNetworkSteps {
 
     BlazeLibrary blazeLibrary;
-    PolicyNetworkPage policyNetworkPage;
+    PolicyNetworkPages policyNetworkPage;
 
-    public PolicyNetworkSteps(BlazeLibrary blazeLibrary, PolicyNetworkPage policyNetworkPage){
+    public PolicyNetworkSteps(BlazeLibrary blazeLibrary, PolicyNetworkPages policyNetworkPage){
         this.blazeLibrary = blazeLibrary;
         this.policyNetworkPage = policyNetworkPage;
     }

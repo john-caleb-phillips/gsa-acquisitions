@@ -1,12 +1,10 @@
 package com.reisystems.automation.gsa.acquisitions.steps.policynetwork;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.CaacPage;
-import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.PolicyNetworkPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.PolicyNetworkPages;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -17,9 +15,9 @@ import java.util.List;
 public class CaacPageSteps {
 
     BlazeLibrary blazeLibrary;
-    PolicyNetworkPage policyNetworkPage;
+    PolicyNetworkPages policyNetworkPage;
 
-    public CaacPageSteps(BlazeLibrary blazeLibrary, PolicyNetworkPage policyNetworkPage) {
+    public CaacPageSteps(BlazeLibrary blazeLibrary, PolicyNetworkPages policyNetworkPage) {
         this.blazeLibrary = blazeLibrary;
         this.policyNetworkPage = policyNetworkPage;
     }
