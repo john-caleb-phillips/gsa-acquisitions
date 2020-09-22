@@ -36,7 +36,7 @@ public class SearchPage extends PageObject {
     public SearchPage setEffectiveDate(LocalDate date) {
         BlazeWebElement textBox = blazeLibrary.getElement(By.xpath("//form[@id='views-exposed-form-archives-page']//input[@id='edit-date-value-datepicker-popup-0']"));
         textBox.clear();
-        textBox.sendKeys(date != null ? date.format(DateTimeFormatter.ofPattern("uuuu-MM-dd")) : "");
+        textBox.sendKeys(date != null ? date.format(DateTimeFormatter.ofPattern("MM/dd/uuuu")) : "");
         return this;
     }
 

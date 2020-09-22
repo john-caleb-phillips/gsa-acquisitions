@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.reisystems.automation</groupId>
-        <artifactId>super.parent-pom</artifactId>
+        <groupId>com.reisystems</groupId>
+        <artifactId>automation.super.parent-pom</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>gsa.acquisitions</artifactId>
+    <artifactId>automation.gsa.acquisitions</artifactId>
     <packaging>jar</packaging>
     <name>REI GSA Automation - Acquisitions.gov</name>
 
@@ -19,7 +19,7 @@
             <artifactId>super.library</artifactId>
             <version>0.0.1</version>
             <scope>system</scope>
-            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.super.library/library/target/super.library-0.0.1.jar</systemPath>
+            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.super.library/library/target/automation.super.library-0.0.1.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -27,7 +27,7 @@
             <artifactId>super.plugin</artifactId>
             <version>0.0.1</version>
             <scope>system</scope>
-            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.super.library/plugin/target/super.plugin-0.0.1.jar</systemPath>
+            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.super.library/plugin/target/automation.super.plugin-0.0.1.jar</systemPath>
         </dependency>
     </dependencies>
 
