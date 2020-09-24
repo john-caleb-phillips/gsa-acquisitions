@@ -5,6 +5,7 @@ import com.reisystems.blaze.blazeElement.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,19 +19,43 @@ public class HomePage extends PageObject {
         blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/");
     }
 
-    public By ovalButtonLocator(String buttonText) {
-        return By.xpath("//div[contains(@class, 'button-wrapper')]/a[text()='%s']".formatted(buttonText));
+    public void clickOvalButton(String buttonText) {
+        blazeLibrary.getElement(locators.ovalButton(buttonText)).click(blazeLibrary.defaults().REFRESH_PAGE);
     }
 
-    public By squareButtonLocator(String buttonText) {
-        return By.xpath("//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5') and .//h4[text()='%s']]".formatted(buttonText));
+    public void clickSquareButton(String buttonText) {
+        blazeLibrary.getElement(locators.squareButton(buttonText)).click(blazeLibrary.defaults().REFRESH_PAGE);
     }
 
     public List<String> getOvalButtons() {
-        return blazeLibrary.getElements(By.xpath("//div[contains(@class, 'button-wrapper')]/a[text()]")).stream().map(BlazeWebElement::getText).collect(Collectors.toList());
+        return blazeLibrary.getElements(locators.ovalButtons()).stream().map(BlazeWebElement::getText).collect(Collectors.toList());
     }
 
     public List<String> getSquareButtons() {
-        return blazeLibrary.getElements(By.xpath("//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5')]//h4[text()]")).stream().map(BlazeWebElement::getText).collect(Collectors.toList());
+        return blazeLibrary.getElements(locators.squareButtons()).stream().map(BlazeWebElement::getText).collect(Collectors.toList());
+    }
+
+    public BufferedImage getSquareButtonImage(String buttonText) {
+        return blazeLibrary.images().getFromImgTag(locators.squareButtonImage(buttonText));
+    }
+
+    private static class locators {
+        private static By ovalButton(String buttonText) {
+            return By.xpath("//div[contains(@class, 'button-wrapper')]/a[text()='%s']".formatted(buttonText));
+        }
+        private static By ovalButtons() {
+            return By.xpath("//div[contains(@class, 'button-wrapper')]/a[text()]");
+        }
+        private static By squareButton(String buttonText) {
+            return By.xpath("//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5') and .//h4[text()='%s']]".formatted(buttonText));
+        }
+        private static By squareButtons() {
+            return By.xpath("//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5')]//h4[text()]");
+        }
+        private static By squareButtonImage(String buttonText) {
+            return By.xpath(
+                    "//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5') and .//h4[text()='%s']]//img".formatted(buttonText)
+            );
+        }
     }
 }

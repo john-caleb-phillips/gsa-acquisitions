@@ -40,22 +40,18 @@ public class HomePageSteps {
 
     @When("I click on homepage oval button {string}")
     public void clickOvalButton(String buttonText) {
-        // TODO: Make sure that are on homepage
-
-        blazeLibrary.getElement(homePage.ovalButtonLocator(buttonText)).click(blazeLibrary.defaults().REFRESH_PAGE);
+        homePage.clickOvalButton(buttonText);
     }
 
     @When("I click on homepage square button {string}")
     public void clickSquareButton(String buttonText) {
-        // TODO: Make sure that are on homepage
-
-        blazeLibrary.getElement(homePage.squareButtonLocator(buttonText)).click(blazeLibrary.defaults().REFRESH_PAGE);
+        homePage.clickSquareButton(buttonText);
     }
 
     private final static Gson gson = new Gson();
 
     @Then("I see the homepage news items match the news items saved as {string}")
-    public void test(String valueKey) {
+    public void verifyHomepageNewsItems(String valueKey) {
         // TODO: Make sure that are on homepage
 
         List<NewsPage.NewsItem> homePageNewsItems = new ArrayList<>();
@@ -87,7 +83,7 @@ public class HomePageSteps {
     }
 
     @Then("I see the homepage updates match the updates saved as {string}")
-    public void asd(String valueKey) {
+    public void verifyHomepageUpdates(String valueKey) {
         // TODO: Make sure that are on homepage
 
         List<UpdatePage.UpdateItem> homePageUpdateItems = new ArrayList<>();
@@ -130,13 +126,10 @@ public class HomePageSteps {
     }
 
     @Then("I see the following square button pictures:")
-    public void verifySquareButtonPictures(Map<String, String> expectedPictures) throws IOException {
+    public void verifySquareButtonPictures(Map<String, String> expectedPictures) {
         for (Map.Entry<String, String> entry : expectedPictures.entrySet()) {
+            BufferedImage fromPage = homePage.getSquareButtonImage(entry.getKey());
             BufferedImage fromFile = blazeLibrary.images().getFromFile(entry.getValue());
-            BufferedImage fromPage = blazeLibrary.images().getFromImgTag(By.xpath(
-                    "//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5') and .//h4[text()='%s']]//img".formatted(entry.getKey())
-            ));
-
             blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPage, 0))
                     .as("Comparing image src for %s on the page to the file named %s", entry.getKey(), entry.getValue())
                     .isTrue();

@@ -19,19 +19,15 @@ public class PolicyNetworkPages {
     public MainPage main() {
         return mainPage;
     }
-
     public CaacPage caac() {
         return caacPage;
     }
-
     public CaocPage caoc() {
         return caocPage;
     }
-
     public FarcPage farc() {
         return farcPage;
     }
-
     public IsdcPage isdc() {
         return isdcPage;
     }

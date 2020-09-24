@@ -5,7 +5,6 @@ public class ArchivesPages {
     private final SearchPage search;
     private final DetailPage detail;
 
-
     public ArchivesPages(SearchPage search, DetailPage detail) {
         this.search = search;
         this.detail = detail;

@@ -22,11 +22,8 @@ public class CaocPage extends PageObject {
     public void goToSubPage(String subPage) {
         BlazeWebElement toClick = blazeLibrary.getElement(By.xpath("//div[contains(@class, 'cao-gov-menu')]//div[contains(@class, 'dropdown')]//a[normalize-space(.)='%s']".formatted(subPage)));
         BlazeWebElement dropdownHeader = blazeLibrary.getElement(By.xpath("//div[contains(@class, 'cao-gov-menu')]//div[contains(@class, 'dropdown')]//a[normalize-space(.)='%s']/../..//button".formatted(subPage)));
-        int xOffset = dropdownHeader.getLocation().getX() + (dropdownHeader.getSize().getWidth() / 2);
-        int yOffset = dropdownHeader.getLocation().getY() + (dropdownHeader.getSize().getHeight() / 2);
-        blazeLibrary.mouseAndKeyboard().moveByOffset(xOffset, yOffset).perform();
+        blazeLibrary.mouseAndKeyboard().moveToElement(dropdownHeader).perform();
         toClick.click(blazeLibrary.defaults().REFRESH_PAGE);
-        blazeLibrary.mouseAndKeyboard().moveByOffset(-1 * xOffset, -1 * yOffset).perform();
     }
 
     public BufferedImage getHeaderImage() {

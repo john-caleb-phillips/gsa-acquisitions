@@ -55,35 +55,74 @@ Feature: Header
       | Chapter 99 (CAS) | https://www.acquisition.gov/chapter_99        |
       | DFARS            | https://www.acquisition.gov/dfars             |
       | DFARSPGI         | https://www.acquisition.gov/dfarspgi          |
-      | AFARS            | https://www.acquisition.gov/afars             |
-      | AFFARS           | https://www.acquisition.gov/affars            |
-      | DARS             | https://www.acquisition.gov/dars              |
-      | DLAD             | https://www.acquisition.gov/dlad              |
-      | NMCARS           | https://www.acquisition.gov/nmcars            |
-      | SOFARS           | https://www.acquisition.gov/sofars            |
-      | TRANSFARS        | https://www.acquisition.gov/transfars         |
-      | AGAR             | https://www.acquisition.gov/agar              |
-      | AIDAR            | https://www.acquisition.gov/aidar             |
-      | CAR              | https://www.acquisition.gov/car               |
-      | DEARS            | https://www.acquisition.gov/dears             |
-      | DIARS            | https://www.acquisition.gov/diar              |
-      | DOLARS           | https://www.acquisition.gov/dolar             |
-      | DOSARS           | https://www.acquisition.gov/dosar             |
-      | DTAR             | https://www.acquisition.gov/dtar              |
-      | EDAR             | https://www.acquisition.gov/edar              |
-      | EPAAR            | https://www.acquisition.gov/epaar             |
-      | FEHBAR           | https://www.acquisition.gov/fehbar            |
-      | GSAM/R           | https://www.acquisition.gov/browse/index/gsam |
-      | HHSAR            | https://www.acquisition.gov/hhsar             |
-      | HSAR             | https://www.acquisition.gov/hsar              |
-      | HUDAR            | https://www.acquisition.gov/hudar             |
-      | IAAR             | https://www.acquisition.gov/iaar              |
-      | JAR              | https://www.acquisition.gov/jar               |
-      | LIFAR            | https://www.acquisition.gov/lifar             |
-      | NFS              | https://www.acquisition.gov/nfs               |
-      | NRCAR            | https://www.acquisition.gov/nrcar             |
-      | TAR              | https://www.acquisition.gov/tar               |
-      | VAAR             | https://www.acquisition.gov/vaar              |
+#      | AFARS            | https://www.acquisition.gov/afars             |
+#      | AFFARS           | https://www.acquisition.gov/affars            |
+#      | DARS             | https://www.acquisition.gov/dars              |
+#      | DLAD             | https://www.acquisition.gov/dlad              |
+#      | NMCARS           | https://www.acquisition.gov/nmcars            |
+#      | SOFARS           | https://www.acquisition.gov/sofars            |
+#      | TRANSFARS        | https://www.acquisition.gov/transfars         |
+#      | AGAR             | https://www.acquisition.gov/agar              |
+#      | AIDAR            | https://www.acquisition.gov/aidar             |
+#      | CAR              | https://www.acquisition.gov/car               |
+#      | DEARS            | https://www.acquisition.gov/dears             |
+#      | DIARS            | https://www.acquisition.gov/diar              |
+#      | DOLARS           | https://www.acquisition.gov/dolar             |
+#      | DOSARS           | https://www.acquisition.gov/dosar             |
+#      | DTAR             | https://www.acquisition.gov/dtar              |
+#      | EDAR             | https://www.acquisition.gov/edar              |
+#      | EPAAR            | https://www.acquisition.gov/epaar             |
+#      | FEHBAR           | https://www.acquisition.gov/fehbar            |
+#      | GSAM/R           | https://www.acquisition.gov/browse/index/gsam |
+#      | HHSAR            | https://www.acquisition.gov/hhsar             |
+#      | HSAR             | https://www.acquisition.gov/hsar              |
+#      | HUDAR            | https://www.acquisition.gov/hudar             |
+#      | IAAR             | https://www.acquisition.gov/iaar              |
+#      | JAR              | https://www.acquisition.gov/jar               |
+#      | LIFAR            | https://www.acquisition.gov/lifar             |
+#      | NFS              | https://www.acquisition.gov/nfs               |
+#      | NRCAR            | https://www.acquisition.gov/nrcar             |
+#      | TAR              | https://www.acquisition.gov/tar               |
+#      | VAAR             | https://www.acquisition.gov/vaar              |
+
+  @qwe123
+  Scenario: Testing
+    Given I am on the homepage
+    When I do a test:
+      | FAR              |
+      | FAR Smart Matrix |
+      | Chapter 99 (CAS) |
+      | DFARS            |
+      | DFARSPGI         |
+      | AFARS            |
+      | AFFARS           |
+      | DARS             |
+      | DLAD             |
+      | NMCARS           |
+      | SOFARS           |
+      | TRANSFARS        |
+      | AGAR             |
+      | AIDAR            |
+      | CAR              |
+      | DEARS            |
+      | DIARS            |
+      | DOLARS           |
+      | DOSARS           |
+      | DTAR             |
+      | EDAR             |
+      | EPAAR            |
+      | FEHBAR           |
+      | GSAM/R           |
+      | HHSAR            |
+      | HSAR             |
+      | HUDAR            |
+      | IAAR             |
+      | JAR              |
+      | LIFAR            |
+      | NFS              |
+      | NRCAR            |
+      | TAR              |
+      | VAAR             |
 
   @header-blank-search
   Scenario: Generic search without search term leads to correct page

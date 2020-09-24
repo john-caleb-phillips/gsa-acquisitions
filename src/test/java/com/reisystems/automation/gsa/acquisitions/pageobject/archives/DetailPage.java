@@ -18,42 +18,37 @@ public class DetailPage extends PageObject {
         super(blazeLibrary);
     }
 
+    private void waitForPageToLoad() {
+        blazeLibrary.getElement(locators.pageContent()).waitUntil(BlazeWebElement.WaitCondition.ELEMENT_IS_PRESENT);
+    }
+
     public List<String> getHeaders() {
-        blazeLibrary.getElement(By.xpath("//div[@id='middlecontent']")).waitUntil(BlazeWebElement.WaitCondition.ELEMENT_IS_PRESENT);
-        return blazeLibrary.getElements(By.xpath("//div[@class='field-label']"), 0).stream().map(BlazeWebElement::getText).map(String::trim).collect(Collectors.toList());
+        waitForPageToLoad();
+        return blazeLibrary.getElements(locators.headers(), 0).stream().map(BlazeWebElement::getText).map(String::trim).collect(Collectors.toList());
     }
 
     public List<String> getDownloadLinkHeaders() {
-        blazeLibrary.getElement(By.xpath("//div[@id='middlecontent']")).waitUntil(BlazeWebElement.WaitCondition.ELEMENT_IS_PRESENT);
-        return blazeLibrary.getElements(By.xpath("//div[contains(@class, 'field-label-above') and .//a]//div[@class='field-label']"), 0)
+        waitForPageToLoad();
+        return blazeLibrary.getElements(locators.downloadLinkHeaders(), 0)
                 .stream().map(BlazeWebElement::getText).map(String::trim).collect(Collectors.toList());
     }
 
     public boolean isHeaderPresent(String headerText) {
-        blazeLibrary.getElement(By.xpath("//div[@id='middlecontent']")).waitUntil(BlazeWebElement.WaitCondition.ELEMENT_IS_PRESENT);
-        return blazeLibrary.getElements(By.xpath("//div[@class='field-label' and contains(., '%s')]".formatted(headerText)), 0).size() != 0;
+        waitForPageToLoad();
+        return blazeLibrary.getElements(locators.header(headerText), 0).size() != 0;
     }
 
     public String getHeaderContent(String headerText) {
-        if (!isHeaderPresent(headerText)) {
-            return null;
-        }
-        return blazeLibrary.getElement(By.xpath("//div[@class='field-label' and contains(., '%s')]//following-sibling::div".formatted(headerText))).getText();
+        return isHeaderPresent(headerText) ? blazeLibrary.getElement(locators.headerContent(headerText)).getText() : null;
     }
 
     public String getDownloadLinkType(String headerText) {
-        if (!isHeaderPresent(headerText)) {
-            return null;
-        }
-        return blazeLibrary.getElement(By.xpath("//div[@class='field-label' and contains(., '%s')]//following-sibling::div//a".formatted(headerText))).getAttribute("type");
+        return isHeaderPresent(headerText) ? blazeLibrary.getElement(locators.downloadLink(headerText)).getAttribute("type") : null;
     }
 
     public URL getDownloadLinkUrl(String headerText) {
-        if (!isHeaderPresent(headerText)) {
-            return null;
-        }
         try {
-            return new URL(blazeLibrary.getElement(By.xpath("//div[@class='field-label' and contains(., '%s')]//following-sibling::div//a".formatted(headerText))).getAttribute("href"));
+            return isHeaderPresent(headerText) ? new URL(blazeLibrary.getElement(locators.downloadLink(headerText)).getAttribute("href")) : null;
         } catch (MalformedURLException e) {
             return null;
         }
@@ -89,6 +84,27 @@ public class DetailPage extends PageObject {
 
     public String getYear() {
         return getHeaderContent("Year");
+    }
+
+    private static class locators {
+        private static By header(String headerText) {
+            return By.xpath("//div[@class='field-label' and contains(., '%s')]".formatted(headerText));
+        }
+        private static By headers() {
+            return By.xpath("//div[@class='field-label']");
+        }
+        private static By downloadLinkHeaders() {
+            return By.xpath("//div[contains(@class, 'field-label-above') and .//a]//div[@class='field-label']");
+        }
+        private static By pageContent() {
+            return By.xpath("//div[@id='middlecontent']");
+        }
+        private static By headerContent(String headerText) {
+            return By.xpath("//div[@class='field-label' and contains(., '%s')]//following-sibling::div".formatted(headerText));
+        }
+        private static By downloadLink(String headerText) {
+            return By.xpath("//div[@class='field-label' and contains(., '%s')]//following-sibling::div//a".formatted(headerText));
+        }
     }
 
 }
