@@ -1,15 +1,15 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FarcPage extends PageObject {
+public class FarcPage extends HasBlazeLibrary {
 
     public FarcPage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
@@ -34,11 +34,11 @@ public class FarcPage extends PageObject {
     }
 
     public void clickFooterLink(String linkText) {
-        blazeLibrary.getElement(By.xpath("//div[@id='block-menu-menu-about-the-far-council']//li//a[.='%s']".formatted(linkText))).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.xpath("//div[@id='block-menu-menu-about-the-far-council']//li//a[.='%s']".formatted(linkText))).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void clickFarcMemorandaLink(String linkText) {
-        blazeLibrary.getElement(By.xpath("//div[contains(@class, 'field-items')]//a[.='%s']".formatted(linkText))).click(blazeLibrary.defaults().OPEN_WINDOW_OR_TAB);
+        blazeLibrary.getElement(By.xpath("//div[contains(@class, 'field-items')]//a[.='%s']".formatted(linkText))).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
 }

@@ -1,14 +1,15 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.general;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdatePage extends PageObject {
+public class UpdatePage extends HasBlazeLibrary {
 
     public UpdatePage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);

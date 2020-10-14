@@ -1,8 +1,8 @@
-package com.reisystems.automation.gsa.acquisitions.steps.general;
+package com.reisystems.automation.gsa.acquisitions.steps.search;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.archives.DetailPage;
-import com.reisystems.automation.gsa.acquisitions.pageobject.general.SearchPage;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.automation.gsa.acquisitions.pageobject.search.SearchPage;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -38,13 +38,13 @@ public class SearchPageSteps {
 
     @When("I click the link to go to the regulation search page")
     public void navigateToRegulationSearchPage() {
-        blazeLibrary.getElement(By.xpath("//p[contains(@class, 'search-snippet')]/a")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.xpath("//p[contains(@class, 'search-snippet')]/a")).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     @When("I perform search for {string}")
     public void performSearch(String searchTerm) {
         blazeLibrary.getElement(By.xpath("//form[@id='advanced-search-form']//div[contains(@class, 'form-item-keys')]//input[@id='searchkeys']")).sendKeys(searchTerm);
-        blazeLibrary.getElement(By.xpath("//form[@id='advanced-search-form']//div[contains(@class, 'form-item-keys')]//input[@type='submit']")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.xpath("//form[@id='advanced-search-form']//div[contains(@class, 'form-item-keys')]//input[@type='submit']")).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     @When("I expand all sidebar options")
@@ -189,20 +189,20 @@ public class SearchPageSteps {
     public void filterByArchiveType(String desiredArchiveType) {
         expandSidebars();
         blazeLibrary.getElement(By.xpath("//div[contains(@class, 'block-facetapi') and .//h2[.='Filter by archive type:']]//li/a/text()[normalize-space(.)='%s']/..".formatted(desiredArchiveType)))
-                .click(blazeLibrary.defaults().REFRESH_PAGE);
+                .click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     @When("I filter by year {string}")
     public void filterByYear(String desiredYear) {
         expandSidebars();
         blazeLibrary.getElement(By.xpath("//div[contains(@class, 'block-facetapi') and .//h2[.='Filter by year:']]//li/a/text()[normalize-space(.)='%s']/..".formatted(desiredYear)))
-                .click(blazeLibrary.defaults().REFRESH_PAGE);
+                .click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     @When("I sort by title")
     public void sortByTitle() {
         blazeLibrary.getElement(By.xpath("//div[contains(@class, 'block-apachesolr') and .//h2[.='Sort by']]//li/a/text()[normalize-space(.)='Title']/.."))
-                .click(blazeLibrary.defaults().REFRESH_PAGE);
+                .click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     @When("I count the number of search results with archive type {string} as {string}")

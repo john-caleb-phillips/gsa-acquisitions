@@ -1,7 +1,6 @@
 package com.reisystems.automation.gsa.acquisitions.steps.general;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.Footer;
-import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.When;
 
 public class FooterSteps {

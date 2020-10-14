@@ -1,7 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.archives;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
 
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 
-public class SearchPage extends PageObject {
+public class SearchPage extends HasBlazeLibrary {
 
     public SearchPage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
@@ -41,7 +42,7 @@ public class SearchPage extends PageObject {
     }
 
     public void performSearch() {
-        blazeLibrary.getElement(By.xpath("//form[@id='views-exposed-form-archives-page']//input[@id='edit-submit-archives']")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.xpath("//form[@id='views-exposed-form-archives-page']//input[@id='edit-submit-archives']")).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void forEachRowOnThePage(Consumer<ArchiveSearchRow> consumer) {
@@ -79,19 +80,19 @@ public class SearchPage extends PageObject {
     }
 
     public void goToFirstPage() {
-        blazeLibrary.getElement(By.cssSelector("ul.pager > li.pager-first")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.cssSelector("ul.pager > li.pager-first")).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void goToPreviousPage() {
-        blazeLibrary.getElement(By.cssSelector("ul.pager > li.pager-previous")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.cssSelector("ul.pager > li.pager-previous")).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void goToNextPage() {
-        blazeLibrary.getElement(By.cssSelector("ul.pager > li.pager-next")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.cssSelector("ul.pager > li.pager-next")).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void goToLastPage() {
-        blazeLibrary.getElement(By.cssSelector("ul.pager > li.pager-last")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.cssSelector("ul.pager > li.pager-last")).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public class ArchiveSearchRow {
@@ -162,7 +163,7 @@ public class SearchPage extends PageObject {
         }
 
         public void clickFacNumber() {
-            blazeLibrary.getElement(By.xpath("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[1]/a".formatted(rowNumber))).click(blazeLibrary.defaults().REFRESH_PAGE);
+            blazeLibrary.getElement(By.xpath("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[1]/a".formatted(rowNumber))).click(blazeLibrary.clickResults().REFRESH_PAGE);
         }
     }
 }

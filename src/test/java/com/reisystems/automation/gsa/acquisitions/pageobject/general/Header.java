@@ -1,34 +1,37 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.general;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
 
-public class Header extends PageObject {
+import java.awt.image.BufferedImage;
+
+public class Header extends HasBlazeLibrary {
 
     public Header(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
     }
 
     public void clickCoronavirusLink() {
-        blazeLibrary.getElement(locators.coronavirusLink()).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(locators.coronavirusLink()).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void click889InformationLink() {
-        blazeLibrary.getElement(locators.information889Link()).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(locators.information889Link()).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void clickLogo() {
-        blazeLibrary.getElement(locators.logo()).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(locators.logo()).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void clickTopLevelLink(String linkText) {
-        blazeLibrary.getElement(locators.topLevelLink(linkText)).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(locators.topLevelLink(linkText)).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void clickRegulationDropdownLink(String linkText) {
         blazeLibrary.mouseAndKeyboard().moveToElement(blazeLibrary.getElement(locators.topLevelLink("Regulations"))).perform();
-        blazeLibrary.getElement(locators.regulationDropdownLink(linkText)).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(locators.regulationDropdownLink(linkText)).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void clickPolicyNetworkDropdownLink(String linkText) {
@@ -43,7 +46,12 @@ public class Header extends PageObject {
             case site -> blazeLibrary.getElement(locators.searchSiteToggle()).click();
             case regulation -> blazeLibrary.getElement(locators.searchRegulationToggle()).click();
         }
-        blazeLibrary.getElement(locators.searchSubmitButton()).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(locators.searchSubmitButton()).click(blazeLibrary.clickResults().REFRESH_PAGE);
+    }
+
+    public BufferedImage getRegulationImage(String regulationName) {
+        blazeLibrary.mouseAndKeyboard().moveToElement(blazeLibrary.getElement(locators.topLevelLink("Regulations"))).perform();
+        return blazeLibrary.images().getFromImgTag(locators.regulationImage(regulationName));
     }
 
     public enum SearchType { generic, site, regulation };
@@ -82,6 +90,9 @@ public class Header extends PageObject {
         }
         private static By searchSubmitButton() {
             return By.xpath("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Search']]//input[@type='submit']");
+        }
+        private static By regulationImage(String regulationName) {
+            return By.xpath("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Regulations']]//div//a[normalize-space(.)='%s']//img".formatted(regulationName));
         }
     }
 }

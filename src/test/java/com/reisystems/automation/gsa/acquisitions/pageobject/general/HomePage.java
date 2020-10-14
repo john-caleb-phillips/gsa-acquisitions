@@ -1,7 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.general;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
 
@@ -9,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomePage extends PageObject {
+public class HomePage extends HasBlazeLibrary {
 
     public HomePage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
@@ -20,11 +21,11 @@ public class HomePage extends PageObject {
     }
 
     public void clickOvalButton(String buttonText) {
-        blazeLibrary.getElement(locators.ovalButton(buttonText)).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(locators.ovalButton(buttonText)).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void clickSquareButton(String buttonText) {
-        blazeLibrary.getElement(locators.squareButton(buttonText)).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(locators.squareButton(buttonText)).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public List<String> getOvalButtons() {

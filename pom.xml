@@ -15,16 +15,16 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.reisystems.automation</groupId>
-            <artifactId>super.library</artifactId>
+            <groupId>com.reisystems</groupId>
+            <artifactId>automation.super.library</artifactId>
             <version>0.0.1</version>
             <scope>system</scope>
             <systemPath>C:/Users/john.phillips/IdeaProjects/automation.super/library/target/automation.super.library-0.0.1.jar</systemPath>
         </dependency>
 
         <dependency>
-            <groupId>com.reisystems.automation</groupId>
-            <artifactId>super.plugin</artifactId>
+            <groupId>com.reisystems</groupId>
+            <artifactId>automation.super.plugin</artifactId>
             <version>0.0.1</version>
             <scope>system</scope>
             <systemPath>C:/Users/john.phillips/IdeaProjects/automation.super/plugin/target/automation.super.plugin-0.0.1.jar</systemPath>
@@ -44,8 +44,8 @@
             </plugin>
 
             <plugin>
-                <groupId>com.reisystems.automation</groupId>
-                <artifactId>super.plugin</artifactId>
+                <groupId>com.reisystems</groupId>
+                <artifactId>automation.super.plugin</artifactId>
                 <version>0.0.1</version>
                 <executions>
                     <execution>
@@ -62,7 +62,6 @@
                         <stepPackage>com.reisystems.automation.gsa.acquisitions.steps</stepPackage>
                     </stepPackages>
                     <userControllerClass>com.reisystems.automation.gsa.acquisitions.projectsetup.UserController</userControllerClass>
-                    <portalControllerClass>com.reisystems.automation.gsa.acquisitions.projectsetup.PortalController</portalControllerClass>
                 </configuration>
             </plugin>
         </plugins>

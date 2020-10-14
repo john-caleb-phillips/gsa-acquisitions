@@ -1,7 +1,7 @@
 package com.reisystems.automation.gsa.acquisitions.steps.policynetwork;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.PolicyNetworkPages;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

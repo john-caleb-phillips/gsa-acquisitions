@@ -1,7 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
 
@@ -9,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CaocPage extends PageObject {
+public class CaocPage extends HasBlazeLibrary {
 
     public CaocPage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
@@ -23,7 +24,7 @@ public class CaocPage extends PageObject {
         BlazeWebElement toClick = blazeLibrary.getElement(By.xpath("//div[contains(@class, 'cao-gov-menu')]//div[contains(@class, 'dropdown')]//a[normalize-space(.)='%s']".formatted(subPage)));
         BlazeWebElement dropdownHeader = blazeLibrary.getElement(By.xpath("//div[contains(@class, 'cao-gov-menu')]//div[contains(@class, 'dropdown')]//a[normalize-space(.)='%s']/../..//button".formatted(subPage)));
         blazeLibrary.mouseAndKeyboard().moveToElement(dropdownHeader).perform();
-        toClick.click(blazeLibrary.defaults().REFRESH_PAGE);
+        toClick.click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public BufferedImage getHeaderImage() {
@@ -49,7 +50,7 @@ public class CaocPage extends PageObject {
 
     public void clickSideBarLink(String linkText) {
         blazeLibrary.getElement(By.xpath("//div[contains(@class, 'caoc-resources')]//a[normalize-space(.)='%s']".formatted(linkText)))
-                .click(blazeLibrary.defaults().REFRESH_PAGE, blazeLibrary.defaults().OPEN_WINDOW_OR_TAB);
+                .click(blazeLibrary.clickResults().REFRESH_PAGE, blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
     public List<String> getAgencyTableHeaders() {

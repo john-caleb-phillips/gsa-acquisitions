@@ -1,18 +1,17 @@
-package com.reisystems.automation.gsa.acquisitions.pageobject.general;
+package com.reisystems.automation.gsa.acquisitions.pageobject.search;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
-import com.reisystems.blaze.interfaces.ClickResult;
 import org.openqa.selenium.By;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class SearchPage extends PageObject {
+public class SearchPage extends HasBlazeLibrary {
 
     public SearchPage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
@@ -77,19 +76,19 @@ public class SearchPage extends PageObject {
     }
 
     public void goToFirstPage() {
-        blazeLibrary.getElement(By.xpath("//a[@title='Go to first page']")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.xpath("//a[@title='Go to first page']")).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void goToPreviousPage() {
-        blazeLibrary.getElement(By.xpath("//a[@title='Go to previous page']")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.xpath("//a[@title='Go to previous page']")).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void goToNextPage() {
-        blazeLibrary.getElement(By.xpath("//a[@title='Go to next page']")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.xpath("//a[@title='Go to next page']")).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void goToLastPage() {
-        blazeLibrary.getElement(By.xpath("//a[@title='Go to last page']")).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.xpath("//a[@title='Go to last page']")).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void setFarRegulationCriteria() {
@@ -112,7 +111,7 @@ public class SearchPage extends PageObject {
         }
 
         public void goToDetailPage() {
-            blazeLibrary.getElement(By.xpath("//li[@class='search-result'][%s]//h3/a".formatted( rowNumber))).click(blazeLibrary.defaults().REFRESH_PAGE);
+            blazeLibrary.getElement(By.xpath("//li[@class='search-result'][%s]//h3/a".formatted( rowNumber))).click(blazeLibrary.clickResults().REFRESH_PAGE);
         }
 
         public SearchRow getInfo() {

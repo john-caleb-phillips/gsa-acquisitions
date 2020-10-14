@@ -1,8 +1,9 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.archives;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
 import org.openqa.selenium.By;
 
 import java.net.MalformedURLException;
@@ -12,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DetailPage extends PageObject {
+public class DetailPage extends HasBlazeLibrary {
 
     public DetailPage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);

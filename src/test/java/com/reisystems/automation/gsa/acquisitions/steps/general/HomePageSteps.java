@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.HomePage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.NewsPage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.UpdatePage;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,7 +13,6 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -94,8 +93,7 @@ public class HomePageSteps {
             ));
         }
 
-        Type type = new TypeToken<List<UpdatePage.UpdateItem>>() {
-        }.getType();
+        Type type = new TypeToken<List<UpdatePage.UpdateItem>>() {}.getType();
         blazeLibrary.assertion().assertThat(homePageUpdateItems)
                 .usingElementComparator(new Comparator<>() {
                     @Override

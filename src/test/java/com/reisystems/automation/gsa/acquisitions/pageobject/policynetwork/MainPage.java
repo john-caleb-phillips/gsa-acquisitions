@@ -1,7 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
 
@@ -9,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MainPage extends PageObject {
+public class MainPage extends HasBlazeLibrary {
     public MainPage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
     }
@@ -22,12 +23,12 @@ public class MainPage extends PageObject {
                  | \
                 //div[contains(@class, 'cao-boxes')]//h3[.='%s']"""
                 .formatted(blockName, blockName, blockName)
-        )).click(blazeLibrary.defaults().REFRESH_PAGE);
+        )).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void clickOtherPolicyLink(String linkText) {
         blazeLibrary.getElement(By.xpath("//div[contains(@class, 'cao-boxes')]//h3[.='Other Policy Resources']/..//a[text()='%s']".formatted(linkText)
-        )).click(blazeLibrary.defaults().OPEN_WINDOW_OR_TAB);
+        )).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
     public boolean blockHasHeaderImage(String desiredBlock) {

@@ -1,7 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -12,7 +13,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class IsdcPage extends PageObject {
+public class IsdcPage extends HasBlazeLibrary {
     public IsdcPage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
     }
@@ -44,11 +45,11 @@ public class IsdcPage extends PageObject {
     }
 
     public void clickContentLink(String linkText) {
-        blazeLibrary.getElement(By.xpath("//div[@id='block-system-main']//a[@href][not(ancestor::table)][.='%s']".formatted(linkText))).click(blazeLibrary.defaults().REFRESH_PAGE, blazeLibrary.defaults().OPEN_WINDOW_OR_TAB);
+        blazeLibrary.getElement(By.xpath("//div[@id='block-system-main']//a[@href][not(ancestor::table)][.='%s']".formatted(linkText))).click(blazeLibrary.clickResults().REFRESH_PAGE, blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
     public void clickFooterLink(String linkText) {
-        blazeLibrary.getElement(By.xpath("//div[@id='block-menu-menu-about-the-isdc']//li//a[.='%s']".formatted(linkText))).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.xpath("//div[@id='block-menu-menu-about-the-isdc']//li//a[.='%s']".formatted(linkText))).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public List<List<String>> getDebarringOfficialsTable() {

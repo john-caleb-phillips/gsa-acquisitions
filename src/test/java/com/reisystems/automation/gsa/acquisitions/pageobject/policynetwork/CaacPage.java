@@ -1,11 +1,11 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class CaacPage extends PageObject {
+public class CaacPage extends HasBlazeLibrary {
 
     public CaacPage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
@@ -28,17 +28,17 @@ public class CaacPage extends PageObject {
 
     public void returnToMainPage() {
         blazeLibrary.getElement(By.xpath("//a[.='Return to CAAC Page']"))
-                .click(blazeLibrary.defaults().REFRESH_PAGE);
+                .click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void goToLettersPage() {
         blazeLibrary.getElement(By.xpath("//a[.='CAAC Letters' or .='Listing of CAAC Letters']"))
-                .click(blazeLibrary.defaults().REFRESH_PAGE);
+                .click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void goToMembersPage() {
         blazeLibrary.getElement(By.xpath("//a[.='List of CAAC Members' or .='Listing of CAAC Members']"))
-                .click(blazeLibrary.defaults().REFRESH_PAGE);
+                .click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public String getHeaderText() {
@@ -134,7 +134,7 @@ public class CaacPage extends PageObject {
         }
 
         public void clickSubject() {
-            row.findElement(By.xpath("./div[2]/a")).click(blazeLibrary.defaults().OPEN_WINDOW_OR_TAB);
+            row.findElement(By.xpath("./div[2]/a")).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
         }
     }
 

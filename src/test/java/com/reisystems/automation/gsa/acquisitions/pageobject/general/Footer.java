@@ -1,29 +1,30 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.general;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.PageObject;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
 
-public class Footer extends PageObject {
+public class Footer extends HasBlazeLibrary {
 
     public Footer(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
     }
 
     public void clickFooterLink(String linkText) {
-        blazeLibrary.getElement(locators.footerLink(linkText)).click(blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(locators.footerLink(linkText)).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void clickSiteInfoLink(String linkText) {
-        blazeLibrary.getElement(locators.siteInfoLink(linkText)).click(blazeLibrary.defaults().OPEN_WINDOW_OR_TAB, blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(locators.siteInfoLink(linkText)).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB, blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void clickIcon(String iconAltText) {
-        blazeLibrary.getElement(locators.icon(iconAltText)).click(blazeLibrary.defaults().OPEN_WINDOW_OR_TAB, blazeLibrary.defaults().REFRESH_PAGE);
+        blazeLibrary.getElement(locators.icon(iconAltText)).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB, blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void clickSignUpLink() {
-        blazeLibrary.getElement(locators.signUpLink()).click(blazeLibrary.defaults().OPEN_WINDOW_OR_TAB);
+        blazeLibrary.getElement(locators.signUpLink()).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
     private static class locators {

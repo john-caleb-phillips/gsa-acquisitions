@@ -2,7 +2,7 @@ package com.reisystems.automation.gsa.acquisitions.steps.archives;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.archives.SearchPage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchivesPages;
-import com.reisystems.blaze.blazeElement.BlazeWebElement;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Given;
@@ -86,7 +86,7 @@ public class ArchivesPageSteps {
 
         BlazeWebElement sorter = blazeLibrary.getElement(By.xpath("//a[@title='sort by FAC Number']"));
         if (sorter.isPresent()) {
-            sorter.click(blazeLibrary.defaults().REFRESH_PAGE);
+            sorter.click(blazeLibrary.clickResults().REFRESH_PAGE);
         }
         archive.search().forEachRowInTheSearchResults(
                 row -> {
@@ -108,7 +108,7 @@ public class ArchivesPageSteps {
     public void countArchives(String archiveType, String valueKey) {
         BlazeWebElement sorter = blazeLibrary.getElement(By.xpath("//a[@title='sort by FAC Number']"));
         if (sorter.isPresent()) {
-            sorter.click(blazeLibrary.defaults().REFRESH_PAGE);
+            sorter.click(blazeLibrary.clickResults().REFRESH_PAGE);
         }
 
         AtomicInteger numberOfInstances = new AtomicInteger(0);

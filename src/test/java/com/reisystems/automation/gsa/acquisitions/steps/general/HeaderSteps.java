@@ -2,11 +2,10 @@ package com.reisystems.automation.gsa.acquisitions.steps.general;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.Header;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.*;
 
-import java.util.HashMap;
-import java.util.List;
+import java.awt.image.BufferedImage;
 import java.util.Map;
 
 
@@ -18,32 +17,6 @@ public class HeaderSteps {
     public HeaderSteps(BlazeLibrary blazelibrary, Header header) {
         this.blazeLibrary = blazelibrary;
         this.header = header;
-    }
-
-
-    @When("I do a test:")
-    public void testing(List<String> regulations) {
-        int totalRows = 0;
-        Map<String, Integer> strToInt = new HashMap<>();
-        for (String regulation : regulations) {
-            clickRegulationsDropdownLink(regulation);
-
-            if (blazeLibrary.getElement(By.xpath("//table[@id='regulation-index-browse']")).isPresent()) {
-                int totalForRegulation = blazeLibrary.getElements(By.xpath("//table[@id='regulation-index-browse']//tr[not(.//th)]")).size();
-                totalRows += totalForRegulation;
-                strToInt.put(regulation, totalForRegulation);
-
-                blazeLibrary.assertion().assertThat(blazeLibrary.getElement(By.xpath("//table[@id='regulation-index-browse']//following-sibling::div")).getText())
-                        .as("Verifying footer for regulation: %s", regulation)
-                        .isEqualTo("Showing 1 to %s of %s entries".formatted(totalForRegulation, totalForRegulation));
-            }
-        }
-
-        System.out.println("Grand Total: " + totalRows);
-        System.out.println("Sub-Totals:");
-        for (String key : strToInt.keySet()) {
-            System.out.printf("%s: %s%n", key, strToInt.get(key));
-        }
     }
 
     @When("I click on coronavirus link in the header")
@@ -81,4 +54,14 @@ public class HeaderSteps {
         header.performSiteSearch(searchType, searchTerm);
     }
 
+    @Then("I see the following logos for the following regulations in the header:")
+    public void verifyHeaderRegulationLogos(Map<String, String> expectedLogos) {
+        for (Map.Entry<String, String> entry : expectedLogos.entrySet()) {
+            BufferedImage fromPage = header.getRegulationImage(entry.getKey());
+            BufferedImage fromFile = blazeLibrary.images().getFromFile(entry.getValue());
+            blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPage, 0))
+                    .as("Comparing image src for regulation '%s' in the header to the file named %s", entry.getKey(), entry.getValue())
+                    .isTrue();
+        }
+    }
 }
