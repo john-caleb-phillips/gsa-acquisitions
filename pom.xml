@@ -6,28 +6,53 @@
     <parent>
         <groupId>com.reisystems</groupId>
         <artifactId>automation.super</artifactId>
-        <version>0.0.1</version>
+        <version>0.0.3</version>
     </parent>
 
     <artifactId>automation.gsa.acquisitions</artifactId>
     <packaging>jar</packaging>
     <name>REI GSA Automation - Acquisitions.gov</name>
 
+    <!--
+    If not already done, the following will need to be added to either
+    ${maven.home}/conf/settings.xml or ${user.home}/.m2/settings.xml on your
+    local machine. This is so maven can correctly download the dependencies.
+    The PERSONAL-ACCESS-TOKEN requires at least package-read permissions.
+
+    <servers>
+        <server>
+            <id>github</id>
+            <username>GITHUB-USERNAME</username>
+            <password>PERSONAL-ACCESS-TOKEN</password>
+        </server>
+    </servers>
+     -->
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>GitHub John Caleb Phillips Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/john-caleb-phillips/testing-blaze</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>github</id>
+            <name>GitHub John Caleb Phillips Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/john-caleb-phillips/testing-blaze</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
         <dependency>
             <groupId>com.reisystems</groupId>
             <artifactId>automation.super.library</artifactId>
-            <version>0.0.1</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.super/library/target/automation.super.library-0.0.1.jar</systemPath>
+            <version>0.0.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.reisystems</groupId>
             <artifactId>automation.super.plugin</artifactId>
-            <version>0.0.1</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.super/plugin/target/automation.super.plugin-0.0.1.jar</systemPath>
+            <version>0.0.3</version>
         </dependency>
     </dependencies>
 
@@ -46,7 +71,7 @@
             <plugin>
                 <groupId>com.reisystems</groupId>
                 <artifactId>automation.super.plugin</artifactId>
-                <version>0.0.1</version>
+                <version>0.0.3</version>
                 <executions>
                     <execution>
                         <goals>

@@ -1,6 +1,7 @@
 package com.reisystems.automation.gsa.acquisitions.steps.general;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.Header;
+import com.reisystems.automation.gsa.acquisitions.pageobject.smartmartix.SmartMatrixPage;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

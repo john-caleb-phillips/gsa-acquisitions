@@ -5,7 +5,6 @@ Feature: Regulations - Table Format
   Scenario: Table Regulation - AFARS
     Given I am on the regulation page
     When I navigate to the "AFARS" regulation page
-    And I pause execution
     Then I see the regulation header is the following:
       """
       Army Federal Acquisition Regulation Supplement
