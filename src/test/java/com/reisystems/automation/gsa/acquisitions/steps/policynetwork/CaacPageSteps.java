@@ -30,9 +30,9 @@ public class CaacPageSteps {
     @When("^I navigate to the \"(Main|Letters|Members)\" CAAC page$")
     public void navigateToSubPage(String desiredPage) {
         switch (desiredPage) {
-            case "Main" -> policyNetworkPage.caac().returnToMainPage();
-            case "Letters" ->policyNetworkPage.caac().goToLettersPage();
-            case "Members" -> policyNetworkPage.caac().goToMembersPage();
+            case "Main": policyNetworkPage.caac().returnToMainPage(); break;
+            case "Letters": policyNetworkPage.caac().goToLettersPage(); break;
+            case "Members": policyNetworkPage.caac().goToMembersPage(); break;
         }
     }
 

@@ -175,7 +175,7 @@ Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
 
       MEMBERS' ADDRESSES AND PHONE NUMBERS
 
-      (Updated: 2/5/2020)
+      (Updated: 10/2/2020)
       """
 
   Scenario Outline: Verify Members page links work correctly

@@ -42,20 +42,20 @@ public class HomePage extends HasBlazeLibrary {
 
     private static class locators {
         private static By ovalButton(String buttonText) {
-            return By.xpath("//div[contains(@class, 'button-wrapper')]/a[text()='%s']".formatted(buttonText));
+            return By.xpath(String.format("//div[contains(@class, 'button-wrapper')]/a[text()='%s']", buttonText));
         }
         private static By ovalButtons() {
             return By.xpath("//div[contains(@class, 'button-wrapper')]/a[text()]");
         }
         private static By squareButton(String buttonText) {
-            return By.xpath("//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5') and .//h4[text()='%s']]".formatted(buttonText));
+            return By.xpath(String.format("//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5') and .//h4[text()='%s']]", buttonText));
         }
         private static By squareButtons() {
             return By.xpath("//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5')]//h4[text()]");
         }
         private static By squareButtonImage(String buttonText) {
             return By.xpath(
-                    "//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5') and .//h4[text()='%s']]//img".formatted(buttonText)
+                    String.format("//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5') and .//h4[text()='%s']]//img", buttonText)
             );
         }
     }

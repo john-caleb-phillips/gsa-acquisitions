@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.reisystems</groupId>
         <artifactId>automation.super</artifactId>
-        <version>0.0.3</version>
+        <version>0.0.4</version>
     </parent>
 
     <artifactId>automation.gsa.acquisitions</artifactId>
@@ -46,13 +46,13 @@
         <dependency>
             <groupId>com.reisystems</groupId>
             <artifactId>automation.super.library</artifactId>
-            <version>0.0.3</version>
+            <version>${parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.reisystems</groupId>
             <artifactId>automation.super.plugin</artifactId>
-            <version>0.0.3</version>
+            <version>${parent.version}</version>
         </dependency>
     </dependencies>
 

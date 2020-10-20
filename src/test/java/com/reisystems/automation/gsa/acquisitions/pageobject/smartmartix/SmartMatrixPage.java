@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,17 +23,28 @@ public class SmartMatrixPage extends HasBlazeLibrary {
     }
 
     public void collapseLegend() {
-        blazeLibrary.getElement(locators.expandButton()).click(
+        blazeLibrary.getElement(locators.collapseButton()).click(
                 () -> blazeLibrary.getElement(locators.farLegend()).isDisplayed() ? null : "collapsed the FAR matrix legend key"
         );
+    }
+
+    public String getLegend() {
+        return blazeLibrary.getElement(locators.farLegend()).getText();
+    }
+
+    public boolean isLegendVisible() {
+        return blazeLibrary.getElement(locators.farLegend()).isDisplayed();
     }
 
     public void clickVideoLink() {
         blazeLibrary.getElement(locators.videoLink()).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
-    public void showCompleteMatrix() {
-        blazeLibrary.getElement(locators.showCompleteMatrixCheckbox()).click();
+    public void selectShowCompleteMatrix(boolean shouldBeChecked) {
+        BlazeWebElement fullMatrixCheckbox = blazeLibrary.getElement(locators.showCompleteMatrixCheckbox());
+        if (fullMatrixCheckbox.isSelected() != shouldBeChecked) {
+            fullMatrixCheckbox.click(() -> fullMatrixCheckbox.isSelected() == shouldBeChecked ? "checked or unchecked the IBR checkbox" : null);
+        }
     }
 
     public void selectIBR(boolean shouldBeChecked) {
@@ -54,11 +64,20 @@ public class SmartMatrixPage extends HasBlazeLibrary {
     public void selectContract(Contract contract, boolean shouldBeChecked) {
         BlazeWebElement contractCheckbox = blazeLibrary.getElement(locators.contractCheckbox(contract));
         if (contractCheckbox.isSelected() != shouldBeChecked) {
-            contractCheckbox.click(() -> contractCheckbox.isSelected() == shouldBeChecked ? "checked or unchecked the %s contract checkbox".formatted(contract) : null);
+            contractCheckbox.click(() -> contractCheckbox.isSelected() == shouldBeChecked ? String.format("checked or unchecked the %s contract checkbox", contract) : null);
         }
     }
 
-    public void selectAdditionalFiltering(Contract contract, String value) {
+    public boolean contractDropdownIsActive(Contract contract) {
+        return blazeLibrary.getElement(locators.contractSelectBox(contract)).isEnabled();
+    }
+
+    public List<String> getContracts() {
+        return blazeLibrary.getElements(locators.contractList())
+                .stream().map(BlazeWebElement::getText).collect(Collectors.toList());
+    }
+
+    public void selectContractDropdownValue(Contract contract, String value) {
         blazeLibrary.getElement(locators.contractSelectBox(contract)).asDropdown().selectByVisibleText(value);
     }
 
@@ -86,17 +105,24 @@ public class SmartMatrixPage extends HasBlazeLibrary {
         blazeLibrary.getElement(locators.printButton()).click();
     }
 
-    public void searchTable(String searchTerm) {
+    public void searchTableFor(String searchTerm) {
         BlazeWebElement searchBox = blazeLibrary.getElement(locators.searchBox());
         searchBox.clear();
         searchBox.sendKeys(searchTerm);
     }
 
-    public void clickProvisionOrClause(String headerName) {
-
+    public void clickHeader(String headerText) {
+        blazeLibrary.getElement(locators.table()).findElement(locators.tableHeader(headerText)).click();
     }
 
-    public void clickPrescribedIn(String headerName) {
+    public void clickProvisionOrClause(int rowNumber, int columnNumber) {
+        BlazeWebElement table = blazeLibrary.getElement(locators.table());
+        BlazeWebElement cell = table
+                .findElement(By.xpath(String.format(".//tr[%s]//td[%s]//a", rowNumber, columnNumber + 1)));
+        cell.click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
+    }
+
+    public void clickPrescribedIn(int rowNumber) {
 
     }
 
@@ -131,7 +157,8 @@ public class SmartMatrixPage extends HasBlazeLibrary {
     }
 
     public List<String> getTableColumn(String columnName) {
-        return blazeLibrary.getElement(locators.table()).findElements(locators.tableColumn(columnName))
+        return blazeLibrary.getElement(locators.table())
+                .findElements(By.xpath(String.format(".//td[%s]", getTableHeaders().indexOf(columnName) + 1)))
                 .stream().map(BlazeWebElement::getText).collect(Collectors.toList());
     }
 
@@ -160,7 +187,6 @@ public class SmartMatrixPage extends HasBlazeLibrary {
         }
         return tableRows;
     }
-
 
 
     public enum Contract {
@@ -200,7 +226,7 @@ public class SmartMatrixPage extends HasBlazeLibrary {
         }
 
         private static By farLegend() {
-           return By.xpath("//table[@id='far-legend-key']");
+            return By.xpath("//table[@id='far-legend-key']//tbody");
         }
 
         private static By videoLink() {
@@ -219,15 +245,17 @@ public class SmartMatrixPage extends HasBlazeLibrary {
             return By.xpath("//input[@id='edit-field-ucf']");
         }
 
+        private static By contractList() {
+            return By.xpath("//div[@id='selection-contract']//input//following-sibling::label");
+        }
+
         private static By contractCheckbox(Contract contract) {
-            return By.xpath("//label[normalize-space(.)='%s']//preceding-sibling::input"
-                    .formatted(contract.name())
+            return By.xpath(String.format("//label[normalize-space(.)='%s']//preceding-sibling::input", contract.name())
             );
         }
 
         private static By contractSelectBox(Contract contract) {
-            return By.xpath("//label[normalize-space(.)='%s']//following-sibling::div//select"
-                    .formatted(contract.name())
+            return By.xpath(String.format("//label[normalize-space(.)='%s']//following-sibling::div//select", contract.name())
             );
         }
 
@@ -271,8 +299,12 @@ public class SmartMatrixPage extends HasBlazeLibrary {
             return By.xpath(".//div[@class='dataTables_scrollHead']//thead//th");
         }
 
+        private static By tableHeader(String headerText) {
+            return By.xpath(String.format(".//div[@class='dataTables_scrollHead']//thead//th[normalize-space(.)='%s']", headerText));
+        }
+
         private static By tableColumn(String columnName) {
-            return By.xpath("//td[.//ancestor::table//th[normalize-space(.)='%1$s'] and (count(preceding-sibling::td) = count(.//ancestor::table//th[normalize-space(.)='%1$s']/preceding-sibling::th))]".formatted(columnName));
+            return By.xpath(String.format("//td[.//ancestor::table//th[normalize-space(.)='%1$s'] and (count(preceding-sibling::td) = count(.//ancestor::table//th[normalize-space(.)='%1$s']/preceding-sibling::th))]", columnName));
         }
 
         private static By tableRow() {
@@ -282,7 +314,5 @@ public class SmartMatrixPage extends HasBlazeLibrary {
         private static By tableRowCell() {
             return By.xpath(".//td");
         }
-
-
     }
 }

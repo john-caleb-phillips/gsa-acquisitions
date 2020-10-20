@@ -54,8 +54,8 @@ public class NewsPage extends HasBlazeLibrary {
         }
 
         public String toString() {
-            return "NewsItem(day='%s',month='%s',year='%s',title='%s',content='%s')"
-                    .formatted(day, month, year, title, content);
+            return String.format("NewsItem(day='%s',month='%s',year='%s',title='%s',content='%s')",
+                    day, month, year, title, content);
         }
     }
 

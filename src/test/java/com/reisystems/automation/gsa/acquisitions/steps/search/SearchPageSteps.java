@@ -188,14 +188,14 @@ public class SearchPageSteps {
     @When("I filter by archive type {string}")
     public void filterByArchiveType(String desiredArchiveType) {
         expandSidebars();
-        blazeLibrary.getElement(By.xpath("//div[contains(@class, 'block-facetapi') and .//h2[.='Filter by archive type:']]//li/a/text()[normalize-space(.)='%s']/..".formatted(desiredArchiveType)))
+        blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'block-facetapi') and .//h2[.='Filter by archive type:']]//li/a/text()[normalize-space(.)='%s']/..", desiredArchiveType)))
                 .click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     @When("I filter by year {string}")
     public void filterByYear(String desiredYear) {
         expandSidebars();
-        blazeLibrary.getElement(By.xpath("//div[contains(@class, 'block-facetapi') and .//h2[.='Filter by year:']]//li/a/text()[normalize-space(.)='%s']/..".formatted(desiredYear)))
+        blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'block-facetapi') and .//h2[.='Filter by year:']]//li/a/text()[normalize-space(.)='%s']/..", desiredYear)))
                 .click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 

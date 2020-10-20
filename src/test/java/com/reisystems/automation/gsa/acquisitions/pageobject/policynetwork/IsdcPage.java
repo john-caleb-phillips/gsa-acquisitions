@@ -45,11 +45,11 @@ public class IsdcPage extends HasBlazeLibrary {
     }
 
     public void clickContentLink(String linkText) {
-        blazeLibrary.getElement(By.xpath("//div[@id='block-system-main']//a[@href][not(ancestor::table)][.='%s']".formatted(linkText))).click(blazeLibrary.clickResults().REFRESH_PAGE, blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
+        blazeLibrary.getElement(By.xpath(String.format("//div[@id='block-system-main']//a[@href][not(ancestor::table)][.='%s']", linkText))).click(blazeLibrary.clickResults().REFRESH_PAGE, blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
     public void clickFooterLink(String linkText) {
-        blazeLibrary.getElement(By.xpath("//div[@id='block-menu-menu-about-the-isdc']//li//a[.='%s']".formatted(linkText))).click(blazeLibrary.clickResults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.xpath(String.format("//div[@id='block-menu-menu-about-the-isdc']//li//a[.='%s']", linkText))).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public List<List<String>> getDebarringOfficialsTable() {

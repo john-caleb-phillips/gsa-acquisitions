@@ -43,8 +43,8 @@ public class Header extends HasBlazeLibrary {
         blazeLibrary.mouseAndKeyboard().moveToElement(blazeLibrary.getElement(locators.topLevelLink("Search"))).perform();
         blazeLibrary.getElement(locators.searchTextBox()).sendKeys(searchTerm);
         switch(type) {
-            case site -> blazeLibrary.getElement(locators.searchSiteToggle()).click();
-            case regulation -> blazeLibrary.getElement(locators.searchRegulationToggle()).click();
+            case site: blazeLibrary.getElement(locators.searchSiteToggle()).click(); break;
+            case regulation: blazeLibrary.getElement(locators.searchRegulationToggle()).click(); break;
         }
         blazeLibrary.getElement(locators.searchSubmitButton()).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
@@ -67,17 +67,17 @@ public class Header extends HasBlazeLibrary {
             return By.xpath("//div[contains(@class, 'top-wrapper')]//div[@id='header-bar']/a");
         }
         private static By topLevelLink(String linkText) {
-            return By.xpath("""
-                    //div[contains(@class, 'top-wrapper')]
-                    //ul[contains(@class, 'level-0')]
-                    /li/a[@title='%s' or normalize-space(.)='%s']
-                    """.formatted(linkText, linkText));
+            return By.xpath(String.format(""
+                    + "//div[contains(@class, 'top-wrapper')]"
+                    + "//ul[contains(@class, 'level-0')]"
+                    + "/li/a[@title='%s' or normalize-space(.)='%s']",
+                    linkText, linkText));
         }
         private static By regulationDropdownLink(String linkText) {
-            return By.xpath("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Regulations']]//div//a[normalize-space(.)='%s']".formatted(linkText));
+            return By.xpath(String.format("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Regulations']]//div//a[normalize-space(.)='%s']", linkText));
         }
         private static By policyNetworkDropdownLink(String linkText) {
-            return By.xpath("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Policy Network Home']]//li/a[normalize-space(.)='%s']".formatted(linkText));
+            return By.xpath(String.format("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Policy Network Home']]//li/a[normalize-space(.)='%s']", linkText));
         }
         private static By searchTextBox() {
             return By.xpath("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Search']]//input[@type='text']");
@@ -92,7 +92,7 @@ public class Header extends HasBlazeLibrary {
             return By.xpath("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Search']]//input[@type='submit']");
         }
         private static By regulationImage(String regulationName) {
-            return By.xpath("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Regulations']]//div//a[normalize-space(.)='%s']//img".formatted(regulationName));
+            return By.xpath(String.format("//div[contains(@class, 'top-wrapper')]//li[.//a[@title='Regulations']]//div//a[normalize-space(.)='%s']//img", regulationName));
         }
     }
 }

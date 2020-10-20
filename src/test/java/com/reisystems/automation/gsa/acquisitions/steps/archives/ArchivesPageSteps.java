@@ -299,8 +299,8 @@ public class ArchivesPageSteps {
         for (ArchiveDetails detail : theSavedDetails) {
             for (ArchiveDownloadLink downloadLink : detail.downloadLinks) {
                 blazeLibrary.assertion().assertThat(expectedDownloadLinks)
-                        .as("[%s:%s] There was an unexpected download link: %s"
-                                .formatted(detail.rowArchiveType, detail.rowFacNumber, downloadLink.header))
+                        .as("[%s:%s] There was an unexpected download link: %s",
+                                detail.rowArchiveType, detail.rowFacNumber, downloadLink.header)
                         .contains(downloadLink.header);
             }
         }
@@ -311,8 +311,8 @@ public class ArchivesPageSteps {
         for (ArchiveDetails detail : theSavedDetails) {
             for (String header : detail.headers) {
                 blazeLibrary.assertion().assertThat(expectedHeaders)
-                        .as("[%s:%s] There was an unexpected header: %s"
-                                .formatted(detail.rowArchiveType, detail.rowFacNumber, header))
+                        .as("[%s:%s] There was an unexpected header: %s",
+                                detail.rowArchiveType, detail.rowFacNumber, header)
                         .contains(header);
             }
         }
@@ -405,7 +405,7 @@ public class ArchivesPageSteps {
         }
 
         public String toString() {
-            return "ArchiveDownloadLink(header='%s',text='%s',url='%s')".formatted(header, text, url);
+            return String.format("ArchiveDownloadLink(header='%s',text='%s',url='%s')", header, text, url);
         }
     }
 

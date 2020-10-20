@@ -21,8 +21,8 @@ public class CaocPage extends HasBlazeLibrary {
     }
 
     public void goToSubPage(String subPage) {
-        BlazeWebElement toClick = blazeLibrary.getElement(By.xpath("//div[contains(@class, 'cao-gov-menu')]//div[contains(@class, 'dropdown')]//a[normalize-space(.)='%s']".formatted(subPage)));
-        BlazeWebElement dropdownHeader = blazeLibrary.getElement(By.xpath("//div[contains(@class, 'cao-gov-menu')]//div[contains(@class, 'dropdown')]//a[normalize-space(.)='%s']/../..//button".formatted(subPage)));
+        BlazeWebElement toClick = blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'cao-gov-menu')]//div[contains(@class, 'dropdown')]//a[normalize-space(.)='%s']", subPage)));
+        BlazeWebElement dropdownHeader = blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'cao-gov-menu')]//div[contains(@class, 'dropdown')]//a[normalize-space(.)='%s']/../..//button", subPage)));
         blazeLibrary.mouseAndKeyboard().moveToElement(dropdownHeader).perform();
         toClick.click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
@@ -49,7 +49,7 @@ public class CaocPage extends HasBlazeLibrary {
     }
 
     public void clickSideBarLink(String linkText) {
-        blazeLibrary.getElement(By.xpath("//div[contains(@class, 'caoc-resources')]//a[normalize-space(.)='%s']".formatted(linkText)))
+        blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'caoc-resources')]//a[normalize-space(.)='%s']", linkText)))
                 .click(blazeLibrary.clickResults().REFRESH_PAGE, blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
@@ -66,12 +66,12 @@ public class CaocPage extends HasBlazeLibrary {
 
     public String getAgencyPrinciple(String agencyName) {
         showAllAgencies();
-        return blazeLibrary.getElement(By.xpath("//tbody//tr/td[1][normalize-space(.)='%s']/../td[2]".formatted(agencyName))).getText();
+        return blazeLibrary.getElement(By.xpath(String.format("//tbody//tr/td[1][normalize-space(.)='%s']/../td[2]", agencyName))).getText();
     }
 
     public String getAgencyAlternate(String agencyName) {
         showAllAgencies();
-        return blazeLibrary.getElement(By.xpath("//tbody//tr/td[1][normalize-space(.)='%s']/../td[3]".formatted(agencyName))).getText();
+        return blazeLibrary.getElement(By.xpath(String.format("//tbody//tr/td[1][normalize-space(.)='%s']/../td[3]", agencyName))).getText();
     }
 
     private void showAllAgencies() {

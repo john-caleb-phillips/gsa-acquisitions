@@ -104,22 +104,22 @@ public class SearchPage extends HasBlazeLibrary {
         }
 
         public String getFacNumber() {
-            return blazeLibrary.getElement(By.xpath("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[1]".formatted(rowNumber))).getText();
+            return blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[1]", rowNumber))).getText();
         }
 
         public String getArchiveType() {
-            return blazeLibrary.getElement(By.xpath("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[2]".formatted(rowNumber))).getText();
+            return blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[2]", rowNumber))).getText();
         }
 
         public LocalDate getEffectiveDate() {
             return LocalDate.parse(
-                    blazeLibrary.getElement(By.xpath("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[4]".formatted(rowNumber))).getText(),
+                    blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[4]", rowNumber))).getText(),
                     DateTimeFormatter.ofPattern("MMM dd,uuuu")
             );
         }
 
         public String getZipFileName() {
-            BlazeWebElement zipFileLink = blazeLibrary.getElement(By.xpath("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[5]//a".formatted(rowNumber)));
+            BlazeWebElement zipFileLink = blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[5]//a", rowNumber)));
             if (zipFileLink.isPresent()) {
                 return zipFileLink.getAttribute("aria-label");
             } else {
@@ -129,7 +129,7 @@ public class SearchPage extends HasBlazeLibrary {
 
         public URL getZipFileUrl() {
             try {
-                BlazeWebElement zipFileLink = blazeLibrary.getElement(By.xpath("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[5]//a".formatted(rowNumber)));
+                BlazeWebElement zipFileLink = blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[5]//a", rowNumber)));
                 if (zipFileLink.isPresent()) {
                     return new URL(zipFileLink.getAttribute("href"));
                 } else {
@@ -141,7 +141,7 @@ public class SearchPage extends HasBlazeLibrary {
         }
 
         public String getPdfFileName() {
-            BlazeWebElement pdfFileLink = blazeLibrary.getElement(By.xpath("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[6]//a".formatted(rowNumber)));
+            BlazeWebElement pdfFileLink = blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[6]//a", rowNumber)));
             if (pdfFileLink.isPresent()) {
                 return pdfFileLink.getAttribute("aria-label");
             } else {
@@ -151,7 +151,7 @@ public class SearchPage extends HasBlazeLibrary {
 
         public URL getPdfFileUrl() {
             try {
-                BlazeWebElement pdfFileLink = blazeLibrary.getElement(By.xpath("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[6]//a".formatted(rowNumber)));
+                BlazeWebElement pdfFileLink = blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[6]//a", rowNumber)));
                 if (pdfFileLink.isPresent()) {
                     return new URL(pdfFileLink.getAttribute("href"));
                 } else {
@@ -163,7 +163,7 @@ public class SearchPage extends HasBlazeLibrary {
         }
 
         public void clickFacNumber() {
-            blazeLibrary.getElement(By.xpath("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[1]/a".formatted(rowNumber))).click(blazeLibrary.clickResults().REFRESH_PAGE);
+            blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'view-archives')]//tbody/tr[%s]/td[1]/a", rowNumber))).click(blazeLibrary.clickResults().REFRESH_PAGE);
         }
     }
 }

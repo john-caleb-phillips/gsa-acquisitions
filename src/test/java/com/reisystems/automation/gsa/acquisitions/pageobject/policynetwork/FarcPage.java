@@ -34,11 +34,11 @@ public class FarcPage extends HasBlazeLibrary {
     }
 
     public void clickFooterLink(String linkText) {
-        blazeLibrary.getElement(By.xpath("//div[@id='block-menu-menu-about-the-far-council']//li//a[.='%s']".formatted(linkText))).click(blazeLibrary.clickResults().REFRESH_PAGE);
+        blazeLibrary.getElement(By.xpath(String.format("//div[@id='block-menu-menu-about-the-far-council']//li//a[.='%s']", linkText))).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
     public void clickFarcMemorandaLink(String linkText) {
-        blazeLibrary.getElement(By.xpath("//div[contains(@class, 'field-items')]//a[.='%s']".formatted(linkText))).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
+        blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'field-items')]//a[.='%s']", linkText))).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
 }

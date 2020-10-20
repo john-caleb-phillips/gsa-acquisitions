@@ -69,11 +69,11 @@ public class TablePage extends HasBlazeLibrary {
         }
 
         public String getNumber() {
-            return blazeLibrary.getElement(By.xpath("//table[@id='regulation-index-browse']//tbody//tr[%s]//td[1]".formatted(rowNumber))).getText();
+            return blazeLibrary.getElement(By.xpath(String.format("//table[@id='regulation-index-browse']//tbody//tr[%s]//td[1]", rowNumber))).getText();
         }
 
         public String getTitle() {
-            return blazeLibrary.getElement(By.xpath("//table[@id='regulation-index-browse']//tbody//tr[%s]//td[2]".formatted(rowNumber))).getText();
+            return blazeLibrary.getElement(By.xpath(String.format("//table[@id='regulation-index-browse']//tbody//tr[%s]//td[2]", rowNumber))).getText();
         }
     }
 

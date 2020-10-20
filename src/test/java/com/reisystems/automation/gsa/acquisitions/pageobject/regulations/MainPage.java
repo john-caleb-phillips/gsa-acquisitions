@@ -46,13 +46,13 @@ public class MainPage extends HasBlazeLibrary {
 
     private static class locators {
         private static By regulationLink(String regulationName) {
-            return By.xpath("//div[@class='field-items']//a[normalize-space(.)='%s']".formatted(regulationName));
+            return By.xpath(String.format("//div[@class='field-items']//a[normalize-space(.)='%s']", regulationName));
         }
         private static By regulationLinks() {
             return By.xpath("//div[@class='field-items']//a");
         }
         private static By regulationImage(String regulationName) {
-            return By.xpath("//div[@class='field-items']//a[normalize-space(.)='%s']//img".formatted(regulationName));
+            return By.xpath(String.format("//div[@class='field-items']//a[normalize-space(.)='%s']//img", regulationName));
         }
     }
 }

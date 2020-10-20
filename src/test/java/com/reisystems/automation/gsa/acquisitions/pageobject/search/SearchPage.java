@@ -40,7 +40,7 @@ public class SearchPage extends HasBlazeLibrary {
     }
 
     public List<SearchFilterOption> getFilterOptions(String filterName) {
-        By optionsLocator = By.xpath("//div[(contains(@class, 'block-facetapi') or contains(@class, 'block-apachesolr-search')) and .//h2[.='%s']]//li".formatted(filterName));
+        By optionsLocator = By.xpath(String.format("//div[(contains(@class, 'block-facetapi') or contains(@class, 'block-apachesolr-search')) and .//h2[.='%s']]//li", filterName));
         return blazeLibrary.getElements(optionsLocator).stream()
                 .map(option -> Arrays.stream(option.getText().trim().split("\n"))
                         .filter(part -> (!part.startsWith("Apply") && !part.startsWith("Remove")) || !part.endsWith("filter"))
@@ -98,7 +98,7 @@ public class SearchPage extends HasBlazeLibrary {
     public void setOtherRegulationsCriteria(List<String> desiredOrigins) {
         blazeLibrary.getElement(By.xpath("//label[@for='other-checkbox']")).click();
         for (String desiredOrigin : desiredOrigins) {
-            blazeLibrary.getElement(By.xpath("//form[@id='advanced-search-form']//label[.='%s']/preceding-sibling::input".formatted(desiredOrigin))).click();
+            blazeLibrary.getElement(By.xpath(String.format("//form[@id='advanced-search-form']//label[.='%s']/preceding-sibling::input", desiredOrigin))).click();
         }
         blazeLibrary.getElement(By.xpath("//form[@id='advanced-search-form']//input[@class='ad-submit']")).click();
     }
@@ -111,15 +111,15 @@ public class SearchPage extends HasBlazeLibrary {
         }
 
         public void goToDetailPage() {
-            blazeLibrary.getElement(By.xpath("//li[@class='search-result'][%s]//h3/a".formatted( rowNumber))).click(blazeLibrary.clickResults().REFRESH_PAGE);
+            blazeLibrary.getElement(By.xpath(String.format("//li[@class='search-result'][%s]//h3/a",  rowNumber))).click(blazeLibrary.clickResults().REFRESH_PAGE);
         }
 
         public SearchRow getInfo() {
             return new SearchRow(
-                    blazeLibrary.getElement(By.xpath("//li[@class='search-result'][%s]//h3/a".formatted(rowNumber))).getText().trim(),
-                    blazeLibrary.getElement(By.xpath("//li[@class='search-result'][%s]//div[@class='search-snippet-info']".formatted(rowNumber))).getText().trim(),
-                    blazeLibrary.getElement(By.xpath("//li[@class='search-result'][%s]//div[@class='download']".formatted(rowNumber))).getText().trim(),
-                    blazeLibrary.getElements(By.xpath("//li[@class='search-result'][%s]//div[@class='search-snippet-info']//*".formatted(rowNumber)))
+                    blazeLibrary.getElement(By.xpath(String.format("//li[@class='search-result'][%s]//h3/a", rowNumber))).getText().trim(),
+                    blazeLibrary.getElement(By.xpath(String.format("//li[@class='search-result'][%s]//div[@class='search-snippet-info']", rowNumber))).getText().trim(),
+                    blazeLibrary.getElement(By.xpath(String.format("//li[@class='search-result'][%s]//div[@class='download']", rowNumber))).getText().trim(),
+                    blazeLibrary.getElements(By.xpath(String.format("//li[@class='search-result'][%s]//div[@class='search-snippet-info']//*", rowNumber)))
                             .stream().filter(el -> el.getCssValue("background-color").equals("rgba(255, 255, 0, 1)"))
                             .map(BlazeWebElement::getText).collect(Collectors.toList())
             );
@@ -140,7 +140,7 @@ public class SearchPage extends HasBlazeLibrary {
         }
 
         public String toString() {
-            return "SearchRow(title='%s',content='%s',origin='%s')".formatted(title, content, origin);
+            return String.format("SearchRow(title='%s',content='%s',origin='%s')", title, content, origin);
         }
     }
 

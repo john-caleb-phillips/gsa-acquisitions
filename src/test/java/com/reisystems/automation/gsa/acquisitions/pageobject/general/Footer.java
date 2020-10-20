@@ -29,13 +29,13 @@ public class Footer extends HasBlazeLibrary {
 
     private static class locators {
         private static By footerLink(String linkText) {
-            return By.xpath("//div[contains(@class, 'footer-links')]//a[text()='%s']".formatted(linkText));
+            return By.xpath(String.format("//div[contains(@class, 'footer-links')]//a[text()='%s']", linkText));
         }
         private static By siteInfoLink(String linkText) {
-            return By.xpath("//p[contains(@class, 'site-info-footer')]//a[text()='%s']".formatted(linkText));
+            return By.xpath(String.format("//p[contains(@class, 'site-info-footer')]//a[text()='%s']", linkText));
         }
         private static By icon(String linkText) {
-            return By.xpath("//div[@id='footer-link']//p[.='Share the FAR']//following-sibling::div//img[contains(@src, '%s-icon')]".formatted(linkText.toLowerCase()));
+            return By.xpath(String.format("//div[@id='footer-link']//p[.='Share the FAR']//following-sibling::div//img[contains(@src, '%s-icon')]", linkText.toLowerCase()));
         }
         private static By signUpLink() {
             return By.xpath("//div[@id='footer-link']//h4//a");

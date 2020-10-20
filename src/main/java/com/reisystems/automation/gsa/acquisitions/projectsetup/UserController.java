@@ -15,11 +15,11 @@ public class UserController implements UserInfoController {
 
     @Override
     public String getUserInfo(String userIdentifier, String userInfo) {
-        return switch (userInfo) {
-            case "Username" -> getUserName(userIdentifier);
-            case "Password" -> getPassword(userIdentifier);
-            default -> throw new RuntimeException("This info is not supported");
-        };
+        switch (userInfo) {
+            case "Username": return getUserName(userIdentifier);
+            case "Password": return getPassword(userIdentifier);
+            default: throw new RuntimeException("This info is not supported");
+        }
     }
 
     public String getUserName(String userLevel) {

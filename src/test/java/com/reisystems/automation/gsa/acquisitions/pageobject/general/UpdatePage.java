@@ -44,7 +44,7 @@ public class UpdatePage extends HasBlazeLibrary {
         }
 
         public String toString() {
-            return "UpdateItem(section='%s',caseNumber='%s')".formatted(section, caseNumber);
+            return String.format("UpdateItem(section='%s',caseNumber='%s')", section, caseNumber);
         }
     }
 }

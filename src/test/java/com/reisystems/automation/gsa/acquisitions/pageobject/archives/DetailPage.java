@@ -89,7 +89,7 @@ public class DetailPage extends HasBlazeLibrary {
 
     private static class locators {
         private static By header(String headerText) {
-            return By.xpath("//div[@class='field-label' and contains(., '%s')]".formatted(headerText));
+            return By.xpath(String.format("//div[@class='field-label' and contains(., '%s')]", headerText));
         }
         private static By headers() {
             return By.xpath("//div[@class='field-label']");
@@ -101,10 +101,10 @@ public class DetailPage extends HasBlazeLibrary {
             return By.xpath("//div[@id='middlecontent']");
         }
         private static By headerContent(String headerText) {
-            return By.xpath("//div[@class='field-label' and contains(., '%s')]//following-sibling::div".formatted(headerText));
+            return By.xpath(String.format("//div[@class='field-label' and contains(., '%s')]//following-sibling::div", headerText));
         }
         private static By downloadLink(String headerText) {
-            return By.xpath("//div[@class='field-label' and contains(., '%s')]//following-sibling::div//a".formatted(headerText));
+            return By.xpath(String.format("//div[@class='field-label' and contains(., '%s')]//following-sibling::div//a", headerText));
         }
     }
 
