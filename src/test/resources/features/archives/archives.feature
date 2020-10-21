@@ -15,7 +15,7 @@ Feature: Archives
     Then I see that all archive effective dates are before 2020-01-01
 
   @unique-archive-fac-numbers
-  Scenario Outline: Every "<Archive Type>" archive has has a unique FAC Number
+  Scenario Outline: Every "<Archive Type>" archive has a unique FAC Number
     Given I am on the archives page
     When I perform an archive search for "<Archive Type>"
     Then I see every archive has a unique fac number

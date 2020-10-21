@@ -102,21 +102,27 @@ Feature: Smart Matrix
     And I apply the filters
     Then the table can be sorted on any of the columns
 
+  @provision-or-clause-column-format
+  Scenario: 'Provision or Clause' column format
+    When I check the box to show the complete matrix
+    And I apply the filters
+    Then all values under the "Provision or Clause" column are in the right format
+
   @prescribed-in-column-format
-  Scenario: Table Column Sorting Works Correctly
+  Scenario: 'Prescribed in' Column Format
     When I check the box to show the complete matrix
     And I apply the filters
     Then all values under the "Prescribed in" column are in the right format
 
-    @wip
-  Scenario: Provision or Clause Links Work Correctly
+  @provision-or-clause-links-work-correctly
+  Scenario: 'Provision or Clause' Links Work Correctly
     When I check the box to show the complete matrix
     And I apply the filters
     When I click any of the links in the "Provision or Clause" column
     Then I am taken to the correct page
 
-  @wip
-  Scenario: Prescribed In Links Work Correctly
+  @prescribed-in-links-work-correctly
+  Scenario: 'Prescribed in' Links Work Correctly
     When I check the box to show the complete matrix
     And I apply the filters
     When I click any of the links in the "Prescribed in" column

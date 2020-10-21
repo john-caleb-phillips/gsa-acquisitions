@@ -3,6 +3,7 @@ package com.reisystems.automation.gsa.acquisitions.pageobject.smartmartix;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.interfaces.ClickResult;
 import org.openqa.selenium.By;
 
 import java.lang.reflect.Field;
@@ -111,21 +112,24 @@ public class SmartMatrixPage extends HasBlazeLibrary {
         searchBox.sendKeys(searchTerm);
     }
 
-    public void clickHeader(String headerText) {
-        blazeLibrary.getElement(locators.table()).findElement(locators.tableHeader(headerText)).click();
+    public void clickTableCell(int rowNumber, int columnNumber) {
+        blazeLibrary.getElement(locators.table())
+                .findElement(By.xpath(String.format(".//tr[%s]//td[%s]//a", rowNumber, columnNumber)))
+                .click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
-    public void clickProvisionOrClause(int rowNumber, int columnNumber) {
-        BlazeWebElement table = blazeLibrary.getElement(locators.table());
-        BlazeWebElement cell = table
-                .findElement(By.xpath(String.format(".//tr[%s]//td[%s]//a", rowNumber, columnNumber + 1)));
-        cell.click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
+    public void sortColumn(String headerText, Sort ascOrDesc) {
+        BlazeWebElement header = blazeLibrary.getElement(locators.table()).findElement(locators.tableHeader(headerText));
+        if (ascOrDesc == Sort.ASCENDING) {
+            if (!header.getAttribute("class").contains("sorting_asc")) {
+                header.click(() -> header.getAttribute("class").contains("sorting_asc") ? String.format("sorted column '%s' in ascending order", headerText) : null);
+            }
+        } else {
+            if (!header.getAttribute("class").contains("sorting_desc")) {
+                header.click(() -> header.getAttribute("class").contains("sorting_desc") ? String.format("sorted column '%s' in descending order", headerText) : null);
+            }
+        }
     }
-
-    public void clickPrescribedIn(int rowNumber) {
-
-    }
-
 
     /* Accessor Methods */
 
@@ -146,7 +150,6 @@ public class SmartMatrixPage extends HasBlazeLibrary {
                 .asDropdown().getFirstSelectedOption().getText().equals(value);
     }
 
-
     public String getTableTitle() {
         return blazeLibrary.getElement(locators.table()).findElement(locators.tableTitle()).getText();
     }
@@ -160,6 +163,12 @@ public class SmartMatrixPage extends HasBlazeLibrary {
         return blazeLibrary.getElement(locators.table())
                 .findElements(By.xpath(String.format(".//td[%s]", getTableHeaders().indexOf(columnName) + 1)))
                 .stream().map(BlazeWebElement::getText).collect(Collectors.toList());
+    }
+
+    public String getTableCell(int rowNumber, int columnNumber) {
+        return blazeLibrary.getElement(locators.table())
+                .findElement(By.xpath(String.format(".//tbody//tr[%s]", rowNumber)))
+                .findElement(By.xpath(String.format(".//td[%s]", columnNumber))).getText();
     }
 
     public Map<String, List<String>> getTableColumns() {
@@ -188,7 +197,6 @@ public class SmartMatrixPage extends HasBlazeLibrary {
         return tableRows;
     }
 
-
     public enum Contract {
         FP_SUP("FP SUP"), CR_SUP("CR SUP"),
         FP_RND("FP R&D"), CR_RND("CR R&D"),
@@ -214,6 +222,11 @@ public class SmartMatrixPage extends HasBlazeLibrary {
                 throw new RuntimeException("Could not reset the name of the Contract enum values: " + e.toString());
             }
         }
+    }
+
+    public enum Sort {
+        ASCENDING,
+        DESCENDING
     }
 
     private static class locators {

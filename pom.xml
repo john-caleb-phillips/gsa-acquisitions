@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.reisystems</groupId>
         <artifactId>automation.super</artifactId>
-        <version>0.0.5</version>
+        <version>0.0.6</version>
     </parent>
 
     <artifactId>automation.gsa.acquisitions</artifactId>
@@ -17,13 +17,14 @@
     If not already done, the following will need to be added to either
     ${maven.home}/conf/settings.xml or ${user.home}/.m2/settings.xml on your
     local machine. This is so maven can correctly download the dependencies.
-    The PERSONAL-ACCESS-TOKEN requires at least package-read permissions.
+    By default, ${user.home} should be C:/Users/your.name
+    (Obviously, if your own github token is set up you do not need to use mine)
 
     <servers>
         <server>
             <id>github</id>
-            <username>GITHUB-USERNAME</username>
-            <password>PERSONAL-ACCESS-TOKEN</password>
+            <username>john-caleb-phillips</username>
+            <password>b1b1f0845e89940c06ace48b59fe109dd0e5073c</password>
         </server>
     </servers>
      -->
@@ -83,6 +84,8 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <orgName>GSA</orgName>
+                    <projectName>Acquisition.gov Functional Automation</projectName>
                     <stepPackages>
                         <stepPackage>com.reisystems.automation.gsa.acquisitions.steps</stepPackage>
                     </stepPackages>
