@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.reisystems</groupId>
         <artifactId>automation.super</artifactId>
-        <version>0.0.10</version>
+        <version>0.0.11</version>
     </parent>
 
     <artifactId>automation.gsa.acquisitions</artifactId>
@@ -48,9 +48,6 @@
             <groupId>com.reisystems</groupId>
             <artifactId>automation.super.library</artifactId>
             <version>${project.parent.version}</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/john.phillips/IdeaProjects/automation.super/library/target/automation.super.library-0.0.10.jar</systemPath>
-
         </dependency>
 
         <dependency>
