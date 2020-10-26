@@ -1,35 +1,40 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
 
+import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.caac.CaacMainPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.caoc.CaocMainPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.farc.FarcMainPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.isdc.IsdcMainPage;
+
 public class PolicyNetworkPages {
 
-    private final MainPage mainPage;
-    private final CaacPage caacPage;
-    private final CaocPage caocPage;
-    private final FarcPage farcPage;
-    private final IsdcPage isdcPage;
+    private final MainPolicyNetworkPage mainPolicyNetworkPage;
+    private final CaacMainPage caacMainPage;
+    private final CaocMainPage caocMainPage;
+    private final FarcMainPage farcMainPage;
+    private final IsdcMainPage isdcMainPage;
 
-    public PolicyNetworkPages(MainPage main, CaacPage caac, CaocPage caoc, FarcPage farc, IsdcPage isdc) {
-        this.mainPage = main;
-        this.caacPage = caac;
-        this.caocPage = caoc;
-        this.farcPage = farc;
-        this.isdcPage = isdc;
+    public PolicyNetworkPages(MainPolicyNetworkPage main, CaacMainPage caac, CaocMainPage caoc, FarcMainPage farc, IsdcMainPage isdc) {
+        this.mainPolicyNetworkPage = main;
+        this.caacMainPage = caac;
+        this.caocMainPage = caoc;
+        this.farcMainPage = farc;
+        this.isdcMainPage = isdc;
     }
 
-    public MainPage main() {
-        return mainPage;
+    public MainPolicyNetworkPage main() {
+        return mainPolicyNetworkPage;
     }
-    public CaacPage caac() {
-        return caacPage;
+    public CaacMainPage caac() {
+        return caacMainPage;
     }
-    public CaocPage caoc() {
-        return caocPage;
+    public CaocMainPage caoc() {
+        return caocMainPage;
     }
-    public FarcPage farc() {
-        return farcPage;
+    public FarcMainPage farc() {
+        return farcMainPage;
     }
-    public IsdcPage isdc() {
-        return isdcPage;
+    public IsdcMainPage isdc() {
+        return isdcMainPage;
     }
 
 }

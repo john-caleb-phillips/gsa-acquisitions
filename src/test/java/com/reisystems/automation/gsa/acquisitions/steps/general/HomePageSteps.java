@@ -32,11 +32,6 @@ public class HomePageSteps {
         this.newsPage = newsPage;
     }
 
-    @Given("I am on the homepage")
-    public void navigateToHomepage() {
-        homePage.goToPage();
-    }
-
     @When("I click on homepage oval button {string}")
     public void clickOvalButton(String buttonText) {
         homePage.clickOvalButton(buttonText);

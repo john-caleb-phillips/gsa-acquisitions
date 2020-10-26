@@ -1,6 +1,5 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.general;
 
-import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.elements.PageObject;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
@@ -10,14 +9,9 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomePage extends HasBlazeLibrary {
-
+public class HomePage extends PageObject {
     public HomePage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
-    }
-
-    public void goToPage() {
-        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/");
+        super(blazeLibrary, "HOMEPAGE", "");
     }
 
     public void clickOvalButton(String buttonText) {

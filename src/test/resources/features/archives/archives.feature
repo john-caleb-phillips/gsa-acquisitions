@@ -3,20 +3,20 @@ Feature: Archives
 
   @no-blank-archive-types
   Scenario: Every archive has an Archive Type
-    Given I am on the archives page
+    Given I am on the archive search page
     When I perform an archive search for "- Any -"
     Then I see that all archives have an archive type
 
   @effective-date-filter-works-correctly
   Scenario: Effective date filter works correctly
-    Given I am on the archives page
+    Given I am on the archive search page
     When I set the effective date to 2020-01-01
     And I perform an archive search for "- Any -"
     Then I see that all archive effective dates are before 2020-01-01
 
   @unique-archive-fac-numbers
   Scenario Outline: Every "<Archive Type>" archive has a unique FAC Number
-    Given I am on the archives page
+    Given I am on the archive search page
     When I perform an archive search for "<Archive Type>"
     Then I see every archive has a unique fac number
     Examples:
@@ -57,7 +57,7 @@ Feature: Archives
 
   @correct-archive-search-results
   Scenario Outline: Search for "<Archive Type>" shows only archives with "<Archive Type>" archive type
-    Given I am on the archives page
+    Given I am on the archive search page
     When I perform an archive search for "<Archive Type>"
     Then I see every archive has the archive type "<Archive Type>"
     Examples:
@@ -97,7 +97,7 @@ Feature: Archives
 
   @correct-archive-count
   Scenario Outline: Search for "<Archive Type>" shows every archive with "<Archive Type>" archive type
-    Given I am on the archives page
+    Given I am on the archive search page
     When I perform an archive search for "- Any -"
     And I count the number of archives with archive type "<Archive Type>" as "Number 1"
     And I perform an archive search for "<Archive Type>"
@@ -140,7 +140,7 @@ Feature: Archives
 
   @verify-archive-details
   Scenario Outline: Check archive details for archive type "<Archive Type>"
-    Given I am on the archives page
+    Given I am on the archive search page
     When I perform an archive search for "<Archive Type>"
     And I gather the archive details
     Then I see the fac number in the search row matches the fac number in the detail page

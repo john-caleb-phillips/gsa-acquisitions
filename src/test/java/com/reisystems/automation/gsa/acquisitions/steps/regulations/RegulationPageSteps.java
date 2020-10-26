@@ -1,6 +1,7 @@
 package com.reisystems.automation.gsa.acquisitions.steps.regulations;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.regulations.RegulationPages;
+import com.reisystems.automation.gsa.acquisitions.steps.general.GeneralSteps;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -12,10 +13,12 @@ import java.util.Map;
 public class RegulationPageSteps {
 
     BlazeLibrary blazeLibrary;
+    GeneralSteps generalSteps;
     RegulationPages regulationPages;
 
-    public RegulationPageSteps(BlazeLibrary blazeLibrary, RegulationPages regulationPages) {
+    public RegulationPageSteps(BlazeLibrary blazeLibrary, GeneralSteps generalSteps, RegulationPages regulationPages) {
         this.blazeLibrary = blazeLibrary;
+        this.generalSteps = generalSteps;
         this.regulationPages = regulationPages;
     }
 
@@ -41,12 +44,21 @@ public class RegulationPageSteps {
                 blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPage, 0))
                         .as("Comparing image src for regulation '%s' in the regulations page to the file named '%s'", regulation, expectedRegulations.get(regulation).get("Logo Image"))
                         .isTrue();
+                if (!blazeLibrary.assertion().wasSuccess()) {
+                    blazeLibrary.report().attachImage(fromFile, "PNG", String.format("Expected '%s' logo", regulation));
+                    blazeLibrary.report().attachImage(fromPage, "PNG", String.format("Actual '%s' logo from the main regulation page", regulation));
+                    blazeLibrary.report().attachImage(blazeLibrary.images().getDiff(fromPage, fromFile), "PNG", "The difference between the two logos");
+                }
 
                 regulationPages.mainPage().clickRegulation(regulation);
 
-                blazeLibrary.assertion().assertThat(blazeLibrary.browser().getCurrentUrl())
-                        .as("Verifying the linked url for regulation '%s'", regulation)
-                        .isEqualTo(expectedRegulations.get(regulation).get("Destination Url"));
+                if ("Chapter 99 (CAS)".equals(regulation)) {
+                    generalSteps.goToPage("taken to", "chapter 99");
+                } else if ("GSAM/R".equals(regulation)) {
+                    generalSteps.goToPage("taken to", "GSAM regulation");
+                } else {
+                    generalSteps.goToPage("taken to", regulation + " regulation");
+                }
 
                 blazeLibrary.assertion().assertThat(regulationPages.mainPage().getPageType())
                         .as("Verifying the linked url for regulation '%s'", regulation)
@@ -57,6 +69,11 @@ public class RegulationPageSteps {
                     blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPageDetail, 0))
                             .as("Comparing image src for regulation '%s' in the regulation detail page to the file named '%s'", regulation, expectedRegulations.get(regulation).get("Logo Image"))
                             .isTrue();
+                    if (!blazeLibrary.assertion().wasSuccess()) {
+                        blazeLibrary.report().attachImage(fromFile, "PNG", String.format("Expected '%s' logo", regulation));
+                        blazeLibrary.report().attachImage(fromPageDetail, "PNG", String.format("Actual '%s' logo from the regulation detail page", regulation));
+                        blazeLibrary.report().attachImage(blazeLibrary.images().getDiff(fromPage, fromFile), "PNG", "The difference between the two logos");
+                    }
                     blazeLibrary.assertion().assertThat(regulationPages.tablePage().getRegulationName())
                             .as("Verifying header title for regulation '%s'", regulation)
                             .isEqualTo(regulation.replace("(CAS)", "").trim().replaceAll(" ", "_").toUpperCase());

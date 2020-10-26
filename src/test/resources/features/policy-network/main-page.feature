@@ -3,7 +3,7 @@ Feature: Policy Network - Main Page
 
   @info-blocks
   Scenario: Correct Info Blocks
-    Given I am on the policy network page
+    Given I am on the main policy network page
     Then I see the following policy network blocks:
       | Chief Acquisition Officers Council             |
       | Civilian Agency Acquisition Council            |
@@ -13,7 +13,7 @@ Feature: Policy Network - Main Page
 
   @caoc-layout
   Scenario: CAO Council block layout
-    Given I am on the policy network page
+    Given I am on the main policy network page
     Then I see that policy network block "CAO" has header image "policy-network/caoc-logo.jpg"
     And I see that policy network block "CAO" has the following text:
       """
@@ -29,7 +29,7 @@ Feature: Policy Network - Main Page
 
   @caac-layout
   Scenario: CAAC block layout
-    Given I am on the policy network page
+    Given I am on the main policy network page
     Then I see that policy network block "CAAC" has the following header:
       """
       Civilian Agency Acquisition Council (CAAC)
@@ -45,7 +45,7 @@ Feature: Policy Network - Main Page
 
   @far-council-layout
   Scenario: FAR Council block layout
-    Given I am on the policy network page
+    Given I am on the main policy network page
     Then I see that policy network block "FAR Council" has the following header:
       """
       Federal Acquisition Regulatory Council (FAR Council)
@@ -62,7 +62,7 @@ Feature: Policy Network - Main Page
 
   @isdc-layout
   Scenario: ISDC block layout
-    Given I am on the policy network page
+    Given I am on the main policy network page
     Then I see that policy network block "ISDC" has header image "policy-network/isdc-logo.png"
     And I see that policy network block "ISDC" has the following text:
       """
@@ -75,7 +75,7 @@ Feature: Policy Network - Main Page
 
   @other-policy-resources-layout
   Scenario: Other Policy Resources block layout
-    Given I am on the policy network page
+    Given I am on the main policy network page
     Then I see that policy network block "Other Policy Resources" has the following header:
       """
       Other Policy Resources
@@ -88,19 +88,19 @@ Feature: Policy Network - Main Page
 
   @verify-links
   Scenario Outline: Links work correctly
-    Given I am on the policy network page
+    Given I am on the main policy network page
     When I click the header link in policy network block "<Link Text>"
-    Then I see the url is "<Destination Url>"
+    Then I am taken to the <Destination> page
     Examples:
-      | Link Text   | Destination Url                                                              |
-      | CAO         | https://www.acquisition.gov/cao-home                                         |
-      | CAAC        | https://www.acquisition.gov/content/civilian-agency-acquisition-council-caac |
-      | FAR Council | https://www.acquisition.gov/far-council                                      |
-      | ISDC        | https://www.acquisition.gov/isdc-home                                        |
+      | Link Text   | Destination |
+      | CAO         | CAOC        |
+      | CAAC        | CAAC        |
+      | FAR Council | FARC        |
+      | ISDC        | ISDC        |
 
   @verify-other-links
   Scenario Outline: Other Policy Resources Links work correctly
-    Given I am on the policy network page
+    Given I am on the main policy network page
     When I click the link for other policy resource "<Link Text>"
     Then I see the url is "<Destination Url>"
     Examples:

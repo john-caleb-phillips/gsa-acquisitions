@@ -3,7 +3,7 @@ Feature: Regulations - Table Format
 
   @validate-regulation-afars
   Scenario: Table Regulation - AFARS
-    Given I am on the regulation page
+    Given I am on the main regulation page
     When I navigate to the "AFARS" regulation page
     Then I see the regulation header is the following:
       """
@@ -15,7 +15,7 @@ Feature: Regulations - Table Format
 
       A quick reference of the AFARS Parts
 
-      Last Updated: September 17, 2020
+      Last Updated: September 23, 2020
 
       AFARS POC: Office of the Deputy Assistant Secretary of the Army
       This is not an official version of the regulation. You can confirm the \

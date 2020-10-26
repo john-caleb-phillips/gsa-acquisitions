@@ -82,22 +82,23 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
     When I click on the CAOC sidebar link "<Link Text>"
     Then I see the url is "<Destination Url>"
     Examples:
-      | Link Text                                                            | Destination Url                                                                                                                                               |
-      | Circulars                                                            | https://www.whitehouse.gov/omb/information-for-agencies/circulars/                                                                                            |
-      | Guides                                                               | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal/                                                              |
-      | Memoranda                                                            | https://www.whitehouse.gov/omb/information-for-agencies/memoranda/                                                                                            |
-      | Policy Letters                                                       | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                             |
-      | Reports                                                              | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_3                                                             |
-      | Other                                                                | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_4                                                             |
-      | By Topical Areas                                                     | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                             |
-      | Acquisition, Program Management and Small Business Excellence Awards | https://www.fai.gov/resources/acquisition-program-management-and-small-business-excellence-awards                                                             |
-      | DATA Act Section 5 Pilot                                             | https://www.acquisition.gov/data-act-pilot                                                                                                                    |
-      | Procurement Data Clarification                                       | https://www.acquisition.gov/sites/default/files/page_file_uploads/Clarifying Procurement Data Information Based on Lessons Learned During DATA Act Audits.pdf |
+      | Link Text                                                            | Destination Url                                                                                                                                     |
+      | Circulars                                                            | https://www.whitehouse.gov/omb/information-for-agencies/circulars/                                                                                  |
+      | Guides                                                               | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal/                                                    |
+      | Memoranda                                                            | https://www.whitehouse.gov/omb/information-for-agencies/memoranda/                                                                                  |
+      | Policy Letters                                                       | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                   |
+      | Reports                                                              | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_3                                                   |
+      | Other                                                                | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_4                                                   |
+      | By Topical Areas                                                     | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                   |
+      | Acquisition, Program Management and Small Business Excellence Awards | https://www.fai.gov/resources/acquisition-program-management-and-small-business-excellence-awards                                                   |
+      | DATA Act Section 5 Pilot                                             | {Portal:HOMEPAGE}/data-act-pilot                                                                                                                    |
+      | Procurement Data Clarification                                       | {Portal:HOMEPAGE}/sites/default/files/page_file_uploads/Clarifying Procurement Data Information Based on Lessons Learned During DATA Act Audits.pdf |
 
+  @verify-caoc-large-agencies-page-layout
   Scenario: Verify Large Agencies Page
     Given I am on the CAOC page
     When I navigate to the "Large Agencies" CAOC sub page
-    Then I see the url is "https://www.acquisition.gov/large-agencies"
+    Then I am taken to the CAOC large agencies page
     And I see the CAOC header image matches the file "policy-network/caoc-logo.jpg"
     And I see the CAOC header text is "LARGE AGENCIES"
     And I see the following headers in the CAOC agency table:
@@ -134,10 +135,11 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
       | Social Security Administration                |
       | U.S. Agency for International Development     |
 
+  @verify-caoc-small-agencies-page-layout
   Scenario: Verify Small Agencies Page
     Given I am on the CAOC page
     When I navigate to the "Small Agencies" CAOC sub page
-    Then I see the url is "https://www.acquisition.gov/content/small-agencies"
+    Then I am taken to the CAOC small agencies page
     And I see the CAOC header image matches the file "policy-network/caoc-logo.jpg"
     And I see the CAOC header text is "SMALL AGENCIES"
     And I see the following headers in the CAOC agency table:
@@ -181,10 +183,11 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
       | US Postal Service                                     | US Postal Service Inspector General                           |
       | US Railroad Retirement Board                          | US Trade and Development Agency                               |
 
+  @verify-caoc-history-page-layout
   Scenario: Verify CAOC History Page
     Given I am on the CAOC page
     When I navigate to the "CAOC History" CAOC sub page
-    Then I see the url is "https://www.acquisition.gov/caoc-history"
+    Then I am taken to the CAOC history page
     And I see the CAOC header image matches the file "policy-network/caoc-logo.jpg"
     And I see the CAOC header text is "CAOC HISTORY"
     And I see the CAOC content is the following:
@@ -227,10 +230,11 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
       This Charter is effective as of June 1, 2004.
       """
 
+  @verify-caoc-charter-page-layout
   Scenario: Verify CAOC Charter Page
     Given I am on the CAOC page
     When I navigate to the "CAOC Charter" CAOC sub page
-    Then I see the url is "https://www.acquisition.gov/caoc-charter"
+    Then I am on the CAOC charter page
     And I see the CAOC header image matches the file "policy-network/caoc-logo.jpg"
     And I see the CAOC header text is "CAOC CHARTER"
     And I see the CAOC content is the following:

@@ -1,6 +1,5 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.archives;
 
-import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.elements.PageObject;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
@@ -12,29 +11,30 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 
-public class SearchPage extends HasBlazeLibrary {
+public class ArchiveSearchPage extends PageObject {
 
-    public SearchPage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
+    public ArchiveSearchPage(BlazeLibrary blazeLibrary) {
+        super(blazeLibrary, "HOMEPAGE", "archives");
     }
 
-    public void goToPage() {
-        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/archives");
+    @Override
+    public boolean areOnPage() {
+        return blazeLibrary.browser().getCurrentUrl().startsWith(url);
     }
 
-    public SearchPage setArchiveType(String archiveType) {
+    public ArchiveSearchPage setArchiveType(String archiveType) {
         blazeLibrary.getElement(By.xpath("//form[@id='views-exposed-form-archives-page']//select[@id='edit-type']")).asDropdown().selectByVisibleText(archiveType);
         return this;
     }
 
-    public SearchPage setFacNumber(String facNumber) {
+    public ArchiveSearchPage setFacNumber(String facNumber) {
         BlazeWebElement textBox = blazeLibrary.getElement(By.xpath("//form[@id='views-exposed-form-archives-page']//input[@id='edit-title']"));
         textBox.clear();
         textBox.sendKeys(facNumber);
         return this;
     }
 
-    public SearchPage setEffectiveDate(LocalDate date) {
+    public ArchiveSearchPage setEffectiveDate(LocalDate date) {
         BlazeWebElement textBox = blazeLibrary.getElement(By.xpath("//form[@id='views-exposed-form-archives-page']//input[@id='edit-date-value-datepicker-popup-0']"));
         textBox.clear();
         textBox.sendKeys(date != null ? date.format(DateTimeFormatter.ofPattern("MM/dd/uuuu")) : "");

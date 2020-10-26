@@ -1,4 +1,4 @@
-package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
+package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.caoc;
 
 import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.elements.PageObject;
@@ -10,14 +10,10 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CaocPage extends HasBlazeLibrary {
+public class CaocMainPage extends PageObject {
 
-    public CaocPage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
-    }
-
-    public void goToPage() {
-        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/cao-home");
+    public CaocMainPage(BlazeLibrary blazeLibrary) {
+        super(blazeLibrary, "HOMEPAGE", "cao-home");
     }
 
     public void goToSubPage(String subPage) {

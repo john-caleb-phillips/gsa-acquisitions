@@ -9,10 +9,10 @@ import org.openqa.selenium.By;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsPage extends HasBlazeLibrary {
+public class NewsPage extends PageObject {
 
     public NewsPage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
+        super(blazeLibrary, "HOMEPAGE", "news");
     }
 
     public List<NewsItem> getNewsItems(Integer numberOfNewsItems) {

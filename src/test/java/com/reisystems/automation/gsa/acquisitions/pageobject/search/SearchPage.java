@@ -17,12 +17,14 @@ public class SearchPage extends HasBlazeLibrary {
         super(blazeLibrary);
     }
 
-    public void goToSitePage() {
-        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/search/site/");
-    }
-
-    public void goToRegulationPage() {
-        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/search/advanced/");
+    public String getSearchTerm() {
+        String url = blazeLibrary.browser().getCurrentUrl();
+        url = url.substring(url.indexOf("search") + "search/".length());
+        if (url.startsWith("advanced")) { url = url.substring("advanced".length()); }
+        else if (url.startsWith("site")) { url = url.substring("site".length()); }
+        if (url.contains("?")) { url = url.substring(0, url.indexOf("?")); }
+        if (url.contains("/")) { url = url.substring(url.indexOf("/") + 1); }
+        return url;
     }
 
     public int numberOfSearchRows() {

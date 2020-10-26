@@ -2,16 +2,16 @@ package com.reisystems.automation.gsa.acquisitions.pageobject.regulations;
 
 public class RegulationPages {
 
-    MainPage mainPage;
+    RegulationMainPage regulationMainPage;
     TablePage tablePage;
 
-    public RegulationPages(MainPage mainPage, TablePage tablePage) {
-        this.mainPage = mainPage;
+    public RegulationPages(RegulationMainPage regulationMainPage, TablePage tablePage) {
+        this.regulationMainPage = regulationMainPage;
         this.tablePage = tablePage;
     }
 
-    public MainPage mainPage() {
-        return mainPage;
+    public RegulationMainPage mainPage() {
+        return regulationMainPage;
     }
 
     public TablePage tablePage() {

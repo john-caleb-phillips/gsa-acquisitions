@@ -1,6 +1,6 @@
 package com.reisystems.automation.gsa.acquisitions.steps.search;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.archives.DetailPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchiveDetailPage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.search.SearchPage;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
@@ -19,21 +19,12 @@ public class SearchPageSteps {
 
     BlazeLibrary blazeLibrary;
     SearchPage searchPage;
-    DetailPage detailPage;
+    ArchiveDetailPage archiveDetailPage;
 
-    public SearchPageSteps(BlazeLibrary blazeLibrary, SearchPage searchPage, DetailPage detailPage) {
+    public SearchPageSteps(BlazeLibrary blazeLibrary, SearchPage searchPage, ArchiveDetailPage archiveDetailPage) {
         this.blazeLibrary = blazeLibrary;
         this.searchPage = searchPage;
-        this.detailPage = detailPage;
-    }
-
-    @Given("^I am on the (site|regulation) search page$")
-    public void goToSearchPage(String pageType) {
-        if ("site".equals(pageType)) {
-            searchPage.goToSitePage();
-        } else {
-            searchPage.goToRegulationPage();
-        }
+        this.archiveDetailPage = archiveDetailPage;
     }
 
     @When("I click the link to go to the regulation search page")
@@ -157,7 +148,7 @@ public class SearchPageSteps {
                     blazeLibrary.assertion().assertThat(row.getInfo().origin).isEqualTo("ARCHIVES");
                     if (blazeLibrary.assertion().wasSuccess()) {
                         row.goToDetailPage();
-                        blazeLibrary.assertion().assertThat(detailPage.getArchiveType())
+                        blazeLibrary.assertion().assertThat(archiveDetailPage.getArchiveType())
                                 .as("Testing archive type").isEqualTo(expectedArchiveType);
                         blazeLibrary.browser().navigateBack();
                     }
@@ -171,7 +162,7 @@ public class SearchPageSteps {
                     blazeLibrary.assertion().assertThat(row.getInfo().origin).isEqualTo("ARCHIVES");
                     if (blazeLibrary.assertion().wasSuccess()) {
                         row.goToDetailPage();
-                        blazeLibrary.assertion().assertThat(detailPage.getYear())
+                        blazeLibrary.assertion().assertThat(archiveDetailPage.getYear())
                                 .as("Testing year").isEqualTo(expectedYear);
                         blazeLibrary.browser().navigateBack();
                     }
@@ -210,7 +201,7 @@ public class SearchPageSteps {
         AtomicInteger count = new AtomicInteger(0);
         searchPage.forEachRowInTheSearchResults(row -> {
             row.goToDetailPage();
-            if (desiredArchiveType.equals(detailPage.getArchiveType())) {
+            if (desiredArchiveType.equals(archiveDetailPage.getArchiveType())) {
                 count.incrementAndGet();
             }
             blazeLibrary.browser().navigateBack();
@@ -226,5 +217,12 @@ public class SearchPageSteps {
                     .as("Verifying origin of row '%s'", row.title)
                     .contains(row.origin);
         });
+    }
+
+    @Then("I see the search term is {string}")
+    public void verifySearchPageTerm(String expectedSearchTerm) {
+        blazeLibrary.assertion().assertThat(searchPage.getSearchTerm())
+                .as("Verifying the search term")
+                .isEqualTo(expectedSearchTerm);
     }
 }

@@ -28,19 +28,20 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Council Meeting Schedule |
       | Council Memoranda        |
 
+  @verify-farc-main-page-links
   Scenario Outline: Main Page Footer Links
     Given I am on the FARC page
     When I click on FARC footer link "<Link Text>"
-    Then I see the url is "<Destination Url>"
+    Then I am taken to the <Destination> page
     Examples:
-      | Link Text                | Destination Url                                   |
-      | Council Members          | https://www.acquisition.gov/far-council-members   |
-      | Council Meeting Schedule | https://www.acquisition.gov/far-council-meeting   |
-      | Council Memoranda        | https://www.acquisition.gov/far-council-memoranda |
+      | Link Text                | Destination    |
+      | Council Members          | FARC members   |
+      | Council Meeting Schedule | FARC meeting   |
+      | Council Memoranda        | FARC memoranda |
 
+  @verify-farc-members-page-layout
   Scenario: Council Members Page Layout
-    Given I am on the FARC page
-    When I click on FARC footer link "Council Members"
+    Given I am on the FARC members page
     Then I see the FARC header is the following:
       """
       Federal Acquisition Regulatory Council
@@ -59,20 +60,20 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Council Meeting Schedule |
       | Council Memoranda        |
 
+  @verify-farc-members-page-links
   Scenario Outline: Council Members Page Footer Links
-    Given I am on the FARC page
-    When I click on FARC footer link "Council Members"
+    Given I am on the FARC members page
     And I click on FARC footer link "<Link Text>"
-    Then I see the url is "<Destination Url>"
+    Then I am taken to the <Destination> page
     Examples:
-      | Link Text                | Destination Url                                   |
-      | Council Members          | https://www.acquisition.gov/far-council-members   |
-      | Council Meeting Schedule | https://www.acquisition.gov/far-council-meeting   |
-      | Council Memoranda        | https://www.acquisition.gov/far-council-memoranda |
+      | Link Text                | Destination    |
+      | Council Members          | FARC members   |
+      | Council Meeting Schedule | FARC meeting   |
+      | Council Memoranda        | FARC memoranda |
 
+  @verify-farc-meeting-page-layout
   Scenario: Meeting Schedule Page Layout
-    Given I am on the FARC page
-    When I click on FARC footer link "Council Meeting Schedule"
+    Given I am on the FARC meeting page
     Then I see the FARC header is the following:
       """
       Federal Acquisition Regulatory Council
@@ -100,20 +101,20 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Council Meeting Schedule |
       | Council Memoranda        |
 
+  @verify-farc-meeting-page-links
   Scenario Outline: Meeting Schedule Page Footer Links
-    Given I am on the FARC page
-    When I click on FARC footer link "Council Meeting Schedule"
+    Given I am on the FARC meeting page
     And I click on FARC footer link "<Link Text>"
-    Then I see the url is "<Destination Url>"
+    Then I am taken to the <Destination> page
     Examples:
-      | Link Text                | Destination Url                                   |
-      | Council Members          | https://www.acquisition.gov/far-council-members   |
-      | Council Meeting Schedule | https://www.acquisition.gov/far-council-meeting   |
-      | Council Memoranda        | https://www.acquisition.gov/far-council-memoranda |
+      | Link Text                | Destination    |
+      | Council Members          | FARC members   |
+      | Council Meeting Schedule | FARC meeting   |
+      | Council Memoranda        | FARC memoranda |
 
+  @verify-farc-memoranda-page-layout
   Scenario: Council Memoranda Page Layout
-    Given I am on the FARC page
-    When I click on FARC footer link "Council Memoranda"
+    Given I am on the FARC memoranda page
     Then I see the FARC header is the following:
       """
       Federal Acquisition Regulatory Council
@@ -131,9 +132,9 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Council Meeting Schedule |
       | Council Memoranda        |
 
+  @verify-farc-memoranda-page-external-links
   Scenario Outline: Council Memoranda Page Links
-    Given I am on the FARC page
-    When I click on FARC footer link "Council Memoranda"
+    Given I am on the FARC memoranda page
     And I click on FARC memoranda link "<Link Text>"
     Then I see the url is "<Destination Url>"
     Examples:
@@ -141,13 +142,13 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Establishment of the Federal Acquisition Regulation Small Business Team | https://obamawhitehouse.archives.gov/sites/default/files/omb/assets/procurement_memo/small_bus_team_memo.pdf |
       | Revised FAR Process                                                     | https://obamawhitehouse.archives.gov/sites/default/files/omb/assets/procurement/memo_revised_far.pdf         |
 
+  @verify-farc-memoranda-page-link
   Scenario Outline: Council Memoranda Page Footer Links
-    Given I am on the FARC page
-    When I click on FARC footer link "Council Memoranda"
+    Given I am on the FARC memoranda page
     And I click on FARC footer link "<Link Text>"
-    Then I see the url is "<Destination Url>"
+    Then I am taken to the <Destination> page
     Examples:
-      | Link Text                | Destination Url                                   |
-      | Council Members          | https://www.acquisition.gov/far-council-members   |
-      | Council Meeting Schedule | https://www.acquisition.gov/far-council-meeting   |
-      | Council Memoranda        | https://www.acquisition.gov/far-council-memoranda |
+      | Link Text                | Destination    |
+      | Council Members          | FARC members   |
+      | Council Meeting Schedule | FARC meeting   |
+      | Council Memoranda        | FARC memoranda |

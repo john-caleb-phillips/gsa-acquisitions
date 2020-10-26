@@ -3,15 +3,16 @@ package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
 import org.openqa.selenium.By;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MainPage extends HasBlazeLibrary {
-    public MainPage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
+public class MainPolicyNetworkPage extends PageObject {
+    public MainPolicyNetworkPage(BlazeLibrary blazeLibrary) {
+        super(blazeLibrary, "HOMEPAGE", "policy-network");
     }
 
     public void clickHeaderLink(String blockName) {

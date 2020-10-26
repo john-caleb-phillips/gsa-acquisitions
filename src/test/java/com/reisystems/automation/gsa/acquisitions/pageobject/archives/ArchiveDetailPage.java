@@ -13,9 +13,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DetailPage extends HasBlazeLibrary {
+public class ArchiveDetailPage extends HasBlazeLibrary {
 
-    public DetailPage(BlazeLibrary blazeLibrary) {
+    public ArchiveDetailPage(BlazeLibrary blazeLibrary) {
         super(blazeLibrary);
     }
 

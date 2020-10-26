@@ -18,11 +18,6 @@ public class FarcPageSteps {
         this.policyNetworkPage = policyNetworkPage;
     }
 
-    @Given("I am on the FARC page")
-    public void goToFarcPage() {
-        policyNetworkPage.farc().goToPage();
-    }
-
     @When("I click on FARC footer link {string}")
     public void clickFooterLink(String linkText) {
         policyNetworkPage.farc().clickFooterLink(linkText);

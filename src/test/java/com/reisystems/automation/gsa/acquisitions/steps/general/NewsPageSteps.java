@@ -10,7 +10,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class NewsPageSteps {
-
     private static final Gson gson = new Gson();
     private final BlazeLibrary blazeLibrary;
     private final NewsPage newsPage;

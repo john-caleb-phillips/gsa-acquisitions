@@ -9,6 +9,10 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,11 +27,6 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
         this.smartMatrixPage = smartMatrixPage;
     }
 
-    @Given("I am on the smart matrix page")
-    public void goToSmartMatrixPage() {
-        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/far-smart-matrix");
-    }
-
     @When("^I (expand|collapse) the smart matrix legend$")
     public void expandOrCollapseSmartMatrixLegend(String expandOrCollapse) {
         if ("expand".equals(expandOrCollapse)) {
@@ -37,13 +36,43 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
         }
     }
 
+    @When("I click on the video link")
+    public void clickVideoLink() {
+        smartMatrixPage.clickVideoLink();
+    }
+
+    @When("I click on the Copy button")
+    public void clickCopyButton() {
+        smartMatrixPage.clickCopyButton();
+    }
+
+    @When("I click on the CSV button")
+    public void clickCsvButton() {
+        smartMatrixPage.clickCsvButton();
+    }
+
+    @When("I click on the PDF button")
+    public void clickPdfButton() {
+        smartMatrixPage.clickPdfButton();
+    }
+
+    @When("I click on the Print button")
+    public void clickPrintButton() {
+        smartMatrixPage.clickPrintButton();
+    }
+
+    @When("I run a test")
+    public void testmethod() {
+        System.out.println("Title: " + blazeLibrary.browser().getPageTitle());
+        System.out.println("Source: " + blazeLibrary.browser().getPageSource());
+    }
+
     @When("^I (check|uncheck) the box to show the complete matrix$")
     public void checkOrUncheckShowCompleteMatrix(String checkOrUncheck) {
         smartMatrixPage.selectShowCompleteMatrix("check".equals(checkOrUncheck));
     }
 
     private boolean shouldBeChecked;
-
     @When("^I (check|uncheck) any of the contract checkboxes$")
     public void stubMethod(String checkOrUncheck) {
         shouldBeChecked = "check".equals(checkOrUncheck);

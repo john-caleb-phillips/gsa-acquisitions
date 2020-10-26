@@ -1,7 +1,7 @@
 package com.reisystems.automation.gsa.acquisitions.steps.archives;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.archives.SearchPage;
-import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchivesPages;
+import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchiveSearchPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchivePages;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.ParameterType;
@@ -20,16 +20,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ArchivesPageSteps {
 
     BlazeLibrary blazeLibrary;
-    ArchivesPages archive;
+    ArchivePages archive;
 
-    public ArchivesPageSteps(BlazeLibrary blazeLibrary, ArchivesPages archive) {
+    public ArchivesPageSteps(BlazeLibrary blazeLibrary, ArchivePages archive) {
         this.blazeLibrary = blazeLibrary;
         this.archive = archive;
-    }
-
-    @Given("I am on the archives page")
-    public void goToArchivesPage() {
-        archive.search().goToPage();
     }
 
     @When("I set the archive type to {string}")
@@ -320,7 +315,7 @@ public class ArchivesPageSteps {
 
     private final List<ArchiveDetails> theSavedDetails = new ArrayList<>();
 
-    private void getArchiveDetails(SearchPage.ArchiveSearchRow archiveRow) {
+    private void getArchiveDetails(ArchiveSearchPage.ArchiveSearchRow archiveRow) {
 
         // get archive information from row
         String rowFacNumber = archiveRow.getFacNumber();

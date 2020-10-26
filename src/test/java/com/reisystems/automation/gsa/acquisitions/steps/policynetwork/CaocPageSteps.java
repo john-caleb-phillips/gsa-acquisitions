@@ -19,11 +19,6 @@ public class CaocPageSteps {
         this.policyNetworkPage = policyNetworkPage;
     }
 
-    @Given("I am on the CAOC page")
-    public void goToCaocPage() {
-        policyNetworkPage.caoc().goToPage();
-    }
-
     @When("^I navigate to the \"((?:Large|Small) Agencies|CAOC (?:History|Charter))\" CAOC sub page$")
     public void goToCaocSubPage(String pageName) {
         policyNetworkPage.caoc().goToSubPage(pageName);

@@ -1,4 +1,4 @@
-package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
+package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.caac;
 
 import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.elements.PageObject;
@@ -16,14 +16,10 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class CaacPage extends HasBlazeLibrary {
+public class CaacMainPage extends PageObject {
 
-    public CaacPage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
-    }
-
-    public void goToPage() {
-        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/content/civilian-agency-acquisition-council-caac");
+    public CaacMainPage(BlazeLibrary blazeLibrary) {
+        super(blazeLibrary, "HOMEPAGE", "content/civilian-agency-acquisition-council-caac");
     }
 
     public void returnToMainPage() {

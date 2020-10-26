@@ -7,8 +7,8 @@ Feature: Search
   Scenario: Link to regulation search page
     Given I am on the site search page
     When I click the link to go to the regulation search page
-    Then I see the url is "https://www.acquisition.gov/search/advanced/*"
-
+    Then I am taken to the regulation search page
+    And I see the search term is "*"
 
   @blank-site-search
   Scenario: Search with no terms gives an error message
@@ -99,7 +99,7 @@ Feature: Search
 
   @filter-by-archive-type-shows-all-archives
   Scenario Outline: Filter by archive type shows all the correct archive types
-    Given I am on the archives page
+    Given I am on the archive search page
     And I perform an archive search for "<Archive Type>"
     And I count the number of archives with archive type "<Archive Type>" as "Number 1"
     When I am on the site search page

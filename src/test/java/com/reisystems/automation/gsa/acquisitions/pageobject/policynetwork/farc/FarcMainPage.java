@@ -1,6 +1,5 @@
-package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
+package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.farc;
 
-import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.elements.PageObject;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
@@ -9,14 +8,10 @@ import org.openqa.selenium.By;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FarcPage extends HasBlazeLibrary {
+public class FarcMainPage extends PageObject {
 
-    public FarcPage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
-    }
-
-    public void goToPage() {
-        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/far-council");
+    public FarcMainPage(BlazeLibrary blazeLibrary) {
+        super(blazeLibrary, "HOMEPAGE", "far-council");
     }
 
     public String getHeader() {

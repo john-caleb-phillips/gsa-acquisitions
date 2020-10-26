@@ -22,11 +22,6 @@ public class CaacPageSteps {
         this.policyNetworkPage = policyNetworkPage;
     }
 
-    @Given("I am on the CAAC page")
-    public void goToCaacPage() {
-        policyNetworkPage.caac().goToPage();
-    }
-
     @When("^I navigate to the \"(Main|Letters|Members)\" CAAC page$")
     public void navigateToSubPage(String desiredPage) {
         switch (desiredPage) {

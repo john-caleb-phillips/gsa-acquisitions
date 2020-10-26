@@ -23,12 +23,6 @@ public class PolicyNetworkSteps {
         this.policyNetworkPage = policyNetworkPage;
     }
 
-
-    @Given("I am on the policy network page")
-    public void goToPolicyNetworkPage() {
-        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/policy-network");
-    }
-
     @When("I click the header link in policy network block {string}")
     public void clickHeader(String desiredBlock) {
         policyNetworkPage.main().clickHeaderLink(desiredBlock);

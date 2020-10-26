@@ -100,18 +100,19 @@ Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
       the Chairperson to call a meeting.
       """
 
+  @verify-caac-page-links
   Scenario Outline: Verify main page links work correctly
     Given I am on the CAAC page
     When I navigate to the "<Link Text>" CAAC page
-    Then I see the url is "<Destination Url>"
+    Then I am taken to the <Destination> page
     Examples:
-      | Link Text | Destination Url                                  |
-      | Letters   | https://www.acquisition.gov/content/caac-letters |
-      | Members   | https://www.acquisition.gov/CAAC_Members         |
+      | Link Text | Destination  |
+      | Letters   | CAAC letters |
+      | Members   | CAAC members |
 
+  @caac-letters-page-layout
   Scenario: Verify Letters page layout
-    Given I am on the CAAC page
-    When I navigate to the "Letters" CAAC page
+    Given I am on the CAAC letters page
     Then I see the CAAC header is the following:
       """
       CAAC Letters
@@ -140,18 +141,19 @@ Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
       Acrobat Reader is required to read these documents
       """
 
+  @verify-caac-letters-page-links
   Scenario Outline: Verify letters page links work correctly
-    Given I am on the CAAC page
-    When I navigate to the "Letters" CAAC page
+    Given I am on the CAAC letters page
     And I navigate to the "<Link Text>" CAAC page
-    Then I see the url is "<Destination Url>"
+    Then I am taken to the <Destination> page
     Examples:
-      | Link Text | Destination Url                                                              |
-      | Members   | https://www.acquisition.gov/CAAC_Members                                     |
-      | Main      | https://www.acquisition.gov/content/civilian-agency-acquisition-council-caac |
+      | Link Text | Destination  |
+      | Members   | CAAC members |
+      | Main      | CAAC         |
 
+  @caac-letters-page-table
   Scenario: Verify letters table
-    Given I am on the CAAC page
+    Given I am on the CAAC letters page
     When I navigate to the "Letters" CAAC page
     Then I see the CAAC letters table has the following headers:
       | Letter# | Subject | Date |
@@ -162,9 +164,9 @@ Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
       | Attachment | Size |
     And I see each attachment name links to a valid pdf file
 
+  @caac-members-page-layout
   Scenario: Verify Members page layout
-    Given I am on the CAAC page
-    When I navigate to the "Members" CAAC page
+    Given I am on the CAAC members page
     Then I see the CAAC header is the following:
       """
       List of CAAC Members
@@ -178,12 +180,12 @@ Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
       (Updated: 10/2/2020)
       """
 
+  @verify-caac-members-page-links
   Scenario Outline: Verify Members page links work correctly
-    Given I am on the CAAC page
-    When I navigate to the "Members" CAAC page
+    Given I am on the CAAC members page
     And I navigate to the "<Link Text>" CAAC page
-    Then I see the url is "<Destination Url>"
+    Then I am taken to the <Destination> page
     Examples:
-      | Link Text | Destination Url                                                              |
-      | Letters   | https://www.acquisition.gov/content/caac-letters                             |
-      | Main      | https://www.acquisition.gov/content/civilian-agency-acquisition-council-caac |
+      | Link Text | Destination  |
+      | Letters   | CAAC letters |
+      | Main      | CAAC         |

@@ -11,13 +11,9 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MainPage extends HasBlazeLibrary {
-    public MainPage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
-    }
-
-    public void goToPage() {
-        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/content/regulations");
+public class RegulationMainPage extends PageObject {
+    public RegulationMainPage(BlazeLibrary blazeLibrary) {
+        super(blazeLibrary, "HOMEPAGE", "content/regulations");
     }
 
     public String getPageType() {

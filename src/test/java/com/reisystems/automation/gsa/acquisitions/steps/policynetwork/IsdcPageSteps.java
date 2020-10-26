@@ -1,9 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.steps.policynetwork;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.IsdcPage;
+import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.isdc.IsdcMainPage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.PolicyNetworkPages;
 import com.reisystems.blaze.controller.BlazeLibrary;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
@@ -19,11 +18,6 @@ public class IsdcPageSteps {
     public IsdcPageSteps(BlazeLibrary blazeLibrary, PolicyNetworkPages policyNetworkPage) {
         this.blazeLibrary = blazeLibrary;
         this.policyNetworkPage = policyNetworkPage;
-    }
-
-    @Given("I am on the ISDC page")
-    public void goToIsdcPage() {
-        policyNetworkPage.isdc().goToPage();
     }
 
     @When("I click on ISDC content link {string}")
@@ -83,7 +77,7 @@ public class IsdcPageSteps {
 
     @Then("I see that all the ISDC reporting links link to valid content")
     public void verifyReportingLinks() {
-        for (IsdcPage.DownloadLink link : policyNetworkPage.isdc().getReportingLinks()) {
+        for (IsdcMainPage.DownloadLink link : policyNetworkPage.isdc().getReportingLinks()) {
             try {
                 link.url.openStream();
             } catch (NullPointerException | IOException e) {
@@ -95,7 +89,7 @@ public class IsdcPageSteps {
 
     @Then("I see that all the ISDC compelling reasons determinations link to valid content")
     public void verifyCompellingReasonsDeterminationLinks() {
-        for (IsdcPage.DownloadLink link : policyNetworkPage.isdc().getCompellingReasonsDeterminationLinks()) {
+        for (IsdcMainPage.DownloadLink link : policyNetworkPage.isdc().getCompellingReasonsDeterminationLinks()) {
             try {
                 link.url.openStream();
             } catch (NullPointerException | IOException e) {

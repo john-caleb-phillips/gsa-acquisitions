@@ -33,6 +33,11 @@ Feature: Smart Matrix
     When I collapse the smart matrix legend
     Then the smart matrix legend is not visible
 
+  @video-link-works-correctly
+  Scenario: Link to YouTube Works Correctly
+    When I click on the video link
+    Then I see the url is "https://www.youtube.com/watch?v=CyaaudwNvWY"
+
   @show-full-matrix-checkbox
   Scenario: Show Full Matrix Checkbox Works Correctly
     When I check the box to show the complete matrix
@@ -128,28 +133,39 @@ Feature: Smart Matrix
     When I click any of the links in the "Prescribed in" column
     Then I am taken to the correct page
 
-  @wip
+  @click-copy-button
   Scenario: Copy Button Works Correctly
-    When I click on the Copy button
+    When I search for "Certificate"
+    And I click on the Copy button
     Then I see the system clipboard contains:
       """
+      Federal Acquisition Regulation (FAR) Smart Matrix Table
 
+      Far Smart Matrix | Acquisition.GOV
+
+      Provision or Clause    Prescribed in   P or C
+      52.203-2 Certificate of Independent     Price Determination.    3.103-1 P
+      52.225-2 Buy American Certificate.      25.1101(a)(2)   P
+      52.225-4 Buy American-Free Trade Agreements-Israeli Trade Act Certificate.      25.1101 P
+      52.225-6 Trade Agreements Certificate.  25.1101(c)(2)   P
+      52.246-15 Certificate of Conformance.   46.315  C
       """
 
-  @wip
+  @click-csv-button
   Scenario: CSV Button Works Correctly
     When I click on the CSV button
-    Then I see that a csv file has been downloaded named ""
+    Then I see that a "csv" file has been downloaded named "Far Smart Matrix  Acquisition.GOV"
 
-  @wip
+  @click-pdf-button
   Scenario: PDF Button Works Correctly
     When I click on the PDF button
-    Then I see that a pdf file has been downloaded named ""
+    Then I see that a "pdf" file has been downloaded named "Far Smart Matrix  Acquisition.GOV"
 
-  @wip
-  Scenario: Print Button Works Correctly
-    When I click on the Print button
-    Then I am taken to the print page
-    Then I
-    Then I see that a pdf has been downloaded named ""
+#  The print preview window causes Selenium to hang
+#  This test case will go unautomated for the foreseeable future
+#  @wip
+#  @click-print-button
+#  Scenario: Print Button Works Correctly
+#    When I click on the Print button
+#    Then I am taken to the print preview page
 

@@ -9,10 +9,10 @@ import org.openqa.selenium.By;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdatePage extends HasBlazeLibrary {
+public class UpdatePage extends PageObject {
 
     public UpdatePage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
+        super(blazeLibrary, "HOMEPAGE", "content/list-sections-affected");
     }
 
     public List<UpdateItem> getUpdates(Integer numberOfUpdates) {

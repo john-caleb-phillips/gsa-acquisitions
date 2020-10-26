@@ -1,4 +1,4 @@
-package com.reisystems.automation.gsa.acquisitions.steps.general;
+package com.reisystems.automation.gsa.acquisitions.steps.footer;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.Footer;
 import io.cucumber.java.en.When;

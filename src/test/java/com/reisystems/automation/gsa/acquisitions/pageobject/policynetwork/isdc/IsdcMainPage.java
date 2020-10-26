@@ -1,4 +1,4 @@
-package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
+package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.isdc;
 
 import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.elements.PageObject;
@@ -13,13 +13,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class IsdcPage extends HasBlazeLibrary {
-    public IsdcPage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
-    }
-
-    public void goToPage() {
-        blazeLibrary.browser().navigateToUrl("https://www.acquisition.gov/isdc-home");
+public class IsdcMainPage extends PageObject {
+    public IsdcMainPage(BlazeLibrary blazeLibrary) {
+        super(blazeLibrary, "HOMEPAGE", "isdc-home");
     }
 
     public BufferedImage getHeaderImage() {

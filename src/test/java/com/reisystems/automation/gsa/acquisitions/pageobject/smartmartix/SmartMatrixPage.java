@@ -3,6 +3,7 @@ package com.reisystems.automation.gsa.acquisitions.pageobject.smartmartix;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.elements.PageObject;
 import com.reisystems.blaze.interfaces.ClickResult;
 import org.openqa.selenium.By;
 
@@ -12,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SmartMatrixPage extends HasBlazeLibrary {
+public class SmartMatrixPage extends PageObject {
     public SmartMatrixPage(BlazeLibrary blazeLibrary) {
-        super(blazeLibrary);
+        super(blazeLibrary, "HOMEPAGE", "far-smart-matrix");
     }
 
     public void expandLegend() {
@@ -39,6 +40,26 @@ public class SmartMatrixPage extends HasBlazeLibrary {
 
     public void clickVideoLink() {
         blazeLibrary.getElement(locators.videoLink()).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
+    }
+
+    public void clickCopyButton() {
+        blazeLibrary.getElement(locators.copyButton()).click();
+    }
+
+    public void clickCsvButton() {
+        blazeLibrary.getElement(locators.csvButton()).click(
+                blazeLibrary.clickResults().DOWNLOAD_FILE
+        );
+    }
+
+    public void clickPdfButton() {
+        blazeLibrary.getElement(locators.pdfButton()).click(
+                blazeLibrary.clickResults().DOWNLOAD_FILE
+        );
+    }
+
+    public void clickPrintButton() {
+        blazeLibrary.getElement(locators.printButton()).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
     public void selectShowCompleteMatrix(boolean shouldBeChecked) {
