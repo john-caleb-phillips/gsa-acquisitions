@@ -3,8 +3,7 @@ Feature: Regulations - Table Format
 
   @validate-regulation-afars
   Scenario: Table Regulation - AFARS
-    Given I am on the main regulation page
-    When I navigate to the "AFARS" regulation page
+    Given I am on the AFARS regulation page
     Then I see the regulation header is the following:
       """
       Army Federal Acquisition Regulation Supplement
@@ -31,7 +30,7 @@ Feature: Regulations - Table Format
 #    And I see "Print" works for each regulation part in the table
 #    And I see "PDF" works for each regulation part in the table
 #    And I see each part number has a title in the table
-#    And I see the link to each regualtion part in the table works correctly
+#    And I see the link to each regulation part in the table works correctly
 #    And I see for each part the "Next" button works correctly
 #    And I see for each part the "Previous" button works correctly
 #    And I see for each part the "ToC" button works correctly
@@ -40,86 +39,83 @@ Feature: Regulations - Table Format
 #    And I see for each part all ToC links have an anchor
 #    And I see for each part all anchors have a ToC link
 
-  @validate-regulation-affars
+  @validate-regulation-affars @wip
   Scenario: Table Regulation - AFFARS
 
-  @validate-regulation-dars
+  @validate-regulation-dars @wip
   Scenario: Table Regulation - DARS
 
-  @validate-regulation-dlad
+  @validate-regulation-dlad @wip
   Scenario: Table Regulation - DLAD
 
-  @validate-regulation-nmcars
+  @validate-regulation-nmcars @wip
   Scenario: Table Regulation - NMCARS
 
-  @validate-regulation-sofars
+  @validate-regulation-sofars @wip
   Scenario: Table Regulation - SOFARS
 
-  @validate-regulation-transfars
+  @validate-regulation-transfars @wip
   Scenario: Table Regulation - TRANSFARS
 
-  @validate-regulation-agar
+  @validate-regulation-agar @wip
   Scenario: Table Regulation - AGAR
 
-  @validate-regulation-aidar
+  @validate-regulation-aidar @wip
   Scenario: Table Regulation - AIDAR
 
-  @validate-regulation-car
+  @validate-regulation-car @wip
   Scenario: Table Regulation - CAR
 
-  @validate-regulation-dears
+  @validate-regulation-dears @wip
   Scenario: Table Regulation - DEARS
 
-  @validate-regulation-diars
+  @validate-regulation-diars @wip
   Scenario: Table Regulation - DIARS
 
-  @validate-regulation-dolars
+  @validate-regulation-dolars @wip
   Scenario: Table Regulation - DOLARS
 
-  @validate-regulation-dosars
+  @validate-regulation-dosars @wip
   Scenario: Table Regulation - DOSARS
 
-  @validate-regulation-dtar
+  @validate-regulation-dtar @wip
   Scenario: Table Regulation - DTAR
 
-  @validate-regulation-edar
+  @validate-regulation-edar @wip
   Scenario: Table Regulation - EDAR
 
-  @validate-regulation-epaar
+  @validate-regulation-epaar @wip
   Scenario: Table Regulation - EPAAR
 
-  @validate-regulation-fehbar
+  @validate-regulation-fehbar @wip
   Scenario: Table Regulation - FEHBAR
 
-  @validate-regulation-hhsar
+  @validate-regulation-hhsar @wip
   Scenario: Table Regulation - HHSAR
 
-  @validate-regulation-hsar
+  @validate-regulation-hsar @wip
   Scenario: Table Regulation - HSAR
 
-  @validate-regulation-hudar
+  @validate-regulation-hudar @wip
   Scenario: Table Regulation - HUDAR
 
-  @validate-regulation-iaar
+  @validate-regulation-iaar @wip
   Scenario: Table Regulation - IAAR
 
-  @validate-regulation-jar
+  @validate-regulation-jar @wip
   Scenario: Table Regulation - JAR
 
-  @validate-regulation-lifar
+  @validate-regulation-lifar @wip
   Scenario: Table Regulation - LIFAR
 
-  @validate-regulation-nfs
+  @validate-regulation-nfs @wip
   Scenario: Table Regulation - NFS
 
-  @validate-regulation-nrcar
+  @validate-regulation-nrcar @wip
   Scenario: Table Regulation - NRCAR
 
-  @validate-regulation-tar
+  @validate-regulation-tar @wip
   Scenario: Table Regulation - TAR
 
-  @validate-regulation-vaar
+  @validate-regulation-vaar @wip
   Scenario: Table Regulation - VAAR
-
-  @validate-regulation-smart-matrix
-  Scenario: Table Regulation - Smart Matrix

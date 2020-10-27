@@ -4,6 +4,11 @@ import com.reisystems.automation.gsa.acquisitions.pageobject.smartmartix.SmartMa
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
+import com.reisystems.blaze.report.LogLevel;
+import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
+import io.cucumber.java.Before;
+import io.cucumber.java.BeforeStep;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -62,9 +67,10 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
     }
 
     @When("I run a test")
-    public void testmethod() {
-        System.out.println("Title: " + blazeLibrary.browser().getPageTitle());
-        System.out.println("Source: " + blazeLibrary.browser().getPageSource());
+    public void testMethod() {
+        blazeLibrary.report().write(LogLevel.INFO, "Step 1");
+        blazeLibrary.report().write(LogLevel.INFO, "Step 2");
+        blazeLibrary.report().write(LogLevel.INFO, "Step 3");
     }
 
     @When("^I (check|uncheck) the box to show the complete matrix$")
