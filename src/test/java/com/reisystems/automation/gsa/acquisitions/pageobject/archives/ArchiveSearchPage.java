@@ -27,6 +27,10 @@ public class ArchiveSearchPage extends PageObject {
         return this;
     }
 
+    public String getArchiveType() {
+        return blazeLibrary.getElement(By.xpath("//form[@id='views-exposed-form-archives-page']//select[@id='edit-type']")).asDropdown().getFirstSelectedOption().getText();
+    }
+
     public ArchiveSearchPage setFacNumber(String facNumber) {
         BlazeWebElement textBox = blazeLibrary.getElement(By.xpath("//form[@id='views-exposed-form-archives-page']//input[@id='edit-title']"));
         textBox.clear();

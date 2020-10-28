@@ -23,21 +23,24 @@ Feature: Regulations - Table Format
 
       (Please note: this link requires CAC and is not available to all users)
       """
-#    And I see the link to "Regulation Archives" works in the regulation content
-#    And I see each link in the regulation content works correctly
+    And I see the link to "Regulation Archives" works in the regulation content
+    And I see each link in the regulation content works correctly
 #    And I see the regulation table can be sorted by "Part Number"
 #    And I see the regulation table can be sorted by "Title"
-#    And I see "Print" works for each regulation part in the table
-#    And I see "PDF" works for each regulation part in the table
-#    And I see each part number has a title in the table
-#    And I see the link to each regulation part in the table works correctly
-#    And I see for each part the "Next" button works correctly
-#    And I see for each part the "Previous" button works correctly
-#    And I see for each part the "ToC" button works correctly
-#    And I see for each part the "Top" button works correctly
-#    And I see for each part the internal links work correctly
-#    And I see for each part all ToC links have an anchor
-#    And I see for each part all anchors have a ToC link
+#    And I see that for each part in the regulation table:
+#        | there is a part number                          |
+#        | there is a title                                |
+#        | the "Print" icon works correctly                |
+#        | the "PDF" icon works correctly                  |
+#        | the link to the regulation part works correctly |
+#   And I see that for each part detail in the regulation table:
+#        | the "Next" button works correctly     |
+#        | the "Previous" button works correctly |
+#        | the "ToC" button works correctly      |
+#        | the "Top" button works correctly      |
+#        | the internal links work correctly     |
+#        | all ToC links have an anchor          |
+#        | all anchors have a ToC link           |
 
   @validate-regulation-affars @wip
   Scenario: Table Regulation - AFFARS

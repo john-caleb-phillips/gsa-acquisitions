@@ -1,30 +1,37 @@
 package com.reisystems.automation.gsa.acquisitions.steps.regulations;
 
+import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchivePages;
 import com.reisystems.automation.gsa.acquisitions.pageobject.regulations.RegulationPages;
 import com.reisystems.automation.gsa.acquisitions.steps.general.GeneralSteps;
 import com.reisystems.blaze.controller.BlazeLibrary;
-import io.cucumber.java.en.Given;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.commons.validator.routines.UrlValidator;
+import org.openqa.selenium.By;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
 import java.util.Map;
 
 public class RegulationPageSteps {
 
     BlazeLibrary blazeLibrary;
     GeneralSteps generalSteps;
+    ArchivePages archivePages;
     RegulationPages regulationPages;
 
-    public RegulationPageSteps(BlazeLibrary blazeLibrary, GeneralSteps generalSteps, RegulationPages regulationPages) {
+    public RegulationPageSteps(BlazeLibrary blazeLibrary, GeneralSteps generalSteps, ArchivePages archivePages, RegulationPages regulationPages) {
         this.blazeLibrary = blazeLibrary;
         this.generalSteps = generalSteps;
+        this.archivePages = archivePages;
         this.regulationPages = regulationPages;
-    }
-
-    @Given("I am on the regulation page")
-    public void goToRegulationPage() {
-        regulationPages.mainPage().goToPage();
     }
 
     @When("I navigate to the {string} regulation page")
@@ -118,5 +125,61 @@ public class RegulationPageSteps {
         blazeLibrary.assertion().assertThat(regulationPages.tablePage().getContent())
                 .as("Verifying content for regulation")
                 .isEqualToIgnoringNewLines(expectedContent);
+    }
+
+    @Then("I see the link to {string} works in the regulation content")
+    public void verifyRegulationArchivesLink(String linkText) {
+        blazeLibrary.assertion().assertThat(regulationPages.tablePage().linkIsPresent(linkText))
+                .as("Link to the Archives with text '%s' is present", linkText)
+                .isTrue();
+        if (blazeLibrary.assertion().wasSuccess()) {
+            String regulation = regulationPages.tablePage().getRegulationName();
+            regulationPages.tablePage().clickLink(linkText);
+            blazeLibrary.assertion().assertThat(archivePages.search().areOnPage())
+                    .as("Verifying the Archives link goes to the correct page")
+                    .isEqualTo(true);
+            if (blazeLibrary.assertion().wasSuccess()) {
+                blazeLibrary.assertion().assertThat(archivePages.search().getArchiveType())
+                        .as("Verifying that are on the '%s' archive page", regulation)
+                        .isEqualTo(regulation);
+            }
+            blazeLibrary.browser().navigateBack();
+        }
+    }
+
+    @Then("I see each link in the regulation content works correctly")
+    public void verifyRegulationContentLinks() {
+        List<BlazeWebElement> links = blazeLibrary.getElements(By.xpath("//div[@class='view-header']//a"));
+        blazeLibrary.assertion().assertThat(links.size() != 0)
+                .as("There must be at least on link in the contents")
+                .isTrue();
+        if (blazeLibrary.assertion().wasSuccess()) {
+            for (BlazeWebElement link : links) {
+                try {
+                    URL url = new URL(link.getAttribute("href"));
+                    if (url.getProtocol().startsWith("http")) {
+                        blazeLibrary.assertion().assertThat(UrlValidator.getInstance().isValid(url.toString()))
+                                .as("Verifying that '%s' is a valid url address", url.toString())
+                                .isTrue();
+                    } else if (url.getProtocol().equals("mailto")) {
+                        String file = url.getFile();
+                        blazeLibrary.assertion().assertThat(EmailValidator.getInstance().isValid(file))
+                                .as("Verifying that '%s' is a valid email address", file)
+                                .isTrue();
+                    } else {
+                        blazeLibrary.assertion().assertThat(true).as("There was an unexpected issue").withFailMessage("TESTING").isFalse();
+                    }
+
+                } catch (MalformedURLException e) {
+                    blazeLibrary.assertion().assertThat(true)
+                            .as("'%s': There was an unexpected MalformedURLException: %s", link.getText(), e.getMessage())
+                            .isFalse();
+                } catch (IOException e) {
+                    blazeLibrary.assertion().assertThat(true)
+                            .as("'%s': There was an unexpected IOException: %s", link.getText(), e.getMessage())
+                            .isFalse();
+                }
+            }
+        }
     }
 }

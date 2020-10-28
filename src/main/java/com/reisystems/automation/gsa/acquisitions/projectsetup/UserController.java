@@ -1,7 +1,7 @@
 package com.reisystems.automation.gsa.acquisitions.projectsetup;
 
 
-import com.reisystems.blaze.controller.EnvironmentController;
+import com.reisystems.blaze.controller.StaticEnvironmentController;
 import com.reisystems.blaze.interfaces.UserInfoController;
 
 import java.util.Map;
@@ -31,8 +31,8 @@ public class UserController implements UserInfoController {
     }
 
     private UserInfo userInfo(String userLevel) {
-        if (userInfoMap.containsKey(EnvironmentController.getEnvironmentName() + "_" + userLevel)) {
-            return userInfoMap.get(EnvironmentController.getEnvironmentName() + "_" + userLevel);
+        if (userInfoMap.containsKey(StaticEnvironmentController.getEnvironmentName() + "_" + userLevel)) {
+            return userInfoMap.get(StaticEnvironmentController.getEnvironmentName() + "_" + userLevel);
         }
         return new UserInfo("invalid", "invalid");
     }

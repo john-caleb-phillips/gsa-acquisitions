@@ -1,9 +1,12 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.general;
 
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.elements.PageObject;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.OutputType;
 
 import java.awt.image.BufferedImage;
 
@@ -30,8 +33,19 @@ public class Header extends HasBlazeLibrary {
     }
 
     public void clickRegulationDropdownLink(String linkText) {
-        blazeLibrary.mouseAndKeyboard().moveToElement(blazeLibrary.getElement(locators.topLevelLink("Regulations"))).perform();
-        blazeLibrary.getElement(locators.regulationDropdownLink(linkText)).click(blazeLibrary.clickResults().REFRESH_PAGE);
+        try {
+            blazeLibrary.mouseAndKeyboard().moveToElement(blazeLibrary.getElement(locators.topLevelLink("Regulations"))).perform();
+            BlazeWebElement wrapper = blazeLibrary.getElement(By.xpath("//li[.//a[@title='Regulations']]//div[contains(@class, 'tb-megamenu-submenu')]"));
+            System.out.println("Before attach image");
+            blazeLibrary.report().attachImage(wrapper.getScreenshotAs(OutputType.BYTES), "PNG", String.format("'%s' wrapper", linkText));
+            System.out.println("After attach image");
+            System.out.println("Before click");
+            blazeLibrary.getElement(locators.regulationDropdownLink(linkText)).click(blazeLibrary.clickResults().REFRESH_PAGE);
+            System.out.println("After click");
+        } catch (ElementClickInterceptedException e) {
+
+            throw e;
+        }
     }
 
     public void clickPolicyNetworkDropdownLink(String linkText) {

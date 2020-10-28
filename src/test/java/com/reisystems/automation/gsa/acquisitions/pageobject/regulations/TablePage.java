@@ -33,6 +33,16 @@ public class TablePage extends HasBlazeLibrary {
                 .stream().map(BlazeWebElement::getText).collect(Collectors.joining("\n"));
     }
 
+    public boolean linkIsPresent(String linkText) {
+        return blazeLibrary.getElement(By.xpath(String.format(".//a[normalize-space(.)='%s']", linkText))).isPresent();
+    }
+
+    public void clickLink(String linkText) {
+        blazeLibrary.getElement(By.xpath(String.format(".//a[normalize-space(.)='%s']", linkText))).click(
+                blazeLibrary.clickResults().REFRESH_PAGE
+        );
+    }
+
     public void forEachPart(Consumer<PartRow> consumer) {
         int numberOfSearchRows = numberOfSearchRows();
         for (int i = 1; i <= numberOfSearchRows; i++) {
