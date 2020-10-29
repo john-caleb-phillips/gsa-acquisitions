@@ -25,14 +25,14 @@ Feature: Regulations - Table Format
       """
     And I see the link to "Regulation Archives" works in the regulation content
     And I see each link in the regulation content works correctly
-#    And I see the regulation table can be sorted by "Part Number"
-#    And I see the regulation table can be sorted by "Title"
-#    And I see that for each part in the regulation table:
-#        | there is a part number                          |
-#        | there is a title                                |
-#        | the "Print" icon works correctly                |
-#        | the "PDF" icon works correctly                  |
-#        | the link to the regulation part works correctly |
+    And I see the regulation table can be sorted by "Part Number"
+    And I see the regulation table can be sorted by "Title"
+    And I see that for each part in the regulation table:
+        | there is a part number                          |
+        | there is a title                                |
+        | the "Print" icon works correctly                |
+        | the "PDF" icon works correctly                  |
+        | the link to the regulation part works correctly |
 #   And I see that for each part detail in the regulation table:
 #        | the "Next" button works correctly     |
 #        | the "Previous" button works correctly |

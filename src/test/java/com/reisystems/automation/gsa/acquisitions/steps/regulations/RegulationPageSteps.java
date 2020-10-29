@@ -2,6 +2,7 @@ package com.reisystems.automation.gsa.acquisitions.steps.regulations;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchivePages;
 import com.reisystems.automation.gsa.acquisitions.pageobject.regulations.RegulationPages;
+import com.reisystems.automation.gsa.acquisitions.pageobject.regulations.TablePage;
 import com.reisystems.automation.gsa.acquisitions.steps.general.GeneralSteps;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
@@ -13,10 +14,9 @@ import org.openqa.selenium.By;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -169,17 +169,87 @@ public class RegulationPageSteps {
                     } else {
                         blazeLibrary.assertion().assertThat(true).as("There was an unexpected issue").withFailMessage("TESTING").isFalse();
                     }
-
                 } catch (MalformedURLException e) {
                     blazeLibrary.assertion().assertThat(true)
                             .as("'%s': There was an unexpected MalformedURLException: %s", link.getText(), e.getMessage())
                             .isFalse();
-                } catch (IOException e) {
-                    blazeLibrary.assertion().assertThat(true)
-                            .as("'%s': There was an unexpected IOException: %s", link.getText(), e.getMessage())
-                            .isFalse();
                 }
             }
         }
+    }
+
+    @Then("I see the regulation table can be sorted by {string}")
+    public void verifyTableSorting(String columnToSortOn) {
+        blazeLibrary.assertion().assertThat(regulationPages.tablePage().tableHasColumn(columnToSortOn))
+                .as("The '%s' column is present in the table", columnToSortOn)
+                .isTrue();
+        if (blazeLibrary.assertion().wasSuccess()) {
+            regulationPages.tablePage().sortTableByColumn(columnToSortOn, TablePage.SortOrder.ASCENDING);
+            List<String> columnValues = regulationPages.tablePage().getColumn(columnToSortOn);
+            blazeLibrary.assertion().assertThat(columnValues)
+                    .as("The '%s' column is sorted in ascending order", columnToSortOn)
+                    .isSorted();
+            regulationPages.tablePage().sortTableByColumn(columnToSortOn, TablePage.SortOrder.DESCENDING);
+            columnValues = regulationPages.tablePage().getColumn(columnToSortOn);
+            blazeLibrary.assertion().assertThat(columnValues)
+                    .as("The '%s' column is sorted in descending order", columnToSortOn)
+                    .isSortedAccordingTo(Comparator.reverseOrder());
+        }
+    }
+
+    @Then("I see that for each part in the regulation table:")
+    public void verifyTableRows(List<String> thingsToCheck) {
+        regulationPages.tablePage().sortTableByColumn("Part Number", TablePage.SortOrder.ASCENDING);
+        regulationPages.tablePage().forEachPart(part -> {
+            if (thingsToCheck.contains("there is a part number")) {
+                blazeLibrary.assertion().assertThat(part.getNumber())
+                        .as("There should be a part number")
+                        .isNotBlank();
+            }
+            if (thingsToCheck.contains("there is a title")) {
+                blazeLibrary.assertion().assertThat(part.getTitle())
+                        .as("There should be a title")
+                        .isNotBlank();
+            }
+            if (thingsToCheck.contains("the \"Print\" icon works correctly")) {
+                try {
+                    part.getPrintUrl().openStream();
+                } catch (IOException e) {
+                    blazeLibrary.assertion().assertThat(true)
+                            .as("Print file could not be opened")
+                            .isFalse();
+                } catch (NullPointerException e) {
+                    blazeLibrary.assertion().assertThat(true)
+                            .as("Print icon was not present")
+                            .isFalse();
+                }
+            }
+            if (thingsToCheck.contains("the \"PDF\" icon works correctly")) {
+                try {
+                    part.getPdfUrl().openStream();
+                } catch (IOException e) {
+                    blazeLibrary.assertion().assertThat(true)
+                            .as("PDF file could not be opened")
+                            .isFalse();
+                } catch (NullPointerException e) {
+                    blazeLibrary.assertion().assertThat(true)
+                            .as("PDF icon was not present")
+                            .isFalse();
+                }
+            }
+            if (thingsToCheck.contains("the link to the regulation part works correctly")) {
+                String regulationName = regulationPages.tablePage().getRegulationName();
+                String number = part.getNumber();
+                part.goToPart();
+
+                blazeLibrary.assertion().assertThat(blazeLibrary.getElement(By.xpath("//div[@id='main-content-internal']//img/following-sibling::span")).getText())
+                        .as("Verifying the page regulation name is correct")
+                        .isEqualTo(regulationName);
+                blazeLibrary.assertion().assertThat(blazeLibrary.getElement(By.xpath("//div[@class='utility_icons']//ul/li[@class='active']/a")).getText())
+                        .as("Verifying the part number is correct")
+                        .contains(number.substring(5));
+                blazeLibrary.browser().navigateBack();
+            }
+        });
     }
 }

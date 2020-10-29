@@ -88,7 +88,7 @@ public class CaacPageSteps {
     public void verifyAttachmentFiles() {
         policyNetworkPage.caac().forEachAttachment(el -> {
             blazeLibrary.assertion().assertThat(el.getFileUrl())
-                    .as("Verifying file download ofr '%s'", el.getFileName()).isNotNull();
+                    .as("Verifying file download of '%s'", el.getFileName()).isNotNull();
             if (blazeLibrary.assertion().wasSuccess()) {
                 try {
                     el.getFileUrl().openStream();
