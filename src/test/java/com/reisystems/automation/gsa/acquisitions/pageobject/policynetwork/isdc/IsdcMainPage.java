@@ -1,9 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.isdc;
 
-import com.reisystems.blaze.elements.HasBlazeLibrary;
-import com.reisystems.blaze.elements.PageObject;
-import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import com.reisystems.blaze.elements.BlazeWebElement;
+import com.reisystems.blaze.elements.PageObject;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 
@@ -94,6 +93,7 @@ public class IsdcMainPage extends PageObject {
     public static class DownloadLink {
         public final URL url;
         public final String name;
+
         private DownloadLink(URL url, String name) {
             this.url = url;
             this.name = name;

@@ -2,7 +2,6 @@ package com.reisystems.automation.gsa.acquisitions.pageobject.regulations;
 
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
-import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.elements.PageObject;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -44,9 +43,11 @@ public class RegulationMainPage extends PageObject {
         private static By regulationLink(String regulationName) {
             return By.xpath(String.format("//div[@class='field-items']//a[normalize-space(.)='%s']", regulationName));
         }
+
         private static By regulationLinks() {
             return By.xpath("//div[@class='field-items']//a");
         }
+
         private static By regulationImage(String regulationName) {
             return By.xpath(String.format("//div[@class='field-items']//a[normalize-space(.)='%s']//img", regulationName));
         }

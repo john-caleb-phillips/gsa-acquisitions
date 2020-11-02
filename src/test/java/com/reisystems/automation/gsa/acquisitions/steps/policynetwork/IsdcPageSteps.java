@@ -1,7 +1,7 @@
 package com.reisystems.automation.gsa.acquisitions.steps.policynetwork;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.isdc.IsdcMainPage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.PolicyNetworkPages;
+import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.isdc.IsdcMainPage;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -12,8 +12,8 @@ import java.util.List;
 
 public class IsdcPageSteps {
 
-    BlazeLibrary blazeLibrary;
-    PolicyNetworkPages policyNetworkPage;
+    private final BlazeLibrary blazeLibrary;
+    private final PolicyNetworkPages policyNetworkPage;
 
     public IsdcPageSteps(BlazeLibrary blazeLibrary, PolicyNetworkPages policyNetworkPage) {
         this.blazeLibrary = blazeLibrary;
@@ -98,7 +98,6 @@ public class IsdcPageSteps {
             }
         }
     }
-
 
 
     @Then("I see the following ISDC footer links:")

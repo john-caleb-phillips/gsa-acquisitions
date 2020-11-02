@@ -1,8 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.archives;
 
-import com.reisystems.blaze.elements.PageObject;
-import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import com.reisystems.blaze.elements.BlazeWebElement;
+import com.reisystems.blaze.elements.PageObject;
 import org.openqa.selenium.By;
 
 import java.net.MalformedURLException;

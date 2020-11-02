@@ -1,4 +1,4 @@
-@all @easi
+@all @easi @wip
 Feature: EASi Features
 
   @test-qwe

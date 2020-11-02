@@ -5,9 +5,8 @@ import com.google.gson.reflect.TypeToken;
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.HomePage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.NewsPage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.UpdatePage;
-import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
-import io.cucumber.java.en.Given;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
@@ -21,8 +20,8 @@ import java.util.Map;
 
 public class HomePageSteps {
 
-    HomePage homePage;
-    NewsPage newsPage;
+    private final HomePage homePage;
+    private final NewsPage newsPage;
 
     private final BlazeLibrary blazeLibrary;
 
@@ -62,7 +61,7 @@ public class HomePageSteps {
         Type type = new TypeToken<List<NewsPage.NewsItem>>() {
         }.getType();
         blazeLibrary.assertion().assertThat(homePageNewsItems)
-                .usingElementComparator(new Comparator<>() {
+                .usingElementComparator(new Comparator<NewsPage.NewsItem>() {
                     @Override
                     public int compare(NewsPage.NewsItem o1, NewsPage.NewsItem o2) {
                         return o1.day.equals(o2.day) && o1.month.equals(o2.month) && o1.title.equals(o2.title) && o1.content.equals(o2.content) ? 0 : 1;
@@ -88,9 +87,10 @@ public class HomePageSteps {
             ));
         }
 
-        Type type = new TypeToken<List<UpdatePage.UpdateItem>>() {}.getType();
+        Type type = new TypeToken<List<UpdatePage.UpdateItem>>() {
+        }.getType();
         blazeLibrary.assertion().assertThat(homePageUpdateItems)
-                .usingElementComparator(new Comparator<>() {
+                .usingElementComparator(new Comparator<UpdatePage.UpdateItem>() {
                     @Override
                     public int compare(UpdatePage.UpdateItem o1, UpdatePage.UpdateItem o2) {
                         return (o1.section.contains(o2.section) || o2.section.contains(o1.section)) && o1.caseNumber.equals(o2.caseNumber) ? 0 : 1;

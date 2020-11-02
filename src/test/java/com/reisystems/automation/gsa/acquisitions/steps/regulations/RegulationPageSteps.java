@@ -12,20 +12,22 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.openqa.selenium.By;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 public class RegulationPageSteps {
 
-    BlazeLibrary blazeLibrary;
-    GeneralSteps generalSteps;
-    ArchivePages archivePages;
-    RegulationPages regulationPages;
+    private final BlazeLibrary blazeLibrary;
+    private final GeneralSteps generalSteps;
+    private final ArchivePages archivePages;
+    private final RegulationPages regulationPages;
 
     public RegulationPageSteps(BlazeLibrary blazeLibrary, GeneralSteps generalSteps, ArchivePages archivePages, RegulationPages regulationPages) {
         this.blazeLibrary = blazeLibrary;
@@ -202,18 +204,44 @@ public class RegulationPageSteps {
         regulationPages.tablePage().sortTableByColumn("Part Number", TablePage.SortOrder.ASCENDING);
         regulationPages.tablePage().forEachPart(part -> {
             if (thingsToCheck.contains("there is a part number")) {
-                blazeLibrary.assertion().assertThat(part.getNumber())
+                blazeLibrary.assertion().assertThat(part.info().partNumber())
                         .as("There should be a part number")
                         .isNotBlank();
             }
             if (thingsToCheck.contains("there is a title")) {
-                blazeLibrary.assertion().assertThat(part.getTitle())
+                blazeLibrary.assertion().assertThat(part.info().title())
                         .as("There should be a title")
                         .isNotBlank();
             }
             if (thingsToCheck.contains("the \"Print\" icon works correctly")) {
                 try {
-                    part.getPrintUrl().openStream();
+                    HttpsURLConnection huc = (HttpsURLConnection) part.info().printUrl().openConnection();
+                    huc.setRequestMethod("HEAD");
+                    blazeLibrary.assertion().assertThat(huc.getResponseCode())
+                            .as("Verifying the Print icon")
+                            .isEqualTo(HttpsURLConnection.HTTP_OK);
+                } catch (IOException e) {
+                    blazeLibrary.assertion().assertThat(true)
+                            .as("Print file could not be opened")
+                            .isFalse();
+                } catch (NullPointerException e) {
+                    part.onDetailPage(detailPage ->
+                            blazeLibrary.assertion().assertThat(
+                                    blazeLibrary.getElement(
+                                            By.xpath(String.format("//div[contains(@class, 'field-items')]//a[normalize-space(.)='%s']", part.info().title()))
+                                    ).isPresent())
+                                    .as("Print icon was missing, but there was a link in the detail page")
+                                    .isTrue()
+                    );
+                }
+            }
+            if (thingsToCheck.contains("the \"PDF\" icon works correctly")) {
+                try {
+                    HttpsURLConnection huc = (HttpsURLConnection) part.info().pdfUrl().openConnection();
+                    huc.setRequestMethod("HEAD");
+                    blazeLibrary.assertion().assertThat(huc.getResponseCode())
+                            .as("Verifying the Print icon")
+                            .isEqualTo(HttpsURLConnection.HTTP_OK);
                 } catch (IOException e) {
                     blazeLibrary.assertion().assertThat(true)
                             .as("Print file could not be opened")
@@ -224,31 +252,118 @@ public class RegulationPageSteps {
                             .isFalse();
                 }
             }
-            if (thingsToCheck.contains("the \"PDF\" icon works correctly")) {
-                try {
-                    part.getPdfUrl().openStream();
-                } catch (IOException e) {
-                    blazeLibrary.assertion().assertThat(true)
-                            .as("PDF file could not be opened")
-                            .isFalse();
-                } catch (NullPointerException e) {
-                    blazeLibrary.assertion().assertThat(true)
-                            .as("PDF icon was not present")
-                            .isFalse();
+
+        });
+    }
+
+    @Then("I see that for each part detail in the regulation table:")
+    public void verifyRegulationDetailPages(List<String> thingsToCheck) {
+        String regulationName = regulationPages.tablePage().getRegulationName();
+        regulationPages.tablePage().sortTableByColumn("Part Number", TablePage.SortOrder.ASCENDING);
+        regulationPages.tablePage().forEachDetailPage(detailPage -> {
+            if (thingsToCheck.contains("the regulation name matches with row value")) {
+                blazeLibrary.assertion().assertThat(detailPage.getRegulationName())
+                        .as("%s - %s: Verifying the page regulation name is correct", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                        .isEqualTo(regulationName);
+            }
+            if (thingsToCheck.contains("the part number matches with row value")) {
+                blazeLibrary.assertion().assertThat(detailPage.getPartNumber())
+                        .as("%s - %s: Verifying the part number is correct", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                        .contains(detailPage.getCurrentRowInfo().partNumber().substring(5));
+            }
+            if (thingsToCheck.contains("the breadcrumbs are correct")) {
+                blazeLibrary.assertion().assertThat(detailPage.getBreadcrumbs())
+                        .as("%s - %s: Verifying the breadcrumbs", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                        .containsExactlyElementsOf(Arrays.asList("Home", "Regulations", regulationName, detailPage.getCurrentRowInfo().title()));
+            }
+            if (thingsToCheck.contains("the \"Previous\" button works correctly") && detailPage.getCurrentRowInfo().printUrl() != null) {
+                if (detailPage.getPreviousRowInfo() != null) {
+                    blazeLibrary.assertion().assertThat(detailPage.hasPreviousPage())
+                            .as("%s - %s: Verifying that the Previous page button is present", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                            .isTrue();
+                    if (blazeLibrary.assertion().wasSuccess()) {
+                        detailPage.goToPreviousPage();
+
+                        blazeLibrary.assertion().assertThat(detailPage.getPartNumber())
+                                .as("%s - %s: Verifying the part number is correct on the previous page", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                                .isEqualTo(detailPage.getPreviousRowInfo().partNumber().substring(5));
+
+                        blazeLibrary.browser().navigateBack();
+                    }
                 }
             }
-            if (thingsToCheck.contains("the link to the regulation part works correctly")) {
-                String regulationName = regulationPages.tablePage().getRegulationName();
-                String number = part.getNumber();
-                part.goToPart();
+            if (thingsToCheck.contains("the \"Next\" button works correctly") && detailPage.getCurrentRowInfo().printUrl() != null) {
+                if (detailPage.getNextRowInfo() != null) {
+                    blazeLibrary.assertion().assertThat(detailPage.hasNextPage())
+                            .as("%s - %s: Verifying that the Next page button is present", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                            .isTrue();
+                    if (blazeLibrary.assertion().wasSuccess()) {
+                        detailPage.goToNextPage();
 
-                blazeLibrary.assertion().assertThat(blazeLibrary.getElement(By.xpath("//div[@id='main-content-internal']//img/following-sibling::span")).getText())
-                        .as("Verifying the page regulation name is correct")
-                        .isEqualTo(regulationName);
-                blazeLibrary.assertion().assertThat(blazeLibrary.getElement(By.xpath("//div[@class='utility_icons']//ul/li[@class='active']/a")).getText())
-                        .as("Verifying the part number is correct")
-                        .contains(number.substring(5));
-                blazeLibrary.browser().navigateBack();
+                        blazeLibrary.assertion().assertThat(detailPage.getPartNumber())
+                                .as("%s - %s: Verifying the part number is correct on the next page", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                                .isEqualTo(detailPage.getNextRowInfo().partNumber().substring(5));
+
+                        blazeLibrary.browser().navigateBack();
+                    }
+                }
+            }
+            if (thingsToCheck.contains("the \"ToC\" button works correctly") && detailPage.getCurrentRowInfo().printUrl() != null) {
+                blazeLibrary.assertion().assertThat(detailPage.hasTocLink())
+                        .as("%s - %s: Verifying that the ToC page button is present", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                        .isTrue();
+                if (blazeLibrary.assertion().wasSuccess()) {
+                    detailPage.clickTocLink();
+
+                    generalSteps.goToPage("taken to", regulationName + " regulation");
+
+                    blazeLibrary.browser().navigateBack();
+                }
+            }
+            if (thingsToCheck.contains("the \"Top\" button works correctly") && detailPage.getCurrentRowInfo().printUrl() != null) {
+                blazeLibrary.assertion().assertThat(detailPage.hasTopLink())
+                        .as("%s - %s: Verifying that the Top page button is present", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                        .isTrue();
+
+                if (blazeLibrary.assertion().wasSuccess()) {
+                    detailPage.clickTopLink();
+
+                    String[] currentUrlParts = blazeLibrary.browser().getCurrentUrl().split("#");
+                    blazeLibrary.assertion().assertThat(currentUrlParts.length > 1 && "TopOfPage".equals(currentUrlParts[1]))
+                            .as("%s - %s: Verifying the anchor after clicking the Top button", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                            .isTrue();
+
+                    blazeLibrary.browser().navigateBack();
+                }
+            }
+            if (thingsToCheck.contains("the internal links work correctly")) {
+                blazeLibrary.assertion().assertThat(detailPage.getContentUrls())
+                        .as("%s - %s: Verifying the content urls", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                        .allMatch(url -> {
+                            if (url.getProtocol().startsWith("http")) {
+                                return UrlValidator.getInstance().isValid(url.toString());
+                            } else if (url.getProtocol().equals("mailto")) {
+                                return EmailValidator.getInstance().isValid(url.getFile());
+                            }
+                            return false;
+                        });
+            }
+            if (thingsToCheck.contains("all ToC links have an anchor")
+                    || thingsToCheck.contains("all anchors have a ToC link")) {
+                List<String> tocAnchorLinks = detailPage.getTocAnchorLinks();
+                List<String> contentAnchors = detailPage.getContentAnchors();
+
+                if (thingsToCheck.contains("all ToC links have an anchor")) {
+                    blazeLibrary.assertion().assertThat(contentAnchors)
+                            .as("%s - %s: Verifying the ToC links have corresponding anchors", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                            .containsAll(tocAnchorLinks);
+                }
+
+                if (thingsToCheck.contains("all anchors have a ToC link")) {
+                    blazeLibrary.assertion().assertThat(tocAnchorLinks)
+                            .as("%s - %s: Verifying the anchors have corresponding ToC links", regulationName, detailPage.getCurrentRowInfo().partNumber())
+                            .containsAll(contentAnchors);
+                }
             }
         });
     }

@@ -1,7 +1,6 @@
 package com.reisystems.automation.gsa.acquisitions.steps.general;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.general.Header;
-import com.reisystems.automation.gsa.acquisitions.pageobject.smartmartix.SmartMatrixPage;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -12,7 +11,7 @@ import java.util.Map;
 
 public class HeaderSteps {
 
-    Header header;
+    private final Header header;
     private final BlazeLibrary blazeLibrary;
 
     public HeaderSteps(BlazeLibrary blazelibrary, Header header) {

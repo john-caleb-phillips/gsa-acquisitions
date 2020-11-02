@@ -1,9 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.general;
 
-import com.reisystems.blaze.elements.HasBlazeLibrary;
-import com.reisystems.blaze.elements.PageObject;
-import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import com.reisystems.blaze.elements.BlazeWebElement;
+import com.reisystems.blaze.elements.PageObject;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;

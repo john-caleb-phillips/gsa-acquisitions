@@ -5,19 +5,10 @@ import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.report.LogLevel;
-import io.cucumber.java.After;
-import io.cucumber.java.AfterStep;
-import io.cucumber.java.Before;
-import io.cucumber.java.BeforeStep;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 
-import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -25,7 +16,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class SmartMatrixPageSteps extends HasBlazeLibrary {
-    SmartMatrixPage smartMatrixPage;
+    private final SmartMatrixPage smartMatrixPage;
 
     public SmartMatrixPageSteps(BlazeLibrary blazeLibrary, SmartMatrixPage smartMatrixPage) {
         super(blazeLibrary);
@@ -79,6 +70,7 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
     }
 
     private boolean shouldBeChecked;
+
     @When("^I (check|uncheck) any of the contract checkboxes$")
     public void stubMethod(String checkOrUncheck) {
         shouldBeChecked = "check".equals(checkOrUncheck);
@@ -86,6 +78,7 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
 
     @When("I choose any of the contract dropdown options")
     public void stubMethod() {
+        System.out.println("This is a stub method");
     }
 
     @Then("^the corresponding contract dropdown becomes (active|inactive)$")
@@ -209,7 +202,6 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
             }
 
 
-
             blazeLibrary.browser().closeTab();
         }
     }
@@ -252,7 +244,7 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
 
     @Then("^the following contract checkboxes (are|are not) checked:$")
     public void verifyContractCheckboxes(String areOrAreNot, List<String> expectedContractCheckboxes) {
-        expectedContractCheckboxes.removeIf(String::isBlank);
+        expectedContractCheckboxes.removeIf(el -> el == null || el.trim().isEmpty());
         for (String expectedContractCheckbox : expectedContractCheckboxes) {
             blazeLibrary.assertion().assertThat(smartMatrixPage.contractIsSelected(SmartMatrixPage.Contract.valueOf(expectedContractCheckbox)))
                     .as("Verifying the %s contract checkbox %s checked", expectedContractCheckbox, "are".equals(areOrAreNot) ? "is" : "is not")
@@ -310,7 +302,7 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
     }
 
     private final static Pattern pattern = Pattern.compile("(\\d+)\\.(\\d+)(?:-(\\d+))?(?:\\(([a-z]+)\\)(?:\\(([1-9]+)\\))?)?(.*)");
-    Comparator<String> columnSorting = new Comparator<>() {
+    private final static Comparator<String> columnSorting = new Comparator<String>() {
         @Override
         public int compare(String o1, String o2) {
             Matcher matcher1 = pattern.matcher(o1);

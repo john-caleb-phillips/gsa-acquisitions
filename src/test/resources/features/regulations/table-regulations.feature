@@ -1,4 +1,4 @@
-@all @regulations @main-page
+@all @regulations
 Feature: Regulations - Table Format
 
   @validate-regulation-afars
@@ -23,24 +23,26 @@ Feature: Regulations - Table Format
 
       (Please note: this link requires CAC and is not available to all users)
       """
-    And I see the link to "Regulation Archives" works in the regulation content
-    And I see each link in the regulation content works correctly
-    And I see the regulation table can be sorted by "Part Number"
-    And I see the regulation table can be sorted by "Title"
-    And I see that for each part in the regulation table:
-        | there is a part number                          |
-        | there is a title                                |
-        | the "Print" icon works correctly                |
-        | the "PDF" icon works correctly                  |
-        | the link to the regulation part works correctly |
-#   And I see that for each part detail in the regulation table:
-#        | the "Next" button works correctly     |
-#        | the "Previous" button works correctly |
-#        | the "ToC" button works correctly      |
-#        | the "Top" button works correctly      |
-#        | the internal links work correctly     |
-#        | all ToC links have an anchor          |
-#        | all anchors have a ToC link           |
+#    And I see the link to "Regulation Archives" works in the regulation content
+#    And I see each link in the regulation content works correctly
+#    And I see the regulation table can be sorted by "Part Number"
+#    And I see the regulation table can be sorted by "Title"
+#    And I see that for each part in the regulation table:
+#      | there is a part number           |
+#      | there is a title                 |
+#      | the "Print" icon works correctly |
+#      | the "PDF" icon works correctly   |
+    And I see that for each part detail in the regulation table:
+#      | the regulation name matches with row value |
+#      | the part number matches with row value     |
+#      | the breadcrumbs are correct                |
+#      | the "Next" button works correctly          |
+#      | the "Previous" button works correctly      |
+#      | the "ToC" button works correctly           |
+#      | the "Top" button works correctly           |
+#      | the internal links work correctly          |
+      | all ToC links have an anchor |
+      | all anchors have a ToC link  |
 
   @validate-regulation-affars @wip
   Scenario: Table Regulation - AFFARS

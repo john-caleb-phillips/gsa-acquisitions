@@ -2,9 +2,8 @@ package com.reisystems.automation.gsa.acquisitions.steps.search;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchiveDetailPage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.search.SearchPage;
-import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
-import io.cucumber.java.en.Given;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
@@ -12,14 +11,13 @@ import org.openqa.selenium.By;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class SearchPageSteps {
 
-    BlazeLibrary blazeLibrary;
-    SearchPage searchPage;
-    ArchiveDetailPage archiveDetailPage;
+    private final BlazeLibrary blazeLibrary;
+    private final SearchPage searchPage;
+    private final ArchiveDetailPage archiveDetailPage;
 
     public SearchPageSteps(BlazeLibrary blazeLibrary, SearchPage searchPage, ArchiveDetailPage archiveDetailPage) {
         this.blazeLibrary = blazeLibrary;
@@ -138,7 +136,9 @@ public class SearchPageSteps {
         List<String> actualSideBarOptions = searchPage.getFilterOptions(sidebarHeader).stream().map(option -> option.text).collect(Collectors.toList());
         blazeLibrary.assertion().assertThat(actualSideBarOptions)
                 .as("Checking options under sidebar header '%s'", sidebarHeader)
-                .containsExactlyElementsOf(expectedSidebarOptions.stream().filter(Predicate.not(String::isEmpty)).collect(Collectors.toList()));
+                .containsExactlyElementsOf(expectedSidebarOptions.stream()
+                        .filter(el -> el != null && !el.isEmpty()).collect(Collectors.toList())
+                );
     }
 
     @Then("I see every search result is from {string} archive")

@@ -1,11 +1,9 @@
 package com.reisystems.automation.gsa.acquisitions.steps.archives;
 
-import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchiveSearchPage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchivePages;
-import com.reisystems.blaze.elements.BlazeWebElement;
+import com.reisystems.automation.gsa.acquisitions.pageobject.archives.ArchiveSearchPage;
 import com.reisystems.blaze.controller.BlazeLibrary;
-import io.cucumber.java.ParameterType;
-import io.cucumber.java.en.Given;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.commons.io.IOUtils;
@@ -14,13 +12,16 @@ import org.openqa.selenium.By;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ArchivesPageSteps {
 
-    BlazeLibrary blazeLibrary;
-    ArchivePages archive;
+    private final BlazeLibrary blazeLibrary;
+    private final ArchivePages archive;
 
     public ArchivesPageSteps(BlazeLibrary blazeLibrary, ArchivePages archive) {
         this.blazeLibrary = blazeLibrary;
@@ -163,7 +164,7 @@ public class ArchivesPageSteps {
 
     @Then("I see the effective date in the search row matches the effective date in the detail page")
     public void verifyEffectiveDate() {
-        for (ArchiveDetails detail : theSavedDetails){
+        for (ArchiveDetails detail : theSavedDetails) {
             blazeLibrary.assertion().assertThat(detail.detailEffectiveDate != null)
                     .as("[%s:%s] 'Effective Date' was not present in detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
             if (blazeLibrary.assertion().wasSuccess()) {
@@ -354,19 +355,19 @@ public class ArchivesPageSteps {
     }
 
     private static class ArchiveDetails {
-        String rowFacNumber;
-        String rowArchiveType;
-        ArchiveDownloadLink rowPdfFile;
-        ArchiveDownloadLink rowZipFile;
-        LocalDate rowEffectiveDate;
+        private final String rowFacNumber;
+        private final String rowArchiveType;
+        private final ArchiveDownloadLink rowPdfFile;
+        private final ArchiveDownloadLink rowZipFile;
+        private final LocalDate rowEffectiveDate;
 
-        String detailFacNumber;
-        String detailArchiveType;
-        LocalDate detailEffectiveDate;
-        String detailYear;
+        private final String detailFacNumber;
+        private final String detailArchiveType;
+        private final LocalDate detailEffectiveDate;
+        private final String detailYear;
 
-        List<String> headers;
-        List<ArchiveDownloadLink> downloadLinks;
+        private final List<String> headers;
+        private final List<ArchiveDownloadLink> downloadLinks;
 
         private ArchiveDetails(String rowFacNumber, String rowArchiveType, ArchiveDownloadLink rowPdfFile, ArchiveDownloadLink rowZipFile,
                                LocalDate rowEffectiveDate, String detailFacNumber, String detailArchiveType, LocalDate detailEffectiveDate,
@@ -381,7 +382,7 @@ public class ArchivesPageSteps {
             this.detailFacNumber = detailFacNumber;
             this.detailArchiveType = detailArchiveType;
             this.detailEffectiveDate = detailEffectiveDate;
-            this. detailYear = detailYear;
+            this.detailYear = detailYear;
 
             this.headers = headers;
             this.downloadLinks = downloadLinks;
@@ -389,9 +390,9 @@ public class ArchivesPageSteps {
     }
 
     private static class ArchiveDownloadLink {
-        String header;
-        String text;
-        URL url;
+        private final String header;
+        private final String text;
+        private final URL url;
 
         private ArchiveDownloadLink(String header, String text, URL url) {
             this.header = header;
@@ -402,14 +403,5 @@ public class ArchivesPageSteps {
         public String toString() {
             return String.format("ArchiveDownloadLink(header='%s',text='%s',url='%s')", header, text, url);
         }
-    }
-
-    @When("I test a {pageName} test")
-    public void wer() {
-    }
-
-    @ParameterType(value = "policy network|home", useForSnippets = true)
-    public String pageName(String qwe) {
-        return "";
     }
 }

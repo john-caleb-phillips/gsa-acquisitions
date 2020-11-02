@@ -1,9 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.archives;
 
-import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
-import com.reisystems.blaze.elements.PageObject;
 import org.openqa.selenium.By;
 
 import java.net.MalformedURLException;
@@ -91,18 +90,23 @@ public class ArchiveDetailPage extends HasBlazeLibrary {
         private static By header(String headerText) {
             return By.xpath(String.format("//div[@class='field-label' and contains(., '%s')]", headerText));
         }
+
         private static By headers() {
             return By.xpath("//div[@class='field-label']");
         }
+
         private static By downloadLinkHeaders() {
             return By.xpath("//div[contains(@class, 'field-label-above') and .//a]//div[@class='field-label']");
         }
+
         private static By pageContent() {
             return By.xpath("//div[@id='middlecontent']");
         }
+
         private static By headerContent(String headerText) {
             return By.xpath(String.format("//div[@class='field-label' and contains(., '%s')]//following-sibling::div", headerText));
         }
+
         private static By downloadLink(String headerText) {
             return By.xpath(String.format("//div[@class='field-label' and contains(., '%s')]//following-sibling::div//a", headerText));
         }

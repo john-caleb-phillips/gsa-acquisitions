@@ -26,6 +26,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GeneralSteps extends HasBlazeLibrary {
@@ -121,77 +122,79 @@ public class GeneralSteps extends HasBlazeLibrary {
         }
     }
 
-    Map<String, Class<? extends PageObject>> pages = Map.ofEntries(
-            // Start Header Pages
-            Map.entry("home", HomePage.class),
-            Map.entry("archive search", ArchiveSearchPage.class),
-            Map.entry("main regulation", RegulationMainPage.class),
-            Map.entry("main policy network", MainPolicyNetworkPage.class),
-            Map.entry("CAAC", CaacMainPage.class),
-            Map.entry("CAAC letters", CaacLettersPage.class),
-            Map.entry("CAAC members", CaacMembersPage.class),
-            Map.entry("CAOC", CaocMainPage.class),
-            Map.entry("CAOC large agencies", CaocLargeAgenciesPage.class),
-            Map.entry("CAOC small agencies", CaocSmallAgenciesPage.class),
-            Map.entry("CAOC charter", CaocCharterPage.class),
-            Map.entry("CAOC history", CaocHistoryPage.class),
-            Map.entry("FARC", FarcMainPage.class),
-            Map.entry("FARC members", FarcMembersPage.class),
-            Map.entry("FARC meeting", FarcMeetingPage.class),
-            Map.entry("FARC memoranda", FarcMemorandaPage.class),
-            Map.entry("ISDC", IsdcMainPage.class),
-            Map.entry("ISDC officials", IsdcOfficialsPage.class),
-            Map.entry("ISDC debarment", IsdcDebarmentPage.class),
-            Map.entry("ISDC reporting", IsdcReportingPage.class),
-            Map.entry("ISDC compelling reasons", IsdcCompellingReasonsPage.class),
-            Map.entry("site search", SiteSearchPage.class),
-            Map.entry("regulation search", RegulationSearchPage.class),
-            Map.entry("smart matrix", SmartMatrixPage.class),
-            Map.entry("procurement forecasts", ProcurementForecastsPage.class),
-            Map.entry("psc manual", PscManualPage.class),
-            Map.entry("news", NewsPage.class),
-            Map.entry("updates", UpdatePage.class),
-            Map.entry("889 information", EightEightNineInformationPage.class),
-            Map.entry("coronavirus information", CoronavirusInformationPage.class),
-            Map.entry("accessibility aids", AccessibilityAidsPage.class),
-            Map.entry("acquisition systems", AcquisitionSystemsPage.class),
-            Map.entry("contact us", ContactUsPage.class),
-            Map.entry("far resources", FarResourcesPage.class),
-            Map.entry("privacy and security", PrivacySecurityPage.class),
-            Map.entry("training", TrainingPage.class),
-            Map.entry("useful links", UsefulLinksPage.class),
-            Map.entry("chapter 99", Chapter99Page.class),
-            Map.entry("AFARS regulation", AfarsRegulationPage.class),
-            Map.entry("AFFARS regulation", AffarsRegulationPage.class),
-            Map.entry("AGAR regulation", AgarRegulationPage.class),
-            Map.entry("AIDAR regulation", AidarRegulationPage.class),
-            Map.entry("CAR regulation", CarRegulationPage.class),
-            Map.entry("DARS regulation", DarsRegulationPage.class),
-            Map.entry("DEARS regulation", DearsRegulationPage.class),
-            Map.entry("DFARS regulation", DfarsRegulationPage.class),
-            Map.entry("DFARSPGI regulation", DfarspgiRegulationPage.class),
-            Map.entry("DIARS regulation", DiarsRegulationPage.class),
-            Map.entry("DLAD regulation", DladRegulationPage.class),
-            Map.entry("DOLARS regulation", DolarsRegulationPage.class),
-            Map.entry("DOSARS regulation", DosarsRegulationPage.class),
-            Map.entry("DTAR regulation", DtarRegulationPage.class),
-            Map.entry("EDAR regulation", EdarRegulationPage.class),
-            Map.entry("EPAAR regulation", EpaarRegulationPage.class),
-            Map.entry("FAR regulation", FarRegulationPage.class),
-            Map.entry("FEHBAR regulation", FehbarRegulationPage.class),
-            Map.entry("GSAM regulation", GsamRegulationPage.class),
-            Map.entry("HHSAR regulation", HhsarRegulationPage.class),
-            Map.entry("HSAR regulation", HsarRegulationPage.class),
-            Map.entry("HUDAR regulation", HudarRegulationPage.class),
-            Map.entry("IAAR regulation", IaarRegulationPage.class),
-            Map.entry("JAR regulation", JarRegulationPage.class),
-            Map.entry("LIFAR regulation", LifarRegulationPage.class),
-            Map.entry("NFS regulation", NfsRegulationPage.class),
-            Map.entry("NMCARS regulation", NmcarsRegulationPage.class),
-            Map.entry("NRCAR regulation", NrcarRegulationPage.class),
-            Map.entry("SOFARS regulation", SofarsRegulationPage.class),
-            Map.entry("TAR regulation", TarRegulationPage.class),
-            Map.entry("TRANSFARS regulation", TransfarsRegulationPage.class),
-            Map.entry("VAAR regulation", VaarRegulationPage.class)
-    );
+    private static final Map<String, Class<? extends PageObject>> pages = new HashMap<>();
+
+    static {
+        // Start Header Pages
+        pages.put("home", HomePage.class);
+        pages.put("archive search", ArchiveSearchPage.class);
+        pages.put("main regulation", RegulationMainPage.class);
+        pages.put("main policy network", MainPolicyNetworkPage.class);
+        pages.put("CAAC", CaacMainPage.class);
+        pages.put("CAAC letters", CaacLettersPage.class);
+        pages.put("CAAC members", CaacMembersPage.class);
+        pages.put("CAOC", CaocMainPage.class);
+        pages.put("CAOC large agencies", CaocLargeAgenciesPage.class);
+        pages.put("CAOC small agencies", CaocSmallAgenciesPage.class);
+        pages.put("CAOC charter", CaocCharterPage.class);
+        pages.put("CAOC history", CaocHistoryPage.class);
+        pages.put("FARC", FarcMainPage.class);
+        pages.put("FARC members", FarcMembersPage.class);
+        pages.put("FARC meeting", FarcMeetingPage.class);
+        pages.put("FARC memoranda", FarcMemorandaPage.class);
+        pages.put("ISDC", IsdcMainPage.class);
+        pages.put("ISDC officials", IsdcOfficialsPage.class);
+        pages.put("ISDC debarment", IsdcDebarmentPage.class);
+        pages.put("ISDC reporting", IsdcReportingPage.class);
+        pages.put("ISDC compelling reasons", IsdcCompellingReasonsPage.class);
+        pages.put("site search", SiteSearchPage.class);
+        pages.put("regulation search", RegulationSearchPage.class);
+        pages.put("smart matrix", SmartMatrixPage.class);
+        pages.put("procurement forecasts", ProcurementForecastsPage.class);
+        pages.put("psc manual", PscManualPage.class);
+        pages.put("news", NewsPage.class);
+        pages.put("updates", UpdatePage.class);
+        pages.put("889 information", EightEightNineInformationPage.class);
+        pages.put("coronavirus information", CoronavirusInformationPage.class);
+        pages.put("accessibility aids", AccessibilityAidsPage.class);
+        pages.put("acquisition systems", AcquisitionSystemsPage.class);
+        pages.put("contact us", ContactUsPage.class);
+        pages.put("far resources", FarResourcesPage.class);
+        pages.put("privacy and security", PrivacySecurityPage.class);
+        pages.put("training", TrainingPage.class);
+        pages.put("useful links", UsefulLinksPage.class);
+        pages.put("chapter 99", Chapter99Page.class);
+        pages.put("AFARS regulation", AfarsRegulationPage.class);
+        pages.put("AFFARS regulation", AffarsRegulationPage.class);
+        pages.put("AGAR regulation", AgarRegulationPage.class);
+        pages.put("AIDAR regulation", AidarRegulationPage.class);
+        pages.put("CAR regulation", CarRegulationPage.class);
+        pages.put("DARS regulation", DarsRegulationPage.class);
+        pages.put("DEARS regulation", DearsRegulationPage.class);
+        pages.put("DFARS regulation", DfarsRegulationPage.class);
+        pages.put("DFARSPGI regulation", DfarspgiRegulationPage.class);
+        pages.put("DIARS regulation", DiarsRegulationPage.class);
+        pages.put("DLAD regulation", DladRegulationPage.class);
+        pages.put("DOLARS regulation", DolarsRegulationPage.class);
+        pages.put("DOSARS regulation", DosarsRegulationPage.class);
+        pages.put("DTAR regulation", DtarRegulationPage.class);
+        pages.put("EDAR regulation", EdarRegulationPage.class);
+        pages.put("EPAAR regulation", EpaarRegulationPage.class);
+        pages.put("FAR regulation", FarRegulationPage.class);
+        pages.put("FEHBAR regulation", FehbarRegulationPage.class);
+        pages.put("GSAM regulation", GsamRegulationPage.class);
+        pages.put("HHSAR regulation", HhsarRegulationPage.class);
+        pages.put("HSAR regulation", HsarRegulationPage.class);
+        pages.put("HUDAR regulation", HudarRegulationPage.class);
+        pages.put("IAAR regulation", IaarRegulationPage.class);
+        pages.put("JAR regulation", JarRegulationPage.class);
+        pages.put("LIFAR regulation", LifarRegulationPage.class);
+        pages.put("NFS regulation", NfsRegulationPage.class);
+        pages.put("NMCARS regulation", NmcarsRegulationPage.class);
+        pages.put("NRCAR regulation", NrcarRegulationPage.class);
+        pages.put("SOFARS regulation", SofarsRegulationPage.class);
+        pages.put("TAR regulation", TarRegulationPage.class);
+        pages.put("TRANSFARS regulation", TransfarsRegulationPage.class);
+        pages.put("VAAR regulation", VaarRegulationPage.class);
+    }
 }

@@ -1,9 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.caac;
 
-import com.reisystems.blaze.elements.HasBlazeLibrary;
-import com.reisystems.blaze.elements.PageObject;
-import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import com.reisystems.blaze.elements.BlazeWebElement;
+import com.reisystems.blaze.elements.PageObject;
 import org.openqa.selenium.By;
 
 import java.net.MalformedURLException;
@@ -93,7 +92,7 @@ public class CaacMainPage extends PageObject {
     }
 
     public class Letter {
-        BlazeWebElement row;
+        private final BlazeWebElement row;
 
         private Letter(BlazeWebElement row) {
             this.row = row;
@@ -107,11 +106,13 @@ public class CaacMainPage extends PageObject {
             }
             try {
                 return LocalDate.parse(date, DateTimeFormatter.ofPattern("uuuu-MM-dd"));
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
             try {
                 return LocalDate.parse(date, DateTimeFormatter.ofPattern("uu-MM-dd"));
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
             return null;
         }
@@ -124,7 +125,8 @@ public class CaacMainPage extends PageObject {
             String date = row.findElement(By.xpath(".//div[3]")).getText();
             try {
                 return LocalDate.parse(date, DateTimeFormatter.ofPattern("MMMM d, uuuu"));
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
             return null;
         }
@@ -135,7 +137,7 @@ public class CaacMainPage extends PageObject {
     }
 
     public static class Deviation {
-        BlazeWebElement row;
+        private final BlazeWebElement row;
 
         private Deviation(BlazeWebElement row) {
             this.row = row;
@@ -151,7 +153,7 @@ public class CaacMainPage extends PageObject {
     }
 
     public static class Attachment {
-        BlazeWebElement row;
+        private final BlazeWebElement row;
 
         private Attachment(BlazeWebElement row) {
             this.row = row;

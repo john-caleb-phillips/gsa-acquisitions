@@ -3,13 +3,12 @@ package com.reisystems.automation.gsa.acquisitions.pageobject.regulations;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
-import com.reisystems.blaze.elements.PageObject;
 import org.openqa.selenium.By;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -80,7 +79,7 @@ public class TablePage extends HasBlazeLibrary {
                     String.format("//table[@id='regulation-index-browse']//td[%s]", headers.indexOf(columnName) + 1)))
                     .stream().map(BlazeWebElement::getText).collect(Collectors.toList());
         } else {
-            return List.of();
+            return Collections.emptyList();
         }
     }
 
@@ -96,6 +95,116 @@ public class TablePage extends HasBlazeLibrary {
         }
     }
 
+    public void forEachDetailPage(Consumer<DetailPage> consumer) {
+        forEachPart(row -> row.onDetailPage(consumer));
+    }
+
+    public class DetailPage {
+        private final RowInfo previousRowInfo, currentRowInfo, nextRowInfo;
+
+        public DetailPage(RowInfo previousRowInfo, RowInfo currentRowInfo, RowInfo nextRowInfo) {
+            this.previousRowInfo = previousRowInfo;
+            this.currentRowInfo = currentRowInfo;
+            this.nextRowInfo = nextRowInfo;
+        }
+
+        public RowInfo getPreviousRowInfo() {
+            return previousRowInfo;
+        }
+
+        public RowInfo getCurrentRowInfo() {
+            return currentRowInfo;
+        }
+
+        public RowInfo getNextRowInfo() {
+            return nextRowInfo;
+        }
+
+        public String getRegulationName() {
+            return blazeLibrary.getElement(By.xpath("//div[@id='main-content-internal']//img/following-sibling::span")).getText();
+        }
+
+        public String getPartNumber() {
+            return blazeLibrary.getElement(By.xpath("//div[@class='utility_icons']//ul/li[@class='active']/a")).getText();
+        }
+
+        public String getTitle() {
+            return null;
+        }
+
+        public List<String> getBreadcrumbs() {
+            return blazeLibrary.getElements(By.xpath("//div[@id='breadcrumbs']//a"))
+                    .stream().map(BlazeWebElement::getText).collect(Collectors.toList());
+        }
+
+        public boolean hasNextPage() {
+            return blazeLibrary.getElement(By.xpath("//div[@class='regnavigation']//img[@alt='Next Page']/..")).isPresent();
+        }
+
+        public void goToNextPage() {
+            blazeLibrary.getElement(By.xpath("//div[@class='regnavigation']//img[@alt='Next Page']/..")).click(
+                    blazeLibrary.clickResults().REFRESH_PAGE
+            );
+        }
+
+        public boolean hasPreviousPage() {
+            return blazeLibrary.getElement(By.xpath("//div[@class='regnavigation']//img[@alt='Previous Page']/..")).isPresent();
+        }
+
+        public void goToPreviousPage() {
+            blazeLibrary.getElement(By.xpath("//div[@class='regnavigation']//img[@alt='Previous Page']/..")).click(
+                    blazeLibrary.clickResults().REFRESH_PAGE
+            );
+        }
+
+        public boolean hasTocLink() {
+            return blazeLibrary.getElement(By.xpath("//div[@class='regnavigation']//img[@alt='Table Of Contents']/..")).isPresent();
+        }
+
+        public void clickTocLink() {
+            blazeLibrary.getElement(By.xpath("//div[@class='regnavigation']//img[@alt='Table Of Contents']/..")).click(
+                    blazeLibrary.clickResults().REFRESH_PAGE
+            );
+        }
+
+        public boolean hasTopLink() {
+            return blazeLibrary.getElement(By.xpath("//div[@class='regnavigation']//img[@alt='Top Of Page']/..")).isPresent();
+        }
+
+        public void clickTopLink() {
+            blazeLibrary.getElement(By.xpath("//div[@class='regnavigation']//img[@alt='Top Of Page']/..")).click();
+        }
+
+        public List<URL> getContentUrls() {
+            return blazeLibrary.getElements(By.xpath("//div[@id='Table of Contents1']/following-sibling::*//a[@href][not(ancestor::div[@class='regnavigation'])]"))
+                    .stream().map(element -> {
+                        try {
+                            return new URL(element.getAttribute("href"));
+                        } catch (MalformedURLException e) {
+                            throw new AssertionError("Malformed URL");
+                        }
+                    }).collect(Collectors.toList());
+        }
+
+        public List<String> getTocAnchorLinks() {
+            return blazeLibrary.getElements(By.xpath("//div[@id='Table of Contents1']//a"))
+                    .stream().map(element -> {
+                        String[] url = element.getAttribute("href").split("#");
+                        if (url.length > 1) {
+                            return url[1];
+                        } else {
+                            return url[0];
+                        }
+                    }).collect(Collectors.toList());
+        }
+
+        public List<String> getContentAnchors() {
+            return blazeLibrary.getElements(By.xpath("//div[@id='Table of Contents1']/following-sibling::*//a[not(@href)][not(ancestor::div[@class='regnavigation'])][contains(@name, '_Toc')]"))
+                    .stream().map(element -> element.getAttribute("id")).collect(Collectors.toList());
+        }
+
+    }
+
     public PartRow getPartRow(int rowNumber) {
         return new PartRow(rowNumber);
     }
@@ -106,44 +215,80 @@ public class TablePage extends HasBlazeLibrary {
 
     public class PartRow {
 
-        int rowNumber;
+        private final String rowLocator;
+        private final RowInfo rowInfo;
+        private final int rowNumber;
 
         private PartRow(int rowNumber) {
             this.rowNumber = rowNumber;
-        }
-
-        public void goToPart() {
-            blazeLibrary.getElement(By.xpath(String.format(
-                    "//table[@id='regulation-index-browse']//tbody//tr[%s]//td[1]/a", rowNumber
-            ))).click(blazeLibrary.clickResults().REFRESH_PAGE);
-        }
-
-        public URL getPrintUrl() {
+            this.rowLocator = String.format("//table[@id='regulation-index-browse']//tbody//tr[%s]", rowNumber);
+            String partNumber = blazeLibrary.getElement(By.xpath(rowLocator + "//td[1]")).getText();
+            String title = blazeLibrary.getElement(By.xpath(rowLocator + "//td[2]")).getText();
+            URL printUrl;
             try {
-                return new URL(blazeLibrary.getElement(By.xpath(
-                        String.format("//table[@id='regulation-index-browse']//tbody//tr[%s]//td[3]/a", rowNumber)
-                )).getAttribute("href"));
+                printUrl = new URL(blazeLibrary.getElement(By.xpath(rowLocator + "//td[3]/a"), 0).getAttribute("href"));
             } catch (MalformedURLException e) {
-                return null;
+                printUrl = null;
             }
-        }
-
-        public URL getPdfUrl() {
+            URL pdfUrl;
             try {
-                return new URL(blazeLibrary.getElement(By.xpath(
-                        String.format("//table[@id='regulation-index-browse']//tbody//tr[%s]//td[4]/a", rowNumber)
-                )).getAttribute("href"));
+                pdfUrl = new URL(blazeLibrary.getElement(By.xpath(rowLocator + "//td[4]/a"), 0).getAttribute("href"));
             } catch (MalformedURLException e) {
-                return null;
+                pdfUrl = null;
             }
+            this.rowInfo = new RowInfo(partNumber, title, printUrl, pdfUrl);
         }
 
-        public String getNumber() {
-            return blazeLibrary.getElement(By.xpath(String.format("//table[@id='regulation-index-browse']//tbody//tr[%s]//td[1]", rowNumber))).getText();
+        public boolean hasPreviousRow() {
+            return blazeLibrary.getElement(By.xpath(rowLocator + "/preceding-sibling::tr")).isPresent();
         }
 
-        public String getTitle() {
-            return blazeLibrary.getElement(By.xpath(String.format("//table[@id='regulation-index-browse']//tbody//tr[%s]//td[2]", rowNumber))).getText();
+        public boolean hasNextRow() {
+            return blazeLibrary.getElement(By.xpath(rowLocator + "/following-sibling::tr")).isPresent();
+        }
+
+        public void onDetailPage(Consumer<DetailPage> consumer) {
+            RowInfo previousRowInfo = hasPreviousRow() ? new PartRow(rowNumber - 1).info() : null;
+            RowInfo nextRowInfo = hasNextRow() ? new PartRow(rowNumber + 1).info() : null;
+            blazeLibrary.getElement(By.xpath(rowLocator + "//td[1]/a")).click(
+                    blazeLibrary.clickResults().REFRESH_PAGE
+            );
+            consumer.accept(new DetailPage(previousRowInfo, info(), nextRowInfo));
+            blazeLibrary.browser().navigateBack();
+        }
+
+        public RowInfo info() {
+            return rowInfo;
+        }
+    }
+
+    public static class RowInfo {
+        private final String partNumber;
+        private final String title;
+        private final URL printUrl;
+        private final URL pdfUrl;
+
+        public RowInfo(String partNumber, String title, URL printUrl, URL pdfUrl) {
+            this.partNumber = partNumber;
+            this.title = title;
+            this.printUrl = printUrl;
+            this.pdfUrl = pdfUrl;
+        }
+
+        public String partNumber() {
+            return partNumber;
+        }
+
+        public String title() {
+            return title;
+        }
+
+        public URL printUrl() {
+            return printUrl;
+        }
+
+        public URL pdfUrl() {
+            return pdfUrl;
         }
     }
 
@@ -151,12 +296,15 @@ public class TablePage extends HasBlazeLibrary {
         private static By regulationLogo() {
             return By.xpath("//div[@id='middlecontent']//div[@class='heading']//img");
         }
+
         private static By regulationName() {
             return By.xpath("//div[@id='middlecontent']//div[@class='heading']//img/following-sibling::span");
         }
+
         private static By header() {
             return By.xpath("//div[@class='heading']//h1");
         }
+
         private static By content() {
             return By.xpath("//div[@class='heading']//div[.//h1]//following-sibling::*");
         }

@@ -2,7 +2,6 @@ package com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork;
 
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
-import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.elements.PageObject;
 import org.openqa.selenium.By;
 

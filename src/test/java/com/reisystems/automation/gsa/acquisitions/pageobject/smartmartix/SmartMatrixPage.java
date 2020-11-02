@@ -2,9 +2,7 @@ package com.reisystems.automation.gsa.acquisitions.pageobject.smartmartix;
 
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
-import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.elements.PageObject;
-import com.reisystems.blaze.interfaces.ClickResult;
 import org.openqa.selenium.By;
 
 import java.lang.reflect.Field;

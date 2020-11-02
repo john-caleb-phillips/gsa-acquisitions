@@ -13,6 +13,7 @@ public class ArchivePages {
     public ArchiveSearchPage search() {
         return search;
     }
+
     public ArchiveDetailPage detail() {
         return detail;
     }

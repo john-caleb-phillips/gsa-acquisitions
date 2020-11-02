@@ -1,12 +1,13 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.search;
 
-import com.reisystems.blaze.elements.HasBlazeLibrary;
-import com.reisystems.blaze.elements.PageObject;
-import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import com.reisystems.blaze.elements.BlazeWebElement;
+import com.reisystems.blaze.elements.HasBlazeLibrary;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -20,10 +21,17 @@ public class SearchPage extends HasBlazeLibrary {
     public String getSearchTerm() {
         String url = blazeLibrary.browser().getCurrentUrl();
         url = url.substring(url.indexOf("search") + "search/".length());
-        if (url.startsWith("advanced")) { url = url.substring("advanced".length()); }
-        else if (url.startsWith("site")) { url = url.substring("site".length()); }
-        if (url.contains("?")) { url = url.substring(0, url.indexOf("?")); }
-        if (url.contains("/")) { url = url.substring(url.indexOf("/") + 1); }
+        if (url.startsWith("advanced")) {
+            url = url.substring("advanced".length());
+        } else if (url.startsWith("site")) {
+            url = url.substring("site".length());
+        }
+        if (url.contains("?")) {
+            url = url.substring(0, url.indexOf("?"));
+        }
+        if (url.contains("/")) {
+            url = url.substring(url.indexOf("/") + 1);
+        }
         return url;
     }
 
@@ -113,7 +121,7 @@ public class SearchPage extends HasBlazeLibrary {
         }
 
         public void goToDetailPage() {
-            blazeLibrary.getElement(By.xpath(String.format("//li[@class='search-result'][%s]//h3/a",  rowNumber))).click(blazeLibrary.clickResults().REFRESH_PAGE);
+            blazeLibrary.getElement(By.xpath(String.format("//li[@class='search-result'][%s]//h3/a", rowNumber))).click(blazeLibrary.clickResults().REFRESH_PAGE);
         }
 
         public SearchRow getInfo() {
@@ -138,7 +146,8 @@ public class SearchPage extends HasBlazeLibrary {
             this.title = title;
             this.content = content;
             this.origin = origin;
-            this.highlightedTerms = List.copyOf(highlightedTerms);
+            this.highlightedTerms = new ArrayList<>();
+            Collections.copy(this.highlightedTerms, highlightedTerms);
         }
 
         public String toString() {

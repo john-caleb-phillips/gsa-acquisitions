@@ -22,7 +22,8 @@ public class UpdatePageSteps {
 
     @When("I save the top {int} updates as {string}")
     public void saveUpdates(Integer numberOfUpdates, String saveValue) {
-        Type type = new TypeToken<List<UpdatePage.UpdateItem>>(){}.getType();
+        Type type = new TypeToken<List<UpdatePage.UpdateItem>>() {
+        }.getType();
         blazeLibrary.properties().setProperty(saveValue, gson.toJson(updatePage.getUpdates(numberOfUpdates), type));
     }
 }

@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.reisystems</groupId>
         <artifactId>automation.super</artifactId>
-        <version>0.0.19</version>
+        <version>0.0.21</version>
     </parent>
 
     <artifactId>automation.gsa.acquisitions</artifactId>
@@ -89,7 +89,8 @@
                     <stepPackages>
                         <stepPackage>com.reisystems.automation.gsa.acquisitions.steps</stepPackage>
                     </stepPackages>
-                    <userControllerClass>com.reisystems.automation.gsa.acquisitions.projectsetup.UserController</userControllerClass>
+                    <userControllerClass>com.reisystems.automation.gsa.acquisitions.projectsetup.UserController
+                    </userControllerClass>
                 </configuration>
             </plugin>
         </plugins>

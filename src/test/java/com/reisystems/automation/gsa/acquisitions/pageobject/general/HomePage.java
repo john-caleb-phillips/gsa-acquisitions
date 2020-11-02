@@ -1,8 +1,8 @@
 package com.reisystems.automation.gsa.acquisitions.pageobject.general;
 
-import com.reisystems.blaze.elements.PageObject;
-import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import com.reisystems.blaze.elements.BlazeWebElement;
+import com.reisystems.blaze.elements.PageObject;
 import org.openqa.selenium.By;
 
 import java.awt.image.BufferedImage;
@@ -38,15 +38,19 @@ public class HomePage extends PageObject {
         private static By ovalButton(String buttonText) {
             return By.xpath(String.format("//div[contains(@class, 'button-wrapper')]/a[text()='%s']", buttonText));
         }
+
         private static By ovalButtons() {
             return By.xpath("//div[contains(@class, 'button-wrapper')]/a[text()]");
         }
+
         private static By squareButton(String buttonText) {
             return By.xpath(String.format("//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5') and .//h4[text()='%s']]", buttonText));
         }
+
         private static By squareButtons() {
             return By.xpath("//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5')]//h4[text()]");
         }
+
         private static By squareButtonImage(String buttonText) {
             return By.xpath(
                     String.format("//div[contains(@class, 'middle-content')]//div[contains(@class, 'col-lg-5') and .//h4[text()='%s']]//img", buttonText)

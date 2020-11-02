@@ -4,21 +4,26 @@ package com.reisystems.automation.gsa.acquisitions.projectsetup;
 import com.reisystems.blaze.controller.StaticEnvironmentController;
 import com.reisystems.blaze.interfaces.UserInfoController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class UserController implements UserInfoController {
 
-    Map<String, UserInfo> userInfoMap = Map.of(
-            "QA_User", new UserInfo("", ""),
-            "UAT_User", new UserInfo("", "")
-    );
+    private static final Map<String, UserInfo> userInfoMap = new HashMap<>();
+    static {
+        userInfoMap.put("QA_User", new UserInfo("", ""));
+        userInfoMap.put( "UAT_User", new UserInfo("", ""));
+    }
 
     @Override
     public String getUserInfo(String userIdentifier, String userInfo) {
         switch (userInfo) {
-            case "Username": return getUserName(userIdentifier);
-            case "Password": return getPassword(userIdentifier);
-            default: throw new RuntimeException("This info is not supported");
+            case "Username":
+                return getUserName(userIdentifier);
+            case "Password":
+                return getPassword(userIdentifier);
+            default:
+                throw new RuntimeException("This info is not supported");
         }
     }
 
