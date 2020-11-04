@@ -3,13 +3,13 @@ package com.reisystems.automation.gsa.acquisitions.pageobject.regulations;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -73,7 +73,7 @@ public class TablePage extends HasBlazeLibrary {
 
     public List<String> getColumn(String columnName) {
         List<String> headers = blazeLibrary.getElements(By.xpath("//table[@id='regulation-index-browse']//th"))
-                .stream().map(BlazeWebElement::getText).collect(Collectors.toList());
+                .stream().map(element -> StringUtils.normalizeSpace(element.getText())).collect(Collectors.toList());
         if (headers.contains(columnName)) {
             return blazeLibrary.getElements(By.xpath(
                     String.format("//table[@id='regulation-index-browse']//td[%s]", headers.indexOf(columnName) + 1)))
@@ -125,7 +125,10 @@ public class TablePage extends HasBlazeLibrary {
         }
 
         public String getPartNumber() {
-            return blazeLibrary.getElement(By.xpath("//div[@class='utility_icons']//ul/li[@class='active']/a")).getText();
+            blazeLibrary.getElement(By.xpath("//div[contains(@class, 'part-container')] | //table[@id='regulation-index-browse']")).waitUntil(
+                    BlazeWebElement.WaitCondition.ELEMENT_IS_PRESENT
+            );
+            return blazeLibrary.getElement(By.xpath("//div[@class='utility_icons']//ul/li[@class='active']/a"), 0).getText();
         }
 
         public String getTitle() {
@@ -176,33 +179,38 @@ public class TablePage extends HasBlazeLibrary {
         }
 
         public List<URL> getContentUrls() {
-            return blazeLibrary.getElements(By.xpath("//div[@id='Table of Contents1']/following-sibling::*//a[@href][not(ancestor::div[@class='regnavigation'])]"))
+            blazeLibrary.getElement(By.xpath("//div[@class='field-items']")).waitUntil(BlazeWebElement.WaitCondition.ELEMENT_IS_PRESENT);
+            return blazeLibrary.getElements(By.xpath("//div[@class='field-items']//a[@href][not(ancestor::div[@class='regnavigation'])][not(ancestor::div[@id='Table of Contents1'])]"), 0)
                     .stream().map(element -> {
                         try {
                             return new URL(element.getAttribute("href"));
                         } catch (MalformedURLException e) {
-                            throw new AssertionError("Malformed URL");
+                            DetailPage page = new DetailPage(null, null, null);
+                            blazeLibrary.assertion().fail(String.format("%s - %s: '%s' is a malformed url because: %s",
+                                    page.getRegulationName(), page.getPartNumber(), element.getAttribute("href"), e.getMessage()));
+                            return null;
                         }
-                    }).collect(Collectors.toList());
+                    }).filter(Objects::nonNull).collect(Collectors.toList());
         }
 
-        public List<String> getTocAnchorLinks() {
-            return blazeLibrary.getElements(By.xpath("//div[@id='Table of Contents1']//a"))
-                    .stream().map(element -> {
-                        String[] url = element.getAttribute("href").split("#");
-                        if (url.length > 1) {
-                            return url[1];
-                        } else {
-                            return url[0];
-                        }
-                    }).collect(Collectors.toList());
-        }
+        public Map<String, String> getTocLinks() {
+            blazeLibrary.getElement(By.xpath("//div[@id='content-wrapper']")).waitUntil(BlazeWebElement.WaitCondition.ELEMENT_IS_PRESENT);
 
-        public List<String> getContentAnchors() {
-            return blazeLibrary.getElements(By.xpath("//div[@id='Table of Contents1']/following-sibling::*//a[not(@href)][not(ancestor::div[@class='regnavigation'])][contains(@name, '_Toc')]"))
-                    .stream().map(element -> element.getAttribute("id")).collect(Collectors.toList());
+            Map<String, String> tocLinks = new HashMap<>();
+            for (BlazeWebElement tocElement : blazeLibrary.getElements(By.xpath("//a[starts-with(@href, '#_Toc')]"), 0)) {
+                String[] id = tocElement.getAttribute("href").split("#");
+                tocLinks.put(StringUtils.normalizeSpace(tocElement.getText()), id.length > 1 ? id[1] : id[0]);
+            }
+            for (Map.Entry<String, String> entry : tocLinks.entrySet()) {
+                BlazeWebElement contentLink = blazeLibrary.getElement(By.xpath(String.format("//a[not(@href) and @id='%s']/..", entry.getValue())));
+                if (contentLink.isPresent()) {
+                    entry.setValue(StringUtils.normalizeSpace(contentLink.getText()));
+                } else {
+                    entry.setValue(null);
+                }
+            }
+            return tocLinks;
         }
-
     }
 
     public PartRow getPartRow(int rowNumber) {
@@ -289,6 +297,24 @@ public class TablePage extends HasBlazeLibrary {
 
         public URL pdfUrl() {
             return pdfUrl;
+        }
+    }
+
+    public static class ContentLink {
+        private final String id;
+        private final String text;
+
+        private ContentLink(String id, String text) {
+            this.id = id;
+            this.text = text;
+        }
+
+        public String id() {
+            return id;
+        }
+
+        public String text() {
+            return text;
         }
     }
 
