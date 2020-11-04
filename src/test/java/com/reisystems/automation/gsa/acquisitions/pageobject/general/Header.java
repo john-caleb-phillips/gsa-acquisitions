@@ -52,14 +52,6 @@ public class Header extends HasBlazeLibrary {
     public enum SearchType {generic, site, regulation}
 
     private static class locators {
-        private static By coronavirusLink() {
-            return By.xpath("//div[contains(@class, 'top-wrapper')]//div[1]/a");
-        }
-
-        private static By information889Link() {
-            return By.xpath("//div[contains(@class, 'top-wrapper')]//div[2]/a");
-        }
-
         private static By logo() {
             return By.xpath("//div[contains(@class, 'top-wrapper')]//div[@id='header-bar']/a");
         }
