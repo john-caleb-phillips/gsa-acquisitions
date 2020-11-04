@@ -20,15 +20,9 @@ import com.reisystems.automation.gsa.acquisitions.pageobject.search.SiteSearchPa
 import com.reisystems.automation.gsa.acquisitions.pageobject.smartmartix.SmartMatrixPage;
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
-import com.reisystems.blaze.elements.PageObject;
 import com.reisystems.blaze.elements.PageRegistry;
-import com.reisystems.blaze.report.LogLevel;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PageNavigationSteps extends HasBlazeLibrary {
     PageRegistry pageRegistry;
@@ -148,8 +142,8 @@ public class PageNavigationSteps extends HasBlazeLibrary {
         PageRegistry.registerClass("psc manual", PscManualPage.class);
         PageRegistry.registerClass("news", NewsPage.class);
         PageRegistry.registerClass("updates", UpdatePage.class);
-        PageRegistry.registerClass("889 information", EightEightNineInformationPage.class);
-        PageRegistry.registerClass("coronavirus information", CoronavirusInformationPage.class);
+        PageRegistry.registerClass("889 information", Section889Page.class);
+        PageRegistry.registerClass("coronavirus information", CoronavirusPage.class);
         PageRegistry.registerClass("accessibility aids", AccessibilityAidsPage.class);
         PageRegistry.registerClass("acquisition systems", AcquisitionSystemsPage.class);
         PageRegistry.registerClass("contact us", ContactUsPage.class);

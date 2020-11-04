@@ -1,18 +1,6 @@
 @all @header
 Feature: Header
 
-  @coronavirus-link-goes-to-the-correct-page
-  Scenario: Coronavirus link goes to the correct page
-    Given I am on the home page
-    When I click on coronavirus link in the header
-    Then I am taken to the coronavirus information page
-
-  @889-link-goes-to-correct-page
-  Scenario: 889 Link goes to the correct page
-    Given I am on the home page
-    When I click on 889 information link in the header
-    Then I am taken to the 889 information page
-
   @logo-goes-to-correct-page
   Scenario: Header logo goes to the correct page
     Given I am on the news page
@@ -25,11 +13,13 @@ Feature: Header
     When I click on header link "<Link Text>"
     Then I am taken to the <Destination> page
     Examples:
-      | Link Text      | Destination         |
-      | Regulations    | main regulation     |
-      | Archives       | archive search      |
-      | Policy Network | main policy network |
-      | Search         | regulation search   |
+      | Link Text      | Destination             |
+      | Covid 19       | coronavirus information |
+      | Section 889    | 889 information         |
+      | Regulations    | main regulation         |
+      | Archives       | archive search          |
+      | Policy Network | main policy network     |
+      | Search         | regulation search       |
 
   @policy-network-dropdown-links-go-to-correct-pages-qwe
   Scenario Outline: Policy Network dropdown link "<Link Text>" goes to "<Destination>"

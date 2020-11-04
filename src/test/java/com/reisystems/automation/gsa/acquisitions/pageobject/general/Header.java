@@ -12,14 +12,6 @@ public class Header extends HasBlazeLibrary {
         super(blazeLibrary);
     }
 
-    public void clickCoronavirusLink() {
-        blazeLibrary.getElement(locators.coronavirusLink()).click(blazeLibrary.clickResults().REFRESH_PAGE);
-    }
-
-    public void click889InformationLink() {
-        blazeLibrary.getElement(locators.information889Link()).click(blazeLibrary.clickResults().REFRESH_PAGE);
-    }
-
     public void clickLogo() {
         blazeLibrary.getElement(locators.logo()).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }

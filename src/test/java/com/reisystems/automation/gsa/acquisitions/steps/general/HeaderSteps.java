@@ -19,16 +19,6 @@ public class HeaderSteps {
         this.header = header;
     }
 
-    @When("I click on coronavirus link in the header")
-    public void clickCoronavirusLink() {
-        header.clickCoronavirusLink();
-    }
-
-    @When("I click on 889 information link in the header")
-    public void click889InformationLink() {
-        header.click889InformationLink();
-    }
-
     @When("I click on header logo")
     public void clickHeaderLogo() {
         header.clickLogo();
