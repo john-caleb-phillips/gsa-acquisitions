@@ -57,13 +57,6 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
         smartMatrixPage.clickPrintButton();
     }
 
-    @When("I run a test")
-    public void testMethod() {
-        blazeLibrary.report().write(LogLevel.INFO, "Step 1");
-        blazeLibrary.report().write(LogLevel.INFO, "Step 2");
-        blazeLibrary.report().write(LogLevel.INFO, "Step 3");
-    }
-
     @When("^I (check|uncheck) the box to show the complete matrix$")
     public void checkOrUncheckShowCompleteMatrix(String checkOrUncheck) {
         smartMatrixPage.selectShowCompleteMatrix("check".equals(checkOrUncheck));
@@ -87,7 +80,7 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
             SmartMatrixPage.Contract contract = SmartMatrixPage.Contract.valueOf(contractCheckbox);
             smartMatrixPage.selectContract(contract, shouldBeChecked);
             blazeLibrary.assertion().assertThat(smartMatrixPage.contractDropdownIsActive(contract))
-                    .as("Verifying if the contract dropdown for %s is active", contract)
+                    .withFailMessage("Contract dropdown for contract '%s' should have been %s, but was not", "active".equals(activeOrInactive))
                     .isEqualTo("active".equals(activeOrInactive));
         }
     }
@@ -102,22 +95,22 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
             smartMatrixPage.selectContractDropdownValue(contract, "");
             smartMatrixPage.applyFilters();
             blazeLibrary.assertion().assertThat(smartMatrixPage.getTableColumn(contract.name()))
-                    .as("Verifying filtering by '' in the %s contract dropdown", contract)
+                    .as("After filtering by '' in the '%s' contract dropdown, there were unexpected values in the '%s' smart matrix column", contract, contract)
                     .containsOnly("");
             smartMatrixPage.selectContractDropdownValue(contract, "R");
             smartMatrixPage.applyFilters();
             blazeLibrary.assertion().assertThat(smartMatrixPage.getTableColumn(contract.name()))
-                    .as("Verifying filtering by 'R' in the %s contract dropdown", contract)
+                    .as("After filtering by 'R' in the '%s' contract dropdown, there were unexpected values in the '%s' smart matrix column", contract, contract)
                     .containsOnly("R");
             smartMatrixPage.selectContractDropdownValue(contract, "A");
             smartMatrixPage.applyFilters();
             blazeLibrary.assertion().assertThat(smartMatrixPage.getTableColumn(contract.name()))
-                    .as("Verifying filtering by 'A' in the %s contract dropdown", contract)
+                    .as("After filtering by 'A' in the '%s' contract dropdown, there were unexpected values in the '%s' smart matrix column", contract, contract)
                     .containsOnly("A");
             smartMatrixPage.selectContractDropdownValue(contract, "O");
             smartMatrixPage.applyFilters();
             blazeLibrary.assertion().assertThat(smartMatrixPage.getTableColumn(contract.name()))
-                    .as("Verifying filtering by 'O' in the %s contract dropdown", contract)
+                    .as("After filtering by 'O' in the '%s' contract dropdown, there were unexpected values in the '%s' smart matrix column", contract, contract)
                     .containsOnly("O");
             smartMatrixPage.selectContractDropdownValue(contract, "- Any -");
         }
@@ -132,11 +125,11 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
             smartMatrixPage.applyFilters();
             if ("adds".equals(addsOrRemoves)) {
                 blazeLibrary.assertion().assertThat(smartMatrixPage.getTableHeaders())
-                        .as("Verifying the table headers contain '%s'", contract)
+                        .withFailMessage("After selecting the '%s' contract option, the corresponding column was not added to the smart matrix table", contract)
                         .contains(contractCheckbox);
             } else {
                 blazeLibrary.assertion().assertThat(smartMatrixPage.getTableHeaders())
-                        .as("Verifying the table headers do not contain '%s'", contract)
+                        .withFailMessage("After unselecting the '%s' contract option, the corresponding column was not removed from the smart matrix table", contract)
                         .doesNotContain(contractCheckbox);
             }
         }
@@ -187,20 +180,19 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
             if (cellText.contains("_Alternate")) {
                 blazeLibrary.assertion().assertThat(blazeLibrary.getElements(By.xpath("//h1 | //em"))
                         .stream().map(BlazeWebElement::getText).collect(Collectors.toList()))
-                        .as("Verifying link '%s'", cellText)
+                        .withFailMessage("'%s' link '%s' did not go to the expected page", columnName, cellText)
                         .anyMatch(el -> el.contains(cellText.substring(cellText.indexOf("_") + 1)));
             } else if (cellText.contains("(")) {
                 blazeLibrary.assertion().assertThat(blazeLibrary.getElements(By.xpath("//h1 | //em"))
                         .stream().map(BlazeWebElement::getText).collect(Collectors.toList()))
-                        .as("Verifying link '%s'", cellText)
+                        .withFailMessage("'%s' link '%s' did not go to the expected page", columnName, cellText)
                         .anyMatch(el -> el.contains(cellText.substring(0, cellText.indexOf("("))));
             } else {
                 blazeLibrary.assertion().assertThat(blazeLibrary.getElements(By.xpath("//h1 | //em"))
                         .stream().map(BlazeWebElement::getText).collect(Collectors.toList()))
-                        .as("Verifying link '%s'", cellText)
+                        .withFailMessage("'%s' link '%s' did not go to the expected page", columnName, cellText)
                         .anyMatch(el -> el.contains(cellText));
             }
-
 
             blazeLibrary.browser().closeTab();
         }
@@ -209,53 +201,64 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
     @Then("I see every value in the {string} column contains {string}")
     public void verifyTableColumnContains(String columnName, String expectedValue) {
         blazeLibrary.assertion().assertThat(smartMatrixPage.getTableColumn(columnName))
-                .as("Verifying the every value under '%s' column contains '%s'", columnName, expectedValue)
+                .withFailMessage("Not the every value under '%s' column contained '%s'", columnName, expectedValue)
                 .allMatch(el -> el.contains(expectedValue));
     }
 
-
     @Then("^the smart matrix legend (is|is not) visible$")
     public void verifyLegendIsVisible(String isOrIsNot) {
-        blazeLibrary.assertion().assertThat(smartMatrixPage.isLegendVisible())
-                .as("Verifying the smart matrix %s visible", isOrIsNot)
-                .isEqualTo("is".equals(isOrIsNot));
+        boolean isVisible = smartMatrixPage.isLegendVisible();
+        boolean shouldBeVisible = "is".equals(isOrIsNot);
+        blazeLibrary.assertion().assertThat(isVisible)
+                .withFailMessage("The smart matrix %s visible when it %s have been",
+                        isVisible ? "is" : "is not", shouldBeVisible ? "should" : "should not")
+                .isEqualTo(shouldBeVisible);
     }
 
     @Then("the smart matrix legend has the following text:")
     public void verifyLegendText(String expectedText) {
         blazeLibrary.assertion().assertThat(smartMatrixPage.getLegend())
-                .as("Verifying if the text of the smart matrix")
+                .as("The smart matrix legend was not as expected")
                 .isEqualToIgnoringWhitespace(expectedText);
     }
 
     @Then("^the IBR checkbox (is|is not) checked$")
     public void verifyIbrChecked(String isOrIsNot) {
-        blazeLibrary.assertion().assertThat(smartMatrixPage.ibrIsSelected())
-                .as("Verifying the IBR checkbox %s checked")
-                .isEqualTo("is".equals(isOrIsNot));
+        boolean isSelected = smartMatrixPage.ibrIsSelected();
+        boolean shouldBeSelected = "is".equals(isOrIsNot);
+        blazeLibrary.assertion().assertThat(isSelected)
+                .withFailMessage("The IBR checkbox %s selected when it %s have been",
+                        isSelected ? "is" : "is not", shouldBeSelected ? "should" : "should not")
+                .isEqualTo(shouldBeSelected);
     }
 
     @Then("^the UCF checkbox (is|is not) checked$")
     public void verifyUcfChecked(String isOrIsNot) {
-        blazeLibrary.assertion().assertThat(smartMatrixPage.ucfIsSelected())
-                .as("Verifying the UCF checkbox %s checked")
-                .isEqualTo("is".equals(isOrIsNot));
+        boolean isSelected = smartMatrixPage.ucfIsSelected();
+        boolean shouldBeSelected = "is".equals(isOrIsNot);
+        blazeLibrary.assertion().assertThat(isSelected)
+                .withFailMessage("The UCF checkbox %s selected when it %s have been",
+                        isSelected ? "is" : "is not", shouldBeSelected ? "should" : "should not")
+                .isEqualTo(shouldBeSelected);
     }
 
     @Then("^the following contract checkboxes (are|are not) checked:$")
     public void verifyContractCheckboxes(String areOrAreNot, List<String> expectedContractCheckboxes) {
+        boolean shouldBeSelected = "are".equals(areOrAreNot);
         expectedContractCheckboxes.removeIf(el -> el == null || el.trim().isEmpty());
         for (String expectedContractCheckbox : expectedContractCheckboxes) {
-            blazeLibrary.assertion().assertThat(smartMatrixPage.contractIsSelected(SmartMatrixPage.Contract.valueOf(expectedContractCheckbox)))
-                    .as("Verifying the %s contract checkbox %s checked", expectedContractCheckbox, "are".equals(areOrAreNot) ? "is" : "is not")
-                    .isEqualTo("are".equals(areOrAreNot));
+            boolean isSelected = smartMatrixPage.contractIsSelected(SmartMatrixPage.Contract.valueOf(expectedContractCheckbox));
+            blazeLibrary.assertion().assertThat(isSelected)
+                    .withFailMessage("The '%s' contract checkbox %s selected when it %s have been", expectedContractCheckbox,
+                            isSelected ? "is" : "is not", shouldBeSelected ? "should" : "should not")
+                    .isEqualTo(shouldBeSelected);
         }
     }
 
     @Then("the smart matrix contains the following headers:")
     public void verifySmartMatrixHeaders(List<String> expectedHeaders) {
         blazeLibrary.assertion().assertThat(smartMatrixPage.getTableHeaders())
-                .as("Verifying headers of the smart matrix")
+                .as("The smart matrix table headers were not as expected")
                 .containsExactlyElementsOf(expectedHeaders);
     }
 
@@ -276,12 +279,14 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
             smartMatrixPage.applyFilters();
             smartMatrixPage.sortColumn(headerName, SmartMatrixPage.Sort.ASCENDING);
             blazeLibrary.assertion().assertThat(smartMatrixPage.getTableColumn(headerName))
-                    .as("Verifying the '%s' column is sorted in ascending order", headerName)
+                    .as("The '%s' column in the smart matrix was not correctly sorted in ascending order", headerName)
                     .isSortedAccordingTo(columnSorting);
-            smartMatrixPage.sortColumn(headerName, SmartMatrixPage.Sort.DESCENDING);
-            blazeLibrary.assertion().assertThat(smartMatrixPage.getTableColumn(headerName))
-                    .as("Verifying the '%s' column is sorted in descending order", headerName)
-                    .isSortedAccordingTo(columnSorting.reversed());
+            if (blazeLibrary.assertion().wasSuccess()) {
+                smartMatrixPage.sortColumn(headerName, SmartMatrixPage.Sort.DESCENDING);
+                blazeLibrary.assertion().assertThat(smartMatrixPage.getTableColumn(headerName))
+                        .as("The '%s' column in the smart matrix was not correctly sorted in descending order", headerName)
+                        .isSortedAccordingTo(columnSorting.reversed());
+            }
         }
     }
 

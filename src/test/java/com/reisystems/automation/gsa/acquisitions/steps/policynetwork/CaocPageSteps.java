@@ -34,43 +34,49 @@ public class CaocPageSteps {
         BufferedImage fromPage = policyNetworkPage.caoc().getHeaderImage();
 
         blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPage, 0))
-                .as("Comparing header image on the page to the file named '%s'", expectedImage)
+                .withFailMessage("CAOC header image did not match the validation image named '%s'", expectedImage)
                 .isTrue();
+
+        if (!blazeLibrary.assertion().wasSuccess()) {
+            blazeLibrary.report().attachImage(fromPage, "PNG", "Image from the CAOC header");
+            blazeLibrary.report().attachImage(fromFile, "PNG", String.format("Image for from file '%s'", expectedImage));
+            blazeLibrary.report().attachImage(blazeLibrary.images().getDiff(fromPage, fromFile), "PNG", "Differences marked in red");
+        }
     }
 
     @Then("I see the CAOC header text is {string}")
     public void verifyHeaderText(String expectedText) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.caoc().getHeaderText())
-                .as("Verifying header text").isEqualTo(expectedText);
+                .as("CAOC header text was not as expected").isEqualTo(expectedText);
     }
 
     @Then("I see the CAOC content is the following:")
     public void verifyContentText(String expectedText) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.caoc().getContentText())
-                .as("Verifying content text").isEqualToIgnoringWhitespace(expectedText);
+                .as("CAOC content text was not as expected").isEqualToIgnoringWhitespace(expectedText);
     }
 
     @Then("I see the CAOC sidebar header is {string}")
     public void verifySideBarHeader(String expectedHeader) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.caoc().getSideBarHeader())
-                .as("Verifying sidebar header").isEqualTo(expectedHeader);
+                .as("CAOC sidebar header was not as expected").isEqualTo(expectedHeader);
     }
 
     @Then("I see the CAOC sidebar has the following links:")
     public void verifySidebarLink(List<String> expectedLinks) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.caoc().getSideBarLinks())
-                .as("Verifying sidebar links").containsExactlyElementsOf(expectedLinks);
+                .as("CAOC sidebar links were not as expected").containsExactlyElementsOf(expectedLinks);
     }
 
     @Then("I see the following headers in the CAOC agency table:")
     public void verifyAgencyTableHeaders(List<String> expectedHeaders) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.caoc().getAgencyTableHeaders())
-                .as("Verifying agency table headers").containsExactlyElementsOf(expectedHeaders);
+                .as("Headers in the CAOC Agency table were not as expected").containsExactlyElementsOf(expectedHeaders);
     }
 
     @Then("I see the following agencies in the CAOC agency table:")
     public void verifyAgencyTableRows(List<String> expectedAgencies) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.caoc().getAgencyNames())
-                .as("Verifying agency table headers").containsExactlyElementsOf(expectedAgencies);
+                .as("Agencies in the CAOC Agency table were not as expected").containsExactlyElementsOf(expectedAgencies);
     }
 }

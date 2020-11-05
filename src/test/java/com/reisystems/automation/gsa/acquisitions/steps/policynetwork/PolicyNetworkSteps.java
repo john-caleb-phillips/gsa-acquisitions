@@ -43,7 +43,7 @@ public class PolicyNetworkSteps {
         }
 
         blazeLibrary.assertion().assertThat(actualBlocks)
-                .as("This is a test")
+                .as("The Policy Network main page content blocks were not as expected")
                 .containsExactlyElementsOf(expectedBlocks);
     }
 
@@ -55,8 +55,14 @@ public class PolicyNetworkSteps {
             BufferedImage fromPage = policyNetworkPage.main().getBlockHeaderImage(desiredBlock);
 
             blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPage, 0))
-                    .as("Comparing image src for policy network block '%s' to the file named '%s'", desiredBlock, expectedImage)
+                    .withFailMessage("Displayed image for block '%s' on Policy Network main page did not match the validation file named named %s", desiredBlock, expectedImage)
                     .isTrue();
+
+            if (!blazeLibrary.assertion().wasSuccess()) {
+                blazeLibrary.report().attachImage(fromPage, "PNG", String.format("Image for '%s' from the Policy Network main page", desiredBlock));
+                blazeLibrary.report().attachImage(fromFile, "PNG", String.format("Image for '%s' from file '%s'", desiredBlock, expectedImage));
+                blazeLibrary.report().attachImage(blazeLibrary.images().getDiff(fromPage, fromFile), "PNG", "Differences marked in red");
+            }
         }
     }
 
@@ -65,7 +71,7 @@ public class PolicyNetworkSteps {
         blazeLibrary.assertion().assertThat(policyNetworkPage.main().blockHasHeaderText(desiredBlock)).as("Block %s should have header text", desiredBlock).isTrue();
         if (blazeLibrary.assertion().wasSuccess()) {
             blazeLibrary.assertion().assertThat(policyNetworkPage.main().getBlockHeaderText(desiredBlock))
-                    .as("Verifying header text for policy network block '%s'", desiredBlock)
+                    .as("Header for block '%s' on the Policy Network main page was not as expected", desiredBlock)
                     .isEqualTo(expectedHeader);
         }
     }
@@ -75,7 +81,7 @@ public class PolicyNetworkSteps {
         blazeLibrary.assertion().assertThat(policyNetworkPage.main().blockHasText(desiredBlock)).as("Block %s should have text", desiredBlock).isTrue();
         if (blazeLibrary.assertion().wasSuccess()) {
             blazeLibrary.assertion().assertThat(policyNetworkPage.main().getBlockText(desiredBlock))
-                    .as("Verifying text for policy network block '%s'", desiredBlock)
+                    .as("Text for block '%s' on the Policy Network main page was not as expected", desiredBlock)
                     .isEqualTo(expectedText);
         }
     }
@@ -85,7 +91,7 @@ public class PolicyNetworkSteps {
         blazeLibrary.assertion().assertThat(policyNetworkPage.main().blockHasLinks(desiredBlock)).as("Block %s should have text", desiredBlock).isTrue();
         if (blazeLibrary.assertion().wasSuccess()) {
             blazeLibrary.assertion().assertThat(policyNetworkPage.main().getBlockLinks(desiredBlock))
-                    .as("Verifying text for policy network block '%s'", desiredBlock)
+                    .as("Links for block '%s' on the Policy Network main page were not as expected", desiredBlock)
                     .containsExactlyElementsOf(expectedLinks);
         }
     }

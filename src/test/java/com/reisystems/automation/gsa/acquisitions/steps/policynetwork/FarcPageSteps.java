@@ -30,21 +30,21 @@ public class FarcPageSteps {
     @Then("I see the FARC header is the following:")
     public void verifyPageHeader(String expectedHeader) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.farc().getHeader())
-                .as("Verifying header")
+                .as("FARC header was not as expected")
                 .isEqualTo(expectedHeader);
     }
 
     @Then("I see the FARC content is the following:")
     public void verifyPageContent(String expectedContent) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.farc().getContent())
-                .as("Verifying content")
+                .as("FARC content was not as expected")
                 .isEqualToIgnoringWhitespace(expectedContent);
     }
 
     @Then("I see the following FARC footer links:")
     public void verifyFooterLinks(List<String> expectedLinks) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.farc().getFooterLinks())
-                .as("Verifying header")
+                .as("FARC footer links were not as expected")
                 .containsExactlyElementsOf(expectedLinks);
     }
 

@@ -6,6 +6,7 @@ import com.reisystems.blaze.elements.PageObject;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class NewsPage extends PageObject {
@@ -56,6 +57,17 @@ public class NewsPage extends PageObject {
             return String.format("NewsItem(day='%s',month='%s',year='%s',title='%s',content='%s')",
                     day, month, year, title, content);
         }
+
+        public static final Comparator<NewsItem> comparator = new Comparator<NewsItem>() {
+            @Override
+            public int compare(NewsPage.NewsItem o1, NewsPage.NewsItem o2) {
+                return o1.day.equals(o2.day) && o1.month.equals(o2.month) && o1.title.equals(o2.title) && o1.content.equals(o2.content) ? 0 : 1;
+            }
+
+            public String toString() {
+                return "field by field comparator on fields [\"day\", \"month\", \"title\", \"content\"]";
+            }
+        };
     }
 
 }

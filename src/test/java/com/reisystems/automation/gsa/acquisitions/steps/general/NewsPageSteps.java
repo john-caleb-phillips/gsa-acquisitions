@@ -21,8 +21,7 @@ public class NewsPageSteps {
 
     @When("I save the top {int} news items as {string}")
     public void qwe(Integer numberOfNewsItems, String saveValue) {
-        Type type = new TypeToken<List<NewsPage.NewsItem>>() {
-        }.getType();
+        Type type = new TypeToken<List<NewsPage.NewsItem>>() {}.getType();
         blazeLibrary.properties().setProperty(saveValue, gson.toJson(newsPage.getNewsItems(numberOfNewsItems), type));
     }
 }

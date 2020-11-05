@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class RegulationPageSteps {
@@ -47,19 +48,19 @@ public class RegulationPageSteps {
     @Then("I see the following regulations:")
     public void verifyRegulations(Map<String, Map<String, String>> expectedRegulations) {
         blazeLibrary.assertion().assertThat(regulationPages.mainPage().getRegulationNames())
-                .as("Verifying regulations on the regulation main page")
+                .as("The regulations on the Regulations main page wer not as expected")
                 .containsExactlyElementsOf(expectedRegulations.keySet());
         if (blazeLibrary.assertion().wasSuccess()) {
             for (String regulation : expectedRegulations.keySet()) {
                 BufferedImage fromPage = regulationPages.mainPage().getRegulationImage(regulation);
                 BufferedImage fromFile = blazeLibrary.images().getFromFile(expectedRegulations.get(regulation).get("Logo Image"));
                 blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPage, 0))
-                        .as("Comparing image src for regulation '%s' in the regulations page to the file named '%s'", regulation, expectedRegulations.get(regulation).get("Logo Image"))
+                        .as("Displayed image for regulation '%s' on the regulation main page did not match the validation file named '%s'", regulation, expectedRegulations.get(regulation).get("Logo Image"))
                         .isTrue();
                 if (!blazeLibrary.assertion().wasSuccess()) {
-                    blazeLibrary.report().attachImage(fromFile, "PNG", String.format("Expected '%s' logo", regulation));
                     blazeLibrary.report().attachImage(fromPage, "PNG", String.format("Actual '%s' logo from the main regulation page", regulation));
-                    blazeLibrary.report().attachImage(blazeLibrary.images().getDiff(fromPage, fromFile), "PNG", "The difference between the two logos");
+                    blazeLibrary.report().attachImage(fromFile, "PNG", String.format("Expected '%s' logo from the file named '%s'", regulation, expectedRegulations.get(regulation).get("Logo Image")));
+                    blazeLibrary.report().attachImage(blazeLibrary.images().getDiff(fromPage, fromFile), "PNG", "Differences marked in red");
                 }
 
                 regulationPages.mainPage().clickRegulation(regulation);
@@ -76,21 +77,21 @@ public class RegulationPageSteps {
                 }
 
                 blazeLibrary.assertion().assertThat(regulationPages.mainPage().getPageType())
-                        .as("Verifying the linked url for regulation '%s'", regulation)
+                        .as("The page type of regulation '%s' was not as expected", regulation)
                         .isEqualTo(expectedRegulations.get(regulation).get("Page Type"));
 
                 if (blazeLibrary.assertion().wasSuccess() && "table".equals(regulationPages.mainPage().getPageType())) {
                     BufferedImage fromPageDetail = regulationPages.tablePage().getRegulationLogo();
                     blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPageDetail, 0))
-                            .as("Comparing image src for regulation '%s' in the regulation detail page to the file named '%s'", regulation, expectedRegulations.get(regulation).get("Logo Image"))
+                            .as("Displayed image for regulation '%s' on the regulation detail page did not match the validation file named '%s'", regulation, expectedRegulations.get(regulation).get("Logo Image"))
                             .isTrue();
                     if (!blazeLibrary.assertion().wasSuccess()) {
-                        blazeLibrary.report().attachImage(fromFile, "PNG", String.format("Expected '%s' logo", regulation));
                         blazeLibrary.report().attachImage(fromPageDetail, "PNG", String.format("Actual '%s' logo from the regulation detail page", regulation));
-                        blazeLibrary.report().attachImage(blazeLibrary.images().getDiff(fromPage, fromFile), "PNG", "The difference between the two logos");
+                        blazeLibrary.report().attachImage(fromFile, "PNG", String.format("Expected '%s' logo from the file named '%s'", regulation, expectedRegulations.get(regulation).get("Logo Image")));
+                        blazeLibrary.report().attachImage(blazeLibrary.images().getDiff(fromPage, fromFile), "PNG", "Differences marked in red");
                     }
                     blazeLibrary.assertion().assertThat(regulationPages.tablePage().getRegulationName())
-                            .as("Verifying header title for regulation '%s'", regulation)
+                            .as("Header title for regulation '%s' was not as expected", regulation)
                             .isEqualTo(regulation.replace("(CAS)", "").trim().replaceAll(" ", "_").toUpperCase());
                 }
 
@@ -99,49 +100,28 @@ public class RegulationPageSteps {
         }
     }
 
-    @Then("I see the following logos for the following regulations:")
-    public void verifyRegulationLogos(Map<String, String> expectedLogos) {
-        for (Map.Entry<String, String> entry : expectedLogos.entrySet()) {
-            BufferedImage fromPage = regulationPages.mainPage().getRegulationImage(entry.getKey());
-            BufferedImage fromFile = blazeLibrary.images().getFromFile(entry.getValue());
-            blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPage, 0))
-                    .as("Comparing image src for regulation '%s' in the header to the file named %s", entry.getKey(), entry.getValue())
-                    .isTrue();
-        }
-    }
-
-    @Then("I see the regulations go to the following urls:")
-    public void verifyRegulationLinks(Map<String, String> expectedUrls) {
-        for (Map.Entry<String, String> entry : expectedUrls.entrySet()) {
-            regulationPages.mainPage().clickRegulation(entry.getKey());
-            blazeLibrary.assertion().assertThat(blazeLibrary.browser().getCurrentUrl())
-                    .as("Verifying the linked url for regulation '%s'", entry.getKey())
-                    .isEqualTo(entry.getValue());
-            blazeLibrary.browser().navigateBack();
-        }
-    }
-
     @Then("I see the regulation header is the following:")
     public void verifyRegulationHeader(String expectedHeader) {
         blazeLibrary.assertion().assertThat(regulationPages.tablePage().getHeader())
-                .as("Verifying header for regulation")
+                .as("Header for regulation '%s' was not as expected", regulationPages.tablePage().getRegulationName())
                 .isEqualTo(expectedHeader);
     }
 
     @Then("I see the regulation content is the following:")
     public void verifyRegulationContent(String expectedContent) {
         blazeLibrary.assertion().assertThat(regulationPages.tablePage().getContent())
-                .as("Verifying content for regulation")
+                .as("Content for regulation '%s' was not as expected", regulationPages.tablePage().getRegulationName())
                 .isEqualToIgnoringNewLines(expectedContent);
     }
 
     @Then("I see the link to {string} works in the regulation content")
     public void verifyRegulationArchivesLink(String linkText) {
+        String regulation = regulationPages.tablePage().getRegulationName();
         blazeLibrary.assertion().assertThat(regulationPages.tablePage().linkIsPresent(linkText))
-                .withFailMessage("Link to the Archives with text '%s' was not present", linkText)
+                .withFailMessage("Link to the Archives with text '%s' was not present for regulation '%s'",
+                        linkText, regulation)
                 .isTrue();
         if (blazeLibrary.assertion().wasSuccess()) {
-            String regulation = regulationPages.tablePage().getRegulationName();
             regulationPages.tablePage().clickLink(linkText);
             blazeLibrary.assertion().assertThat(archivePages.search().areOnPage())
                     .as("Verifying the Archives link goes to the correct page")
@@ -157,9 +137,11 @@ public class RegulationPageSteps {
 
     @Then("I see each link in the regulation content works correctly")
     public void verifyRegulationContentLinks() {
+        String regulation = regulationPages.tablePage().getRegulationName();
+
         List<BlazeWebElement> links = blazeLibrary.getElements(By.xpath("//div[@class='view-header']//a"));
         blazeLibrary.assertion().assertThat(links.size() != 0)
-                .as("There must be at least on link in the contents")
+                .withFailMessage("Regulation '%s' did not have any links in its content", regulation)
                 .isTrue();
         if (blazeLibrary.assertion().wasSuccess()) {
             for (BlazeWebElement link : links) {
@@ -167,20 +149,18 @@ public class RegulationPageSteps {
                     URL url = new URL(link.getAttribute("href"));
                     if (url.getProtocol().startsWith("http")) {
                         blazeLibrary.assertion().assertThat(UrlValidator.getInstance().isValid(url.toString()))
-                                .as("Verifying that '%s' is a valid url address", url.toString())
+                                .withFailMessage("Regulation '%s': Content link '%s' is not a valid url address", regulation, url.toString())
                                 .isTrue();
                     } else if (url.getProtocol().equals("mailto")) {
                         String file = url.getFile();
                         blazeLibrary.assertion().assertThat(EmailValidator.getInstance().isValid(file))
-                                .as("Verifying that '%s' is a valid email address", file)
+                                .as("Regulation '%s': Content link '%s' is not valid email address", regulation, file)
                                 .isTrue();
                     } else {
-                        blazeLibrary.assertion().assertThat(true).as("There was an unexpected issue").withFailMessage("TESTING").isFalse();
+                        blazeLibrary.assertion().fail("There was an unexpected issue");
                     }
                 } catch (MalformedURLException e) {
-                    blazeLibrary.assertion().assertThat(true)
-                            .as("'%s': There was an unexpected MalformedURLException: %s", link.getText(), e.getMessage())
-                            .isFalse();
+                    blazeLibrary.assertion().fail("Regulation '%s': Content link '%s' threw an unexpected MalformedURLException: %s", regulation, link.getText(), e.getMessage());
                 }
             }
         }
@@ -205,20 +185,20 @@ public class RegulationPageSteps {
 
     @Then("I see the regulation table can be sorted by {string}")
     public void verifyTableSorting(String columnToSortOn) {
+        String regulation = regulationPages.tablePage().getRegulationName();
         blazeLibrary.assertion().assertThat(regulationPages.tablePage().tableHasColumn(columnToSortOn))
-                .as("The '%s' column is present in the table", columnToSortOn)
+                .withFailMessage("Regulation '%s': Could not sort the table on '%s' column because it was not present in the table", regulation, columnToSortOn)
                 .isTrue();
         if (blazeLibrary.assertion().wasSuccess()) {
-
             regulationPages.tablePage().sortTableByColumn(columnToSortOn, TablePage.SortOrder.ASCENDING);
             List<String> columnValues = regulationPages.tablePage().getColumn(columnToSortOn);
             blazeLibrary.assertion().assertThat(columnValues)
-                    .as("The '%s' column is sorted in ascending order", columnToSortOn)
+                    .as("Regulation '%s': The '%s' column was not sorted correctly in ascending order", regulation, columnToSortOn)
                     .isSortedAccordingTo(partComparator);
             regulationPages.tablePage().sortTableByColumn(columnToSortOn, TablePage.SortOrder.DESCENDING);
             columnValues = regulationPages.tablePage().getColumn(columnToSortOn);
             blazeLibrary.assertion().assertThat(columnValues)
-                    .as("The '%s' column is sorted in descending order", columnToSortOn)
+                    .as("Regulation '%s': The '%s' column was not correctly sorted in descending order", regulation, columnToSortOn)
                     .isSortedAccordingTo(partComparator.reversed());
         }
     }
@@ -227,15 +207,17 @@ public class RegulationPageSteps {
     public void verifyTableRows(List<String> thingsToCheck) {
         String regulationName = regulationPages.tablePage().getRegulationName();
         regulationPages.tablePage().sortTableByColumn("Part Number", TablePage.SortOrder.ASCENDING);
+        AtomicInteger rowCount = new AtomicInteger();
         regulationPages.tablePage().forEachPart(part -> {
+            rowCount.incrementAndGet();
             if (thingsToCheck.contains("there is a part number")) {
                 blazeLibrary.assertion().assertThat(part.info().partNumber())
-                        .as("There should be a part number")
+                        .withFailMessage("Regulation '%s': Row %s did not have a part number", rowCount.get())
                         .isNotBlank();
             }
             if (thingsToCheck.contains("there is a title")) {
                 blazeLibrary.assertion().assertThat(part.info().title())
-                        .as("There should be a title")
+                        .withFailMessage("Regulation '%s': Row %s did not have a title", rowCount.get())
                         .isNotBlank();
             }
             if (thingsToCheck.contains("the \"Print\" icon works correctly")) {
@@ -423,10 +405,5 @@ public class RegulationPageSteps {
                         .isZero();
             }
         });
-    }
-
-    @AfterStep
-    public void testing() {
-        System.out.flush();
     }
 }

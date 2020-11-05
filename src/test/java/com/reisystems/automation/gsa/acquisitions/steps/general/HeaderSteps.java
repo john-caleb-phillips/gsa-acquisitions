@@ -50,8 +50,13 @@ public class HeaderSteps {
             BufferedImage fromPage = header.getRegulationImage(entry.getKey());
             BufferedImage fromFile = blazeLibrary.images().getFromFile(entry.getValue());
             blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPage, 0))
-                    .as("Comparing image src for regulation '%s' in the header to the file named %s", entry.getKey(), entry.getValue())
+                    .withFailMessage("Logo for '%s' in the header Regulations dropdown did not match the validation file named '%s'", entry.getKey(), entry.getValue())
                     .isTrue();
+            if (!blazeLibrary.assertion().wasSuccess()) {
+                blazeLibrary.report().attachImage(fromPage, "PNG", String.format("Image for '%s' from header", entry.getKey()));
+                blazeLibrary.report().attachImage(fromFile, "PNG", String.format("Image for '%s' from file '%s'", entry.getKey(), entry.getValue()));
+                blazeLibrary.report().attachImage(blazeLibrary.images().getDiff(fromPage, fromFile), "PNG", "Differences marked in red");
+            }
         }
     }
 }

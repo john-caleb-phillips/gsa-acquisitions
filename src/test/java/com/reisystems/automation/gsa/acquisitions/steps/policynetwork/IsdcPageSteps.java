@@ -33,45 +33,51 @@ public class IsdcPageSteps {
     @Then("I see the ISDC header is the following:")
     public void verifyPageHeader(String expectedHeader) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.isdc().getHeader())
-                .as("Verifying header")
+                .as("ISDC header was not as expected")
                 .isEqualTo(expectedHeader);
     }
 
     @Then("I see the ISDC header image matches the file {string}")
-    public void verifyHederImage(String expectedImage) {
+    public void verifyHeaderImage(String expectedImage) {
         BufferedImage fromFile = blazeLibrary.images().getFromFile(expectedImage);
         BufferedImage fromPage = policyNetworkPage.isdc().getHeaderImage();
 
         blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPage, 0))
-                .as("Comparing header image on the page to the file named '%s'", expectedImage)
+                .withFailMessage("IDC header image did not match the validation image named '%s'", expectedImage)
                 .isTrue();
+
+        if (!blazeLibrary.assertion().wasSuccess()) {
+            blazeLibrary.report().attachImage(fromPage, "PNG", "Image from the ISDC header");
+            blazeLibrary.report().attachImage(fromFile, "PNG", String.format("Image for from file '%s'", expectedImage));
+            blazeLibrary.report().attachImage(blazeLibrary.images().getDiff(fromPage, fromFile), "PNG", "Differences marked in red");
+        }
     }
 
     @Then("I see the ISDC content is the following:")
     public void verifyPageContent(String expectedContent) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.isdc().getContent())
-                .as("Verifying content")
+                .as("ISDC content was not as expected")
                 .isEqualToIgnoringWhitespace(expectedContent);
     }
 
     @Then("I see the following table of ISDC debarring officials:")
     public void verifyDebarringOfficialsTable(List<List<String>> expectedTable) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.isdc().getDebarringOfficialsTable())
-                .as("Verifying debarring officials table")
+                .as("ISDC Debarring Officials table was not as expected")
                 .isEqualTo(expectedTable);
     }
 
     @Then("I see the following table of ISDC regulation citations:")
     public void verifyRegulationCitationsTable(List<List<String>> expectedTable) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.isdc().getRegulationsCitationsTable())
-                .as("Verifying regulation citations table")
+                .as("ISDC Regulation Citations table was not as expected")
                 .isEqualTo(expectedTable);
     }
 
     @Then("I see the following table of ISDC compelling reasons determinations:")
     public void verifyCompellingReasonsDeterminations(List<List<String>> expectedTable) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.isdc().getCompellingReasonsDeterminationsTable())
-                .as("Verifying regulation citations table")
+                .as("ISDC Compelling Reasons Determinations table was not as expected")
                 .isEqualTo(expectedTable);
     }
 
@@ -81,8 +87,8 @@ public class IsdcPageSteps {
             try {
                 link.url.openStream();
             } catch (NullPointerException | IOException e) {
-                blazeLibrary.assertion().assertThat(true).as("File '%s': Could not open stream to URL '%s'",
-                        link.name, link.url).isFalse();
+                blazeLibrary.assertion().fail("Problem with ISDC reporting link '%s': Could not open stream to URL '%s'",
+                        link.name, link.url);
             }
         }
     }
@@ -93,17 +99,16 @@ public class IsdcPageSteps {
             try {
                 link.url.openStream();
             } catch (NullPointerException | IOException e) {
-                blazeLibrary.assertion().assertThat(true).as("File '%s': Could not open stream to URL '%s'",
-                        link.name, link.url).isFalse();
+                blazeLibrary.assertion().fail("Problem with ISDC reporting link '%s': Could not open stream to URL '%s'",
+                        link.name, link.url);
             }
         }
     }
 
-
     @Then("I see the following ISDC footer links:")
     public void verifyFooterLinks(List<String> expectedLinks) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.isdc().getFooterLinks())
-                .as("Verifying header")
+                .as("ISDC footer links were not as expected")
                 .containsExactlyElementsOf(expectedLinks);
     }
 }

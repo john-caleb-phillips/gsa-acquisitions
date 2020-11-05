@@ -45,8 +45,6 @@ public class HomePageSteps {
 
     @Then("I see the homepage news items match the news items saved as {string}")
     public void verifyHomepageNewsItems(String valueKey) {
-        // TODO: Make sure that are on homepage
-
         List<NewsPage.NewsItem> homePageNewsItems = new ArrayList<>();
         for (BlazeWebElement homePageNewsItem : blazeLibrary.getElements(By.xpath("//div[contains(@class, 'front-news')]"))) {
             homePageNewsItems.add(new NewsPage.NewsItem(
@@ -58,27 +56,16 @@ public class HomePageSteps {
             ));
         }
 
-        Type type = new TypeToken<List<NewsPage.NewsItem>>() {
-        }.getType();
+        Type type = new TypeToken<List<NewsPage.NewsItem>>(){}.getType();
         blazeLibrary.assertion().assertThat(homePageNewsItems)
-                .usingElementComparator(new Comparator<NewsPage.NewsItem>() {
-                    @Override
-                    public int compare(NewsPage.NewsItem o1, NewsPage.NewsItem o2) {
-                        return o1.day.equals(o2.day) && o1.month.equals(o2.month) && o1.title.equals(o2.title) && o1.content.equals(o2.content) ? 0 : 1;
-                    }
-
-                    public String toString() {
-                        return "field by field comparator on fields [\"day\", \"month\", \"title\", \"content\"]";
-                    }
-                })
+                .as("News items on the homepage did not match those on the news page")
+                .usingElementComparator(NewsPage.NewsItem.comparator)
                 .containsExactlyElementsOf(gson.fromJson(blazeLibrary.properties().getProperty(valueKey), type));
 
     }
 
     @Then("I see the homepage updates match the updates saved as {string}")
     public void verifyHomepageUpdates(String valueKey) {
-        // TODO: Make sure that are on homepage
-
         List<UpdatePage.UpdateItem> homePageUpdateItems = new ArrayList<>();
         for (BlazeWebElement homePageUpdateItem : blazeLibrary.getElements(By.xpath("//h1[.='FAC Updates']/../div"))) {
             homePageUpdateItems.add(new UpdatePage.UpdateItem(
@@ -87,19 +74,10 @@ public class HomePageSteps {
             ));
         }
 
-        Type type = new TypeToken<List<UpdatePage.UpdateItem>>() {
-        }.getType();
+        Type type = new TypeToken<List<UpdatePage.UpdateItem>>(){}.getType();
         blazeLibrary.assertion().assertThat(homePageUpdateItems)
-                .usingElementComparator(new Comparator<UpdatePage.UpdateItem>() {
-                    @Override
-                    public int compare(UpdatePage.UpdateItem o1, UpdatePage.UpdateItem o2) {
-                        return (o1.section.contains(o2.section) || o2.section.contains(o1.section)) && o1.caseNumber.equals(o2.caseNumber) ? 0 : 1;
-                    }
-
-                    public String toString() {
-                        return "case numbers are the same and homepage sections are contained in update page sections";
-                    }
-                })
+                .as("Update items on the homepage did not match those on the updates page")
+                .usingElementComparator(UpdatePage.UpdateItem.comparator)
                 .containsExactlyElementsOf(gson.fromJson(blazeLibrary.properties().getProperty(valueKey), type));
 
     }
@@ -107,14 +85,14 @@ public class HomePageSteps {
     @Then("I see the following oval buttons:")
     public void verifyOvalButtons(List<String> expectedOvalButtons) {
         blazeLibrary.assertion().assertThat(homePage.getOvalButtons())
-                .as("Verifying homepage oval buttons")
+                .as("Homepage oval buttons were not as expected")
                 .containsExactlyElementsOf(expectedOvalButtons);
     }
 
     @Then("I see the following square buttons:")
     public void verifySquareButtons(List<String> expectedSquareButtons) {
         blazeLibrary.assertion().assertThat(homePage.getSquareButtons())
-                .as("Verifying homepage oval buttons")
+                .as("Homepage square buttons were not as expected")
                 .containsExactlyElementsOf(expectedSquareButtons);
     }
 
@@ -124,8 +102,13 @@ public class HomePageSteps {
             BufferedImage fromPage = homePage.getSquareButtonImage(entry.getKey());
             BufferedImage fromFile = blazeLibrary.images().getFromFile(entry.getValue());
             blazeLibrary.assertion().assertThat(blazeLibrary.images().compareTwoImages(fromFile, fromPage, 0))
-                    .as("Comparing image src for %s on the page to the file named %s", entry.getKey(), entry.getValue())
+                    .withFailMessage("Displayed image for square button '%s' on the homepage did not match the validation file named named %s", entry.getKey(), entry.getValue())
                     .isTrue();
+            if (!blazeLibrary.assertion().wasSuccess()) {
+                blazeLibrary.report().attachImage(fromPage, "PNG", String.format("Image for '%s' from the homepage", entry.getKey()));
+                blazeLibrary.report().attachImage(fromFile, "PNG", String.format("Image for '%s' from file '%s'", entry.getKey(), entry.getValue()));
+                blazeLibrary.report().attachImage(blazeLibrary.images().getDiff(fromPage, fromFile), "PNG", "Differences marked in red");
+            }
         }
     }
 

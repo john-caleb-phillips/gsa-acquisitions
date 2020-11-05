@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CaacPageSteps {
 
@@ -39,7 +40,7 @@ public class CaacPageSteps {
     @Then("I see the CAAC header is the following:")
     public void verifyPageHeader(String expectedContent) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.caac().getHeaderText())
-                .as("Verifying header of CAAC page")
+                .as("CAAC page header was not as expected")
                 .isEqualToIgnoringWhitespace(expectedContent);
     }
 
@@ -47,14 +48,14 @@ public class CaacPageSteps {
     @Then("I see the CAAC content is the following:")
     public void verifyPageContent(String expectedContent) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.caac().getContentText())
-                .as("Verifying content of CAAC page")
+                .as("CAAC page content was not as expected")
                 .isEqualToIgnoringWhitespace(expectedContent);
     }
 
     @Then("I see the CAAC letters table has the following headers:")
     public void verifyLettersTableHeader(List<String> expectedHeaders) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.caac().getLetterTableHeaders())
-                .as("Verifying Letters table headers")
+                .as("Headers of CAAC Letters table were not as expected")
                 .containsExactlyElementsOf(expectedHeaders);
     }
 
@@ -62,45 +63,50 @@ public class CaacPageSteps {
     public void verifyLettersOrder() {
         List<LocalDate> theDates = new ArrayList<>();
         policyNetworkPage.caac().forEachLetter(el -> theDates.add(el.getLetterNumber()));
-        blazeLibrary.assertion().assertThat(theDates).isSortedAccordingTo(Comparator.reverseOrder());
+        blazeLibrary.assertion().assertThat(theDates)
+                .as("CAAC Letters table was not correctly ordered by letter number")
+                .isSortedAccordingTo(Comparator.reverseOrder());
     }
 
     @Then("I see each letter subject links to a valid resource")
     public void verifyLetterSubjects() {
         String currentUrl = blazeLibrary.browser().getCurrentUrl();
         policyNetworkPage.caac().forEachLetter(el -> {
+            String subject = el.getSubject();
             el.clickSubject();
-            blazeLibrary.assertion().assertThat(blazeLibrary.browser().getCurrentUrl()).isNotEqualTo(currentUrl);
+            blazeLibrary.assertion().assertThat(blazeLibrary.browser().getCurrentUrl())
+                    .as("CAAC Letter '%s' did not link to a new page", subject)
+                    .isNotEqualTo(currentUrl);
             blazeLibrary.browser().closeTab();
         });
     }
 
     @Then("I see the number of deviations for each letter is correct")
     public void verifyLetterDeviations() {
+        AtomicInteger deviationCount = new AtomicInteger();
         policyNetworkPage.caac().forEachDeviation(el -> blazeLibrary.assertion().assertThat(el.getNumberOfDeviationsInRow())
-                .as("Verifying number of deviations in row")
+                .as("Verifying number of deviations in row matches the number in the dropdown for deviation #%s", deviationCount.incrementAndGet())
                 .isEqualTo(el.getNumberOfDeviationsInDropdown()));
     }
 
     @Then("I see the CAAC attachments table has the following headers:")
     public void verifyAttachmentHeaders(List<String> expectedHeaders) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.caac().getAttachmentsTableHeaders())
-                .as("Verifying Letters table headers")
+                .as("Headers of CAAC Letters Attachments table were not as expected")
                 .containsExactlyElementsOf(expectedHeaders);
     }
 
     @Then("I see each attachment name links to a valid pdf file")
     public void verifyAttachmentFiles() {
-        policyNetworkPage.caac().forEachAttachment(el -> {
-            blazeLibrary.assertion().assertThat(el.getFileUrl())
-                    .as("Verifying file download of '%s'", el.getFileName()).isNotNull();
+        policyNetworkPage.caac().forEachAttachment(attachment -> {
+            String attachmentName = attachment.getFileName();
+            blazeLibrary.assertion().assertThat(attachment.getFileUrl())
+                    .withFailMessage("CAAC attachment '%s' had no download URL", attachmentName).isNotNull();
             if (blazeLibrary.assertion().wasSuccess()) {
                 try {
-                    el.getFileUrl().openStream();
+                    attachment.getFileUrl().openStream();
                 } catch (IOException e) {
-                    blazeLibrary.assertion().assertThat(true)
-                            .as("File could not be opened")
-                            .isFalse();
+                    blazeLibrary.assertion().fail("CAAC attachment '%s' could not be opened", attachmentName);
                 }
             }
         });

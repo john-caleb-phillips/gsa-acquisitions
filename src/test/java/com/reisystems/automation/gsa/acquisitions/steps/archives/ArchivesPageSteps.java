@@ -12,12 +12,12 @@ import org.openqa.selenium.By;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
 
 public class ArchivesPageSteps {
 
@@ -63,7 +63,7 @@ public class ArchivesPageSteps {
     public void ensureAllArchivesHaveArchiveType() {
         archive.search().forEachRowInTheSearchResults(
                 row -> blazeLibrary.assertion().assertThat(!"".equals(row.getArchiveType()))
-                        .as("[%s] There is no Archive Type", row.getFacNumber())
+                        .withFailMessage("[%s] This FAC number had no Archive Type in the table", row.getFacNumber())
                         .isTrue()
         );
     }
@@ -71,9 +71,14 @@ public class ArchivesPageSteps {
     @Then("I see every archive has the archive type {string}")
     public void ensureCorrectArchiveType(String expectedArchiveType) {
         archive.search().forEachRowInTheSearchResults(
-                row -> blazeLibrary.assertion().assertThat(row.getArchiveType())
-                        .as("[%s] Has the wrong archive Type", row.getFacNumber())
-                        .isEqualTo(expectedArchiveType)
+                row -> {
+                    String actualArchiveType = row.getArchiveType();
+                    blazeLibrary.assertion().assertThat(actualArchiveType)
+                            .withFailMessage("[%s] This FAC number had the wrong Archive Type in the table: expected '%s' but was '%s'",
+                                    row.getFacNumber(), expectedArchiveType, actualArchiveType)
+                            .isEqualTo(expectedArchiveType);
+
+                }
         );
     }
 
@@ -91,12 +96,10 @@ public class ArchivesPageSteps {
                     String foundArchiveType = row.getArchiveType();
                     foundFacNumbers.putIfAbsent(foundFacNumber, new ArrayList<>());
                     blazeLibrary.assertion().assertThat(!foundFacNumbers.get(foundFacNumber).contains(foundArchiveType))
-                            .as("Fac Number '%s' found for archive type '%s'. It was previously found for {%s}", foundFacNumber, foundArchiveType,
-                                    String.join(", ", foundFacNumbers.get(foundFacNumber)))
+                            .as("[%s] This FAC number was found for Archive Type '%s'. It was previously found for {%s}",
+                                    foundFacNumber, foundArchiveType, String.join(", ", foundFacNumbers.get(foundFacNumber)))
                             .isTrue();
-                    List<String> test = foundFacNumbers.get(foundFacNumber);
-                    test.add(foundArchiveType);
-                    foundFacNumbers.put(foundFacNumber, test);
+                    foundFacNumbers.get(foundFacNumber).add(foundArchiveType);
                 }
         );
     }
@@ -126,15 +129,26 @@ public class ArchivesPageSteps {
     @Then("I see that all archive effective dates are before {int}-{int}-{int}")
     public void verifyEffectiveDateFilter(int year, int month, int day) {
         LocalDate desiredDate = LocalDate.of(year, month, day);
-        archive.search().forEachRowInTheSearchResults(row -> blazeLibrary.assertion().assertThat(desiredDate)
-                .as("[%s:%s] Effective Date is too far in the future", row.getArchiveType(), row.getFacNumber())
-                .isAfterOrEqualTo(row.getEffectiveDate())
-        );
+        archive.search().forEachRowInTheSearchResults(row -> {
+            LocalDate actualDate = row.getEffectiveDate();
+            blazeLibrary.assertion().assertThat(desiredDate)
+                    .as("[%s:%s] Effective Date is too far in the future. '%s' should have been before '%s'",
+                            row.getArchiveType(), row.getFacNumber(),
+                            actualDate.format(DateTimeFormatter.ISO_LOCAL_DATE),
+                            desiredDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
+                    .isAfterOrEqualTo(actualDate);
+        });
     }
 
     @Then("I see that {string} and {string} are the same")
     public void compareTwoValues(String value1, String value2) {
-        blazeLibrary.assertion().assertThat(blazeLibrary.properties().getProperty(value1)).as("Two values should be the same").isEqualTo(blazeLibrary.properties().getProperty(value2));
+        String convertedValue1 = blazeLibrary.properties().getProperty(value1);
+        String convertedValue2 = blazeLibrary.properties().getProperty(value2);
+        blazeLibrary.assertion().assertThat(convertedValue1)
+                .withFailMessage("The values were not the same:%nValue 1: '%s' => '%s'%nValue 2: '%s' => '%s'",
+                value1, convertedValue1, value2, convertedValue2
+                )
+                .isEqualTo(convertedValue1);
     }
 
     @Then("I see the fac number in the search row matches the fac number in the detail page")
@@ -272,7 +286,7 @@ public class ArchivesPageSteps {
     public void verifyPresenceOfDownloadLinks() {
         for (ArchiveDetails detail : theSavedDetails) {
             blazeLibrary.assertion().assertThat(detail.downloadLinks.size() == 0)
-                    .as("[%s:%s] There are no download links", detail.rowArchiveType, detail.rowFacNumber)
+                    .withFailMessage("[%s:%s] There were no download links", detail.rowArchiveType, detail.rowFacNumber)
                     .isFalse();
         }
     }
@@ -296,7 +310,7 @@ public class ArchivesPageSteps {
         for (ArchiveDetails detail : theSavedDetails) {
             for (ArchiveDownloadLink downloadLink : detail.downloadLinks) {
                 blazeLibrary.assertion().assertThat(expectedDownloadLinks)
-                        .as("[%s:%s] There was an unexpected download link: %s",
+                        .as("[%s:%s] There was an unexpected download link: '%s'",
                                 detail.rowArchiveType, detail.rowFacNumber, downloadLink.header)
                         .contains(downloadLink.header);
             }
@@ -308,7 +322,7 @@ public class ArchivesPageSteps {
         for (ArchiveDetails detail : theSavedDetails) {
             for (String header : detail.headers) {
                 blazeLibrary.assertion().assertThat(expectedHeaders)
-                        .as("[%s:%s] There was an unexpected header: %s",
+                        .as("[%s:%s] There was an unexpected header: '%s'",
                                 detail.rowArchiveType, detail.rowFacNumber, header)
                         .contains(header);
             }

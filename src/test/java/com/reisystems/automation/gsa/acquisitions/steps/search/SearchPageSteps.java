@@ -59,7 +59,7 @@ public class SearchPageSteps {
     public void checkErrorMessage(String theMessage) {
         String actualMessage = blazeLibrary.getElement(By.xpath("//div[@id='main-content-wrapper']")).getText().replace("ERROR MESSAGE\n", "");
         blazeLibrary.assertion().assertThat(actualMessage)
-                .as("Checking site search error message")
+                .as("Site search error message was not as expected")
                 .isEqualTo(theMessage);
     }
 
@@ -68,7 +68,7 @@ public class SearchPageSteps {
         searchPage.forEachRowInTheSearchResults(result -> {
             SearchPage.SearchRow contents = result.getInfo();
             blazeLibrary.assertion().assertThat(searchTerms.stream().anyMatch(searchTerm -> contents.content.toUpperCase().contains(searchTerm.toUpperCase())))
-                    .as("Search result did not contain any of '%s'.%nSearch result:%n%s%n%s%n", searchTerms, contents.title, contents.content)
+                    .withFailMessage("Search result did not contain any of '%s'.%nSearch result:%n%s%n%s%n", searchTerms, contents.title, contents.content)
                     .isTrue();
         });
     }
@@ -78,7 +78,7 @@ public class SearchPageSteps {
         searchPage.forEachRowInTheSearchResults(result -> {
             SearchPage.SearchRow theInfo = result.getInfo();
             blazeLibrary.assertion().assertThat(theInfo.highlightedTerms)
-                    .as("Verifying that highlighted term is in the search results", theInfo.title)
+                    .withFailMessage("Search term was not highlighted in the search result with title '%s'", theInfo.title)
                     .anyMatch(el -> expectedTerms.stream().anyMatch(el::equalsIgnoreCase));
         });
     }
@@ -88,7 +88,7 @@ public class SearchPageSteps {
         searchPage.forEachRowInTheSearchResults(result -> {
             SearchPage.SearchRow theInfo = result.getInfo();
             blazeLibrary.assertion().assertThat(theInfo.highlightedTerms)
-                    .as("Verifying that all highlighted terms are in the search results", theInfo.title)
+                    .withFailMessage("An unexpected term was highlighted in the search result with title '%s'", theInfo.title)
                     .allMatch(el -> expectedTerms.stream().anyMatch(el::equalsIgnoreCase));
         });
     }
@@ -96,6 +96,7 @@ public class SearchPageSteps {
     @Then("I see nothing highlighted in the search result details")
     public void verifyNoHighlightingOnDetailPage() {
         searchPage.forEachRowInTheSearchResults(result -> {
+            String title = result.getInfo().title;
             result.goToDetailPage();
             blazeLibrary.assertion().assertThat(blazeLibrary.getElements(By.xpath("//*[not(ancestor::div[@class='top-wrapper' or @id='footer-link'])]"))
                     .stream().filter(el -> {
@@ -103,7 +104,7 @@ public class SearchPageSteps {
                         return color.equals("yellow") || color.equals("rgba(255, 255, 0, 1)") || color.equals("rgb(255, 255, 0)");
                     })
                     .collect(Collectors.toList()))
-                    .as("Verifying number of highlighted elements on the detail page")
+                    .withFailMessage("Search result was incorrectly highlighted in the detail page for search result with title '%s'%nURL was: %s", title, blazeLibrary.browser().getCurrentUrl())
                     .hasSize(0);
             blazeLibrary.browser().navigateBack();
         });
@@ -112,14 +113,12 @@ public class SearchPageSteps {
     @Then("I see something highlighted in the search result details")
     public void verifyHighlightingOnDetailPage() {
         searchPage.forEachRowInTheSearchResults(result -> {
+            String title = result.getInfo().title;
             result.goToDetailPage();
             List<BlazeWebElement> highlightedElements = blazeLibrary.getElements(By.xpath("//*[not(ancestor::div[@class='top-wrapper' or @id='footer-link'])][contains(@style, 'background-color: rgb(255, 255, 0)')]"));
-            if (highlightedElements.size() == 0) {
-                String currentUrl = blazeLibrary.browser().getCurrentUrl();
-                blazeLibrary.assertion().assertThat(highlightedElements.size() != 0)
-                        .as("Verifying number of highlighted elements on the detail page.%nURL was: %s", currentUrl)
-                        .isTrue();
-            }
+            blazeLibrary.assertion().assertThat(highlightedElements.size() != 0)
+                    .withFailMessage("Nothing was highlighted in the detail page of the search result with title '%s'%nURL was: %s", title, blazeLibrary.browser().getCurrentUrl())
+                    .isTrue();
             blazeLibrary.browser().navigateBack();
         });
     }
@@ -127,7 +126,7 @@ public class SearchPageSteps {
     @Then("I see the following filter headers:")
     public void checkSidebarHeaders(List<String> expectedSidebarHeaders) {
         blazeLibrary.assertion().assertThat(searchPage.getFilterHeaders())
-                .as("Checking sidebar headers")
+                .as("Search sidebar filter headers were not as expected")
                 .containsExactlyElementsOf(expectedSidebarHeaders);
     }
 
@@ -135,21 +134,25 @@ public class SearchPageSteps {
     public void checkSidebarOptions(String sidebarHeader, List<String> expectedSidebarOptions) {
         List<String> actualSideBarOptions = searchPage.getFilterOptions(sidebarHeader).stream().map(option -> option.text).collect(Collectors.toList());
         blazeLibrary.assertion().assertThat(actualSideBarOptions)
-                .as("Checking options under sidebar header '%s'", sidebarHeader)
+                .as("Search sidebar filter options under header '%s' were not as expected", sidebarHeader)
                 .containsExactlyElementsOf(expectedSidebarOptions.stream()
                         .filter(el -> el != null && !el.isEmpty()).collect(Collectors.toList())
                 );
     }
 
     @Then("I see every search result is from {string} archive")
-    public void verifySearchResultsbyArchiveType(String expectedArchiveType) {
+    public void verifySearchResultsByArchiveType(String expectedArchiveType) {
         searchPage.forEachRowInTheSearchResults(
                 row -> {
-                    blazeLibrary.assertion().assertThat(row.getInfo().origin).isEqualTo("ARCHIVES");
+                    String title = row.getInfo().title;
+                    blazeLibrary.assertion().assertThat(row.getInfo().origin)
+                            .withFailMessage("Search result with title '%s' did not have 'ARCHIVES' as its origin", title)
+                            .isEqualTo("ARCHIVES");
                     if (blazeLibrary.assertion().wasSuccess()) {
                         row.goToDetailPage();
                         blazeLibrary.assertion().assertThat(archiveDetailPage.getArchiveType())
-                                .as("Testing archive type").isEqualTo(expectedArchiveType);
+                                .withFailMessage("Search result with title '%s' did not link to the expected Archive Type")
+                                .isEqualTo(expectedArchiveType);
                         blazeLibrary.browser().navigateBack();
                     }
                 });
@@ -159,11 +162,15 @@ public class SearchPageSteps {
     public void verifySearchResultsByYear(String expectedYear) {
         searchPage.forEachRowInTheSearchResults(
                 row -> {
-                    blazeLibrary.assertion().assertThat(row.getInfo().origin).isEqualTo("ARCHIVES");
+                    String title = row.getInfo().title;
+                    blazeLibrary.assertion().assertThat(row.getInfo().origin)
+                            .withFailMessage("Search result with title '%s' did not have 'ARCHIVES' as its origin", title)
+                            .isEqualTo("ARCHIVES");
                     if (blazeLibrary.assertion().wasSuccess()) {
                         row.goToDetailPage();
                         blazeLibrary.assertion().assertThat(archiveDetailPage.getYear())
-                                .as("Testing year").isEqualTo(expectedYear);
+                                .as("Search result with title '%s' did not link to an archive with the expected year")
+                                .isEqualTo(expectedYear);
                         blazeLibrary.browser().navigateBack();
                     }
                 });
@@ -173,7 +180,9 @@ public class SearchPageSteps {
     public void verifySortByTitle() {
         List<String> titles = new ArrayList<>();
         searchPage.forEachRowInTheSearchResults(row -> titles.add(row.getInfo().title.toUpperCase()));
-        blazeLibrary.assertion().assertThat(titles).as("Table should be ordered").isSorted();
+        blazeLibrary.assertion().assertThat(titles)
+                .as("Search table was not correctly sorted by title")
+                .isSorted();
     }
 
     @When("I filter by archive type {string}")
@@ -214,7 +223,7 @@ public class SearchPageSteps {
         searchPage.forEachRowInTheSearchResults(el -> {
             SearchPage.SearchRow row = el.getInfo();
             blazeLibrary.assertion().assertThat(expectedOrigins)
-                    .as("Verifying origin of row '%s'", row.title)
+                    .as("Origin search result with title '%s' was not as expected", row.title)
                     .contains(row.origin);
         });
     }
@@ -222,7 +231,7 @@ public class SearchPageSteps {
     @Then("I see the search term is {string}")
     public void verifySearchPageTerm(String expectedSearchTerm) {
         blazeLibrary.assertion().assertThat(searchPage.getSearchTerm())
-                .as("Verifying the search term")
+                .as("The search page search term was not as expected")
                 .isEqualTo(expectedSearchTerm);
     }
 }
