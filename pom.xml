@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.reisystems</groupId>
         <artifactId>automation.super</artifactId>
-        <version>0.0.33</version>
+        <version>0.0.34</version>
     </parent>
 
     <artifactId>automation.gsa.acquisitions</artifactId>

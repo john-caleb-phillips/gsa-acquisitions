@@ -3,12 +3,13 @@ Feature: EASi Features
 
   @test-qwe
   Scenario Outline: This is Example <Number>
-    When I run a test
+    When I run a test <Number>
+    And I pause execution
     Examples:
       | Number |
       | 1      |
-#      | 2      |
-#      | 3      |
+      | 2      |
+      | 3      |
 #      | 4      |
 
   Scenario: Use API Call to get key
