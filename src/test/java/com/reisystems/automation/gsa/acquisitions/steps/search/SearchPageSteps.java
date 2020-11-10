@@ -135,7 +135,7 @@ public class SearchPageSteps {
         List<String> actualSideBarOptions = searchPage.getFilterOptions(sidebarHeader).stream().map(option -> option.text).collect(Collectors.toList());
         blazeLibrary.assertion().assertThat(actualSideBarOptions)
                 .as("Search sidebar filter options under header '%s' were not as expected", sidebarHeader)
-                .containsExactlyElementsOf(expectedSidebarOptions.stream()
+                .containsExactlyInAnyOrderElementsOf(expectedSidebarOptions.stream()
                         .filter(el -> el != null && !el.isEmpty()).collect(Collectors.toList())
                 );
     }

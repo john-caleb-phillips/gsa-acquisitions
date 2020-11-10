@@ -1,4 +1,4 @@
-@all @regulations
+@all @regulations @table-regulations
 Feature: Regulations - Table Format
 
   @validate-regulation-afars

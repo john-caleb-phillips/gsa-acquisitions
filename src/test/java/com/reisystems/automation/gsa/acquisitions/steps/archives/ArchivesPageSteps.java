@@ -96,7 +96,7 @@ public class ArchivesPageSteps {
                     String foundArchiveType = row.getArchiveType();
                     foundFacNumbers.putIfAbsent(foundFacNumber, new ArrayList<>());
                     blazeLibrary.assertion().assertThat(!foundFacNumbers.get(foundFacNumber).contains(foundArchiveType))
-                            .as("[%s] This FAC number was found for Archive Type '%s'. It was previously found for {%s}",
+                            .withFailMessage("[%s] This FAC number was found for Archive Type '%s'. It was previously found for {%s}",
                                     foundFacNumber, foundArchiveType, String.join(", ", foundFacNumbers.get(foundFacNumber)))
                             .isTrue();
                     foundFacNumbers.get(foundFacNumber).add(foundArchiveType);
@@ -155,7 +155,8 @@ public class ArchivesPageSteps {
     public void verifyFacNumber() {
         for (ArchiveDetails detail : theSavedDetails) {
             blazeLibrary.assertion().assertThat(detail.detailFacNumber != null)
-                    .as("[%s:%s] 'FAC Number' was not present in detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+                    .withFailMessage("[%s:%s] 'FAC Number' heading was not present in detail page", detail.rowArchiveType, detail.rowFacNumber)
+                    .isTrue();
             if (blazeLibrary.assertion().wasSuccess()) {
                 blazeLibrary.assertion().assertThat(detail.rowFacNumber)
                         .as("[%s:%s] 'FAC Number' on detail page did not match 'FAC Number' in search table", detail.rowArchiveType, detail.rowFacNumber)
@@ -168,7 +169,8 @@ public class ArchivesPageSteps {
     public void verifyArchiveType() {
         for (ArchiveDetails detail : theSavedDetails) {
             blazeLibrary.assertion().assertThat(detail.detailArchiveType != null)
-                    .as("[%s:%s] 'Archive Type' was not present in detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+                    .withFailMessage("[%s:%s] 'Archive Type' heading was not present in detail page", detail.rowArchiveType, detail.rowFacNumber)
+                    .isTrue();
             if (blazeLibrary.assertion().wasSuccess()) {
                 blazeLibrary.assertion().assertThat(detail.detailArchiveType)
                         .as("[%s:%s] 'Archive Type' on detail page did not match 'Archive Type' in search table", detail.rowArchiveType, detail.rowFacNumber)
@@ -181,7 +183,8 @@ public class ArchivesPageSteps {
     public void verifyEffectiveDate() {
         for (ArchiveDetails detail : theSavedDetails) {
             blazeLibrary.assertion().assertThat(detail.detailEffectiveDate != null)
-                    .as("[%s:%s] 'Effective Date' was not present in detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+                    .withFailMessage("[%s:%s] 'Effective Date' heading was not present in detail page", detail.rowArchiveType, detail.rowFacNumber)
+                    .isTrue();
             if (blazeLibrary.assertion().wasSuccess()) {
                 blazeLibrary.assertion().assertThat(detail.detailEffectiveDate)
                         .as("[%s:%s] 'Effective Date' on detail page did not match 'Effective Date' in search table", detail.rowArchiveType, detail.rowFacNumber)
@@ -194,7 +197,8 @@ public class ArchivesPageSteps {
     public void verifyPresenceOfYearHeader() {
         for (ArchiveDetails detail : theSavedDetails) {
             blazeLibrary.assertion().assertThat(detail.detailYear != null)
-                    .as("[%s:%s] 'Year' was not present in detail page", detail.rowArchiveType, detail.rowFacNumber).isTrue();
+                    .withFailMessage("[%s:%s] 'Year' heading was not present in detail page", detail.rowArchiveType, detail.rowFacNumber)
+                    .isTrue();
         }
     }
 

@@ -212,12 +212,12 @@ public class RegulationPageSteps {
             rowCount.incrementAndGet();
             if (thingsToCheck.contains("there is a part number")) {
                 blazeLibrary.assertion().assertThat(part.info().partNumber())
-                        .withFailMessage("Regulation '%s': Row %s did not have a part number", rowCount.get())
+                        .withFailMessage("Regulation '%s': Row %s did not have a part number", regulationName, rowCount.get())
                         .isNotBlank();
             }
             if (thingsToCheck.contains("there is a title")) {
                 blazeLibrary.assertion().assertThat(part.info().title())
-                        .withFailMessage("Regulation '%s': Row %s did not have a title", rowCount.get())
+                        .withFailMessage("Regulation '%s': Row %s did not have a title", regulationName, rowCount.get())
                         .isNotBlank();
             }
             if (thingsToCheck.contains("the \"Print\" icon works correctly")) {

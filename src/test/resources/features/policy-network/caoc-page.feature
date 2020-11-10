@@ -1,6 +1,7 @@
 @all @policy-network @caoc-page
 Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
 
+  @caoc-main-page-layout
   Scenario: Verify page layout
     Given I am on the CAOC page
     Then I see the CAOC header image matches the file "policy-network/caoc-logo.jpg"
@@ -77,6 +78,7 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
       | DATA Act Section 5 Pilot                                             |
       | Procurement Data Clarification                                       |
 
+  @caoc-main-page-side-bar-link
   Scenario Outline: Verify side bar links
     Given I am on the CAOC page
     When I click on the CAOC sidebar link "<Link Text>"

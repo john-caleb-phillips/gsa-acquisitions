@@ -147,7 +147,7 @@ public class SearchPage extends HasBlazeLibrary {
             this.content = content;
             this.origin = origin;
             this.highlightedTerms = new ArrayList<>();
-            Collections.copy(this.highlightedTerms, highlightedTerms);
+            this.highlightedTerms.addAll(highlightedTerms);
         }
 
         public String toString() {
