@@ -161,9 +161,12 @@ public class PageNavigationSteps extends HasBlazeLibrary {
         PageRegistry.registerClass("DEARS regulation", DearsRegulationPage.class);
         PageRegistry.registerClass("DFARS regulation", DfarsRegulationPage.class);
         PageRegistry.registerClass("DFARSPGI regulation", DfarspgiRegulationPage.class);
+        PageRegistry.registerClass("DIAR regulation", DiarsRegulationPage.class);
         PageRegistry.registerClass("DIARS regulation", DiarsRegulationPage.class);
         PageRegistry.registerClass("DLAD regulation", DladRegulationPage.class);
+        PageRegistry.registerClass("DOLAR regulation", DolarsRegulationPage.class);
         PageRegistry.registerClass("DOLARS regulation", DolarsRegulationPage.class);
+        PageRegistry.registerClass("DOSAR regulation", DosarsRegulationPage.class);
         PageRegistry.registerClass("DOSARS regulation", DosarsRegulationPage.class);
         PageRegistry.registerClass("DTAR regulation", DtarRegulationPage.class);
         PageRegistry.registerClass("EDAR regulation", EdarRegulationPage.class);

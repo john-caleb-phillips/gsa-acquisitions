@@ -273,9 +273,12 @@ public class RegulationPageSteps {
                         .contains(detailPage.getCurrentRowInfo().partNumber().substring(5));
             }
             if (thingsToCheck.contains("the breadcrumbs are correct")) {
-                blazeLibrary.assertion().assertThat(detailPage.getBreadcrumbs())
+                List<String> expectedBreadcrumbs = Arrays.asList("Home", "Regulations", regulationName, detailPage.getCurrentRowInfo().title());
+                List<String> actualBreadCrumbs = detailPage.getBreadcrumbs();
+                blazeLibrary.assertion().assertThat(actualBreadCrumbs)
                         .as("%s - %s: The page breadcrumbs were incorrect", regulationName, detailPage.getCurrentRowInfo().partNumber())
-                        .containsExactlyElementsOf(Arrays.asList("Home", "Regulations", regulationName, detailPage.getCurrentRowInfo().title()));
+                        .withFailMessage("%nExpected: %s%n  Actual: %s", expectedBreadcrumbs, actualBreadCrumbs)
+                        .containsExactlyElementsOf(expectedBreadcrumbs);
             }
             if (thingsToCheck.contains("the \"Previous\" button works correctly") && detailPage.getCurrentRowInfo().printUrl() != null) {
                 if (detailPage.getPreviousRowInfo() != null) {
@@ -285,15 +288,15 @@ public class RegulationPageSteps {
                     if (blazeLibrary.assertion().wasSuccess()) {
                         detailPage.goToPreviousPage();
 
-                        if (!detailPage.getPreviousRowInfo().partNumber().substring(5).equals(detailPage.getPartNumber())) {
+                        String partNumber = detailPage.getPartNumber();
+                        if (!detailPage.getPreviousRowInfo().partNumber().substring(5).equals(partNumber)) {
                             if (blazeLibrary.getElement(By.xpath("//table[@id='regulation-index-browse']")).isPresent()) {
                                 blazeLibrary.assertion().fail("%s - %s: 'Previous Page' button went back to the regulation ToC, instead of %s",
                                         regulationName, detailPage.getCurrentRowInfo().partNumber(), detailPage.getPreviousRowInfo().partNumber());
                             } else {
-                                String partNumber = detailPage.getPartNumber();
                                 blazeLibrary.assertion().fail("%s - %s: 'Previous Page' button went to %s instead of %s",
                                         regulationName, detailPage.getCurrentRowInfo().partNumber(),
-                                        partNumber != null ? partNumber : "a page without a displayed part number",
+                                        partNumber != null ? "Part " + partNumber : "a page without a displayed part number",
                                         detailPage.getPreviousRowInfo().partNumber());
                             }
                         }
@@ -310,15 +313,15 @@ public class RegulationPageSteps {
                     if (blazeLibrary.assertion().wasSuccess()) {
                         detailPage.goToNextPage();
 
-                        if (!detailPage.getNextRowInfo().partNumber().substring(5).equals(detailPage.getPartNumber())) {
+                        String partNumber = detailPage.getPartNumber();
+                        if (!detailPage.getNextRowInfo().partNumber().substring(5).equals(partNumber)) {
                             if (blazeLibrary.getElement(By.xpath("//table[@id='regulation-index-browse']")).isPresent()) {
                                 blazeLibrary.assertion().fail("%s - %s: 'Next Page' button went back to the regulation ToC, instead of %s",
                                         regulationName, detailPage.getCurrentRowInfo().partNumber(), detailPage.getNextRowInfo().partNumber());
                             } else {
-                                String partNumber = detailPage.getPartNumber();
                                 blazeLibrary.assertion().fail("%s - %s: 'Next Page' button went to %s instead of %s",
                                         regulationName, detailPage.getCurrentRowInfo().partNumber(),
-                                        partNumber != null ? partNumber : "a page without a displayed part number",
+                                        partNumber != null ? "Part " + partNumber : "a page without a displayed part number",
                                         detailPage.getNextRowInfo().partNumber());
                             }
                         }

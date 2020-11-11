@@ -7,6 +7,7 @@ import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.report.LogLevel;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 
 import java.util.Comparator;
@@ -80,7 +81,9 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
             SmartMatrixPage.Contract contract = SmartMatrixPage.Contract.valueOf(contractCheckbox);
             smartMatrixPage.selectContract(contract, shouldBeChecked);
             blazeLibrary.assertion().assertThat(smartMatrixPage.contractDropdownIsActive(contract))
-                    .withFailMessage("Contract dropdown for contract '%s' should have been %s, but was not", "active".equals(activeOrInactive))
+                    .withFailMessage("Contract dropdown for contract '%s' should have been %s, but was not",
+                            contract, activeOrInactive
+                    )
                     .isEqualTo("active".equals(activeOrInactive));
         }
     }
@@ -177,22 +180,17 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
 
             smartMatrixPage.clickTableCell(rowNumber, columnNumber);
 
-            if (cellText.contains("_Alternate")) {
-                blazeLibrary.assertion().assertThat(blazeLibrary.getElements(By.xpath("//h1 | //em"))
-                        .stream().map(BlazeWebElement::getText).collect(Collectors.toList()))
-                        .withFailMessage("'%s' link '%s' did not go to the expected page", columnName, cellText)
-                        .anyMatch(el -> el.contains(cellText.substring(cellText.indexOf("_") + 1)));
-            } else if (cellText.contains("(")) {
-                blazeLibrary.assertion().assertThat(blazeLibrary.getElements(By.xpath("//h1 | //em"))
-                        .stream().map(BlazeWebElement::getText).collect(Collectors.toList()))
-                        .withFailMessage("'%s' link '%s' did not go to the expected page", columnName, cellText)
-                        .anyMatch(el -> el.contains(cellText.substring(0, cellText.indexOf("("))));
-            } else {
-                blazeLibrary.assertion().assertThat(blazeLibrary.getElements(By.xpath("//h1 | //em"))
-                        .stream().map(BlazeWebElement::getText).collect(Collectors.toList()))
-                        .withFailMessage("'%s' link '%s' did not go to the expected page", columnName, cellText)
-                        .anyMatch(el -> el.contains(cellText));
-            }
+            String expectedText = cellText.contains("_Alternate")
+                    ? cellText.substring(cellText.indexOf("_") + 1)
+                    : cellText.contains("(")
+                    ? cellText.substring(0, cellText.indexOf("("))
+                    : cellText;
+
+            blazeLibrary.assertion().assertThat(blazeLibrary.getElements(By.xpath("//h1 | //em | //p[@class='p']"))
+                    .stream().map(element -> StringUtils.normalizeSpace(element.getText())).collect(Collectors.toList()))
+                    .withFailMessage("'%s' link '%s' should have gone to a page containing an h1, em, or p element containing '%s'",
+                            columnName, cellText, expectedText)
+                    .anyMatch(el -> el.contains(expectedText));
 
             blazeLibrary.browser().closeTab();
         }
@@ -302,7 +300,7 @@ public class SmartMatrixPageSteps extends HasBlazeLibrary {
     public void verifyPrescribedInFormat() {
         for (String cell : smartMatrixPage.getTableColumn("Prescribed in")) {
             blazeLibrary.assertion().assertThat(cell)
-                    .matches(el -> el.matches("\\d+\\.\\d+(?:-\\d+)?(?:\\([a-z]\\)(?:\\([1-9]\\))?)?"), "#.#-#(a-z)(#), with hyphen onwards being optional");
+                    .matches(el -> el.matches("\\d+\\.\\d+(?:-\\d+)?(?:\\([a-z]\\)(?:\\([1-9]\\)(?:\\([ivxc]\\))?)?)?"), "#.#-#(a-z)(#)(i), with hyphen onwards being optional");
         }
     }
 
