@@ -26,6 +26,7 @@ public class HeaderSteps {
         System.out.println("tag: " + System.getProperty("tag"));
         System.out.println("tags: " + System.getProperty("tags"));
         System.setProperty("tag", "this is a test");
+        System.out.println("BUILD_NUMBER: " + System.getProperty("BUILD_NUMBER"));
         header.clickLogo();
     }
 
