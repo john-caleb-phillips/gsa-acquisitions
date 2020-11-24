@@ -21,6 +21,10 @@ public class HeaderSteps {
 
     @When("I click on header logo")
     public void clickHeaderLogo() {
+        System.out.println("env: " + System.getProperty("env"));
+        System.out.println("Environment: " + System.getProperty("Environment"));
+        System.out.println("tag: " + System.getProperty("tag"));
+        System.out.println("tags: " + System.getProperty("tags"));
         header.clickLogo();
     }
 

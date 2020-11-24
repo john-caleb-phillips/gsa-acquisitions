@@ -13,10 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ArchivesPageSteps {
@@ -84,7 +81,7 @@ public class ArchivesPageSteps {
 
     @Then("I see every archive has a unique fac number")
     public void uniqueFacNumbers() {
-        Map<String, List<String>> foundFacNumbers = new HashMap<>();
+        Map<String, List<String>> foundFacNumbers = new TreeMap<>();
 
         BlazeWebElement sorter = blazeLibrary.getElement(By.xpath("//a[@title='sort by FAC Number']"));
         if (sorter.isPresent()) {

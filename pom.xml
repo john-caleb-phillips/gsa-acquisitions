@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.reisystems</groupId>
         <artifactId>automation.super</artifactId>
-        <version>0.0.37</version>
+        <version>0.0.40</version>
     </parent>
 
     <artifactId>automation.gsa.acquisitions</artifactId>
@@ -86,6 +86,8 @@
                 <configuration>
                     <orgName>GSA</orgName>
                     <projectName>Acquisition.gov Functional Automation</projectName>
+                    <awsBucketName>adotgovautomationreports</awsBucketName>
+                    <awsRegionName>us-east-2</awsRegionName>
                     <stepPackages>
                         <stepPackage>com.reisystems.automation.gsa.acquisitions.steps</stepPackage>
                     </stepPackages>

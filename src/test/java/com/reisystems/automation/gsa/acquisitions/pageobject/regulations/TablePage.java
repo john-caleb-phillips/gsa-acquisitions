@@ -196,7 +196,7 @@ public class TablePage extends HasBlazeLibrary {
         public Map<String, String> getTocLinks() {
             blazeLibrary.getElement(By.xpath("//div[@id='content-wrapper']")).waitUntil(BlazeWebElement.WaitCondition.ELEMENT_IS_PRESENT);
 
-            Map<String, String> tocLinks = new HashMap<>();
+            Map<String, String> tocLinks = new TreeMap<>();
             for (BlazeWebElement tocElement : blazeLibrary.getElements(By.xpath("//a[starts-with(@href, '#_Toc')]"), 0)) {
                 String[] id = tocElement.getAttribute("href").split("#");
                 tocLinks.put(StringUtils.normalizeSpace(tocElement.getText()), id.length > 1 ? id[1] : id[0]);
