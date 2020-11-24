@@ -25,6 +25,7 @@ public class HeaderSteps {
         System.out.println("Environment: " + System.getProperty("Environment"));
         System.out.println("tag: " + System.getProperty("tag"));
         System.out.println("tags: " + System.getProperty("tags"));
+        System.setProperty("tag", "this is a test");
         header.clickLogo();
     }
 
