@@ -22,11 +22,12 @@ public class HeaderSteps {
     @When("I click on header logo")
     public void clickHeaderLogo() {
         System.out.println("env: " + System.getProperty("env"));
-        System.out.println("Environment: " + System.getProperty("Environment"));
-        System.out.println("tag: " + System.getProperty("tag"));
+        System.out.println("Environment: " + System.getenv("Environment"));
+        System.out.println("tag: " + System.getenv("tag"));
         System.out.println("tags: " + System.getProperty("tags"));
         System.setProperty("tag", "this is a test");
-        System.out.println("BUILD_NUMBER: " + System.getProperty("BUILD_NUMBER"));
+        System.out.println("BUILD_NUMBER: " + System.getenv("BUILD_NUMBER"));
+        System.getenv().put("tag", "testingqwe");
         header.clickLogo();
     }
 
