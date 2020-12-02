@@ -18,10 +18,10 @@ Feature: Home Page
   Scenario: Square buttons have the correct pictures
     Given I am on the home page
     Then I see the following square button pictures:
-      | Smart Matrix          | home-page/smart-matrix.png |
-      | PSC Manual            | home-page/psc-manual.png   |
-      | FAR Archives          | home-page/far-archives.png |
-      | Procurement Forecasts | home-page/forecasts.png    |
+      | Smart Matrix          | images/home-page/smart-matrix.png |
+      | PSC Manual            | images/home-page/psc-manual.png   |
+      | FAR Archives          | images/home-page/far-archives.png |
+      | Procurement Forecasts | images/home-page/forecasts.png    |
 
   @verify-oval-buttons
   Scenario Outline: "<Button Text>" link goes to the correct page

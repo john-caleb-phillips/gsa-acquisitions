@@ -13,7 +13,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ArchivesPageSteps {
@@ -143,7 +146,7 @@ public class ArchivesPageSteps {
         String convertedValue2 = blazeLibrary.properties().getProperty(value2);
         blazeLibrary.assertion().assertThat(convertedValue1)
                 .withFailMessage("The values were not the same:%nValue 1: '%s' => '%s'%nValue 2: '%s' => '%s'",
-                value1, convertedValue1, value2, convertedValue2
+                        value1, convertedValue1, value2, convertedValue2
                 )
                 .isEqualTo(convertedValue1);
     }

@@ -4,7 +4,7 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
   @caoc-main-page-layout
   Scenario: Verify page layout
     Given I am on the CAOC page
-    Then I see the CAOC header image matches the file "policy-network/caoc-logo.jpg"
+    Then I see the CAOC header image matches the file "images/policy-network/caoc-logo.jpg"
     And I see the CAOC header text is "CHIEF ACQUISITION OFFICERS COUNCIL"
     And I see the CAOC content is the following:
       """
@@ -101,7 +101,7 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
     Given I am on the CAOC page
     When I navigate to the "Large Agencies" CAOC sub page
     Then I am taken to the CAOC large agencies page
-    And I see the CAOC header image matches the file "policy-network/caoc-logo.jpg"
+    And I see the CAOC header image matches the file "images/policy-network/caoc-logo.jpg"
     And I see the CAOC header text is "LARGE AGENCIES"
     And I see the following headers in the CAOC agency table:
       | Agencies | Principal | Alternate |
@@ -142,7 +142,7 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
     Given I am on the CAOC page
     When I navigate to the "Small Agencies" CAOC sub page
     Then I am taken to the CAOC small agencies page
-    And I see the CAOC header image matches the file "policy-network/caoc-logo.jpg"
+    And I see the CAOC header image matches the file "images/policy-network/caoc-logo.jpg"
     And I see the CAOC header text is "SMALL AGENCIES"
     And I see the following headers in the CAOC agency table:
       | Agencies | Principal |
@@ -190,7 +190,7 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
     Given I am on the CAOC page
     When I navigate to the "CAOC History" CAOC sub page
     Then I am taken to the CAOC history page
-    And I see the CAOC header image matches the file "policy-network/caoc-logo.jpg"
+    And I see the CAOC header image matches the file "images/policy-network/caoc-logo.jpg"
     And I see the CAOC header text is "CAOC HISTORY"
     And I see the CAOC content is the following:
       """
@@ -237,7 +237,7 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
     Given I am on the CAOC page
     When I navigate to the "CAOC Charter" CAOC sub page
     Then I am on the CAOC charter page
-    And I see the CAOC header image matches the file "policy-network/caoc-logo.jpg"
+    And I see the CAOC header image matches the file "images/policy-network/caoc-logo.jpg"
     And I see the CAOC header text is "CAOC CHARTER"
     And I see the CAOC content is the following:
         """

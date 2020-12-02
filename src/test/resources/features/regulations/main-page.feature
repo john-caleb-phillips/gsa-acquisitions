@@ -5,37 +5,37 @@ Feature: Regulations - Main Page
   Scenario: Correct regulations are present
     Given I am on the main regulation page
     Then I see the following regulations:
-      |                  | Logo Image                     | Page Type |
-      | FAR              | regulations/far-logo.png       | sidebar   |
-      | Chapter 99 (CAS) | regulations/far-logo.png       | table     |
-      | DFARS            | regulations/dfars-logo.png     | sidebar   |
-      | DFARSPGI         | regulations/dfars-logo.png     | sidebar   |
-      | AFARS            | regulations/afars-logo.png     | table     |
-      | AFFARS           | regulations/affars-logo.png    | table     |
-      | DARS             | regulations/dars-logo.png      | table     |
-      | DLAD             | regulations/dlad-logo.png      | table     |
-      | NMCARS           | regulations/nmcars-logo.png    | table     |
-      | SOFARS           | regulations/sofars-logo.png    | table     |
-      | TRANSFARS        | regulations/transfars-logo.png | table     |
-      | AGAR             | regulations/agar-logo.png      | table     |
-      | AIDAR            | regulations/aidar-logo.png     | table     |
-      | CAR              | regulations/car-logo.png       | table     |
-      | DEARS            | regulations/dears-logo.png     | table     |
-      | DIARS            | regulations/diar-logo.png      | table     |
-      | DOLARS           | regulations/dolar-logo.png     | table     |
-      | DOSARS           | regulations/dosar-logo.png     | table     |
-      | DTAR             | regulations/dtar-logo.png      | table     |
-      | EDAR             | regulations/edar-logo.png      | table     |
-      | EPAAR            | regulations/epaar-logo.png     | table     |
-      | FEHBAR           | regulations/fehbar-logo.png    | table     |
-      | GSAM/R           | regulations/gsam-logo.png      | sidebar   |
-      | HHSAR            | regulations/hhsar-logo.png     | table     |
-      | HSAR             | regulations/hsar-logo.png      | table     |
-      | HUDAR            | regulations/hudar-logo.png     | table     |
-      | IAAR             | regulations/iaar-logo.png      | table     |
-      | JAR              | regulations/jar-logo.png       | table     |
-      | LIFAR            | regulations/lifar-logo.png     | table     |
-      | NFS              | regulations/nfs-logo.png       | table     |
-      | NRCAR            | regulations/nrcar-logo.png     | table     |
-      | TAR              | regulations/tar-logo.png       | table     |
-      | VAAR             | regulations/vaar-logo.png      | table     |
+      |                  | Logo Image                            | Page Type |
+      | FAR              | images/regulations/far-logo.png       | sidebar   |
+      | Chapter 99 (CAS) | images/regulations/far-logo.png       | table     |
+      | DFARS            | images/regulations/dfars-logo.png     | sidebar   |
+      | DFARSPGI         | images/regulations/dfars-logo.png     | sidebar   |
+      | AFARS            | images/regulations/afars-logo.png     | table     |
+      | AFFARS           | images/regulations/affars-logo.png    | table     |
+      | DARS             | images/regulations/dars-logo.png      | table     |
+      | DLAD             | images/regulations/dlad-logo.png      | table     |
+      | NMCARS           | images/regulations/nmcars-logo.png    | table     |
+      | SOFARS           | images/regulations/sofars-logo.png    | table     |
+      | TRANSFARS        | images/regulations/transfars-logo.png | table     |
+      | AGAR             | images/regulations/agar-logo.png      | table     |
+      | AIDAR            | images/regulations/aidar-logo.png     | table     |
+      | CAR              | images/regulations/car-logo.png       | table     |
+      | DEARS            | images/regulations/dears-logo.png     | table     |
+      | DIARS            | images/regulations/diar-logo.png      | table     |
+      | DOLARS           | images/regulations/dolar-logo.png     | table     |
+      | DOSARS           | images/regulations/dosar-logo.png     | table     |
+      | DTAR             | images/regulations/dtar-logo.png      | table     |
+      | EDAR             | images/regulations/edar-logo.png      | table     |
+      | EPAAR            | images/regulations/epaar-logo.png     | table     |
+      | FEHBAR           | images/regulations/fehbar-logo.png    | table     |
+      | GSAM/R           | images/regulations/gsam-logo.png      | sidebar   |
+      | HHSAR            | images/regulations/hhsar-logo.png     | table     |
+      | HSAR             | images/regulations/hsar-logo.png      | table     |
+      | HUDAR            | images/regulations/hudar-logo.png     | table     |
+      | IAAR             | images/regulations/iaar-logo.png      | table     |
+      | JAR              | images/regulations/jar-logo.png       | table     |
+      | LIFAR            | images/regulations/lifar-logo.png     | table     |
+      | NFS              | images/regulations/nfs-logo.png       | table     |
+      | NRCAR            | images/regulations/nrcar-logo.png     | table     |
+      | TAR              | images/regulations/tar-logo.png       | table     |
+      | VAAR             | images/regulations/vaar-logo.png      | table     |

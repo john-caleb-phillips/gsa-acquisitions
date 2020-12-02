@@ -14,7 +14,6 @@ import org.openqa.selenium.By;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +55,8 @@ public class HomePageSteps {
             ));
         }
 
-        Type type = new TypeToken<List<NewsPage.NewsItem>>(){}.getType();
+        Type type = new TypeToken<List<NewsPage.NewsItem>>() {
+        }.getType();
         blazeLibrary.assertion().assertThat(homePageNewsItems)
                 .as("News items on the homepage did not match those on the news page")
                 .usingElementComparator(NewsPage.NewsItem.comparator)
@@ -74,7 +74,8 @@ public class HomePageSteps {
             ));
         }
 
-        Type type = new TypeToken<List<UpdatePage.UpdateItem>>(){}.getType();
+        Type type = new TypeToken<List<UpdatePage.UpdateItem>>() {
+        }.getType();
         blazeLibrary.assertion().assertThat(homePageUpdateItems)
                 .as("Update items on the homepage did not match those on the updates page")
                 .usingElementComparator(UpdatePage.UpdateItem.comparator)

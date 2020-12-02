@@ -79,40 +79,40 @@ Feature: Header
   Scenario: Regulation links have correct logos
     Given I am on the home page
     Then I see the following logos for the following regulations in the header:
-      | FAR              | regulations/far-logo.png          |
-      | FAR Smart Matrix | regulations/smart-matrix-logo.png |
-      | Chapter 99 (CAS) | regulations/far-logo.png          |
-      | DFARS            | regulations/dfars-logo.png        |
-      | DFARSPGI         | regulations/dfars-logo.png        |
-      | AFARS            | regulations/afars-logo.png        |
-      | AFFARS           | regulations/affars-logo.png       |
-      | DARS             | regulations/dars-logo.png         |
-      | DLAD             | regulations/dlad-logo.png         |
-      | NMCARS           | regulations/nmcars-logo.png       |
-      | SOFARS           | regulations/sofars-logo.png       |
-      | TRANSFARS        | regulations/transfars-logo.png    |
-      | AGAR             | regulations/agar-logo.png         |
-      | AIDAR            | regulations/aidar-logo.png        |
-      | CAR              | regulations/car-logo.png          |
-      | DEARS            | regulations/dears-logo.png        |
-      | DIARS            | regulations/diar-logo.png         |
-      | DOLARS           | regulations/dolar-logo.png        |
-      | DOSARS           | regulations/dosar-logo.png        |
-      | DTAR             | regulations/dtar-logo.png         |
-      | EDAR             | regulations/edar-logo.png         |
-      | EPAAR            | regulations/epaar-logo.png        |
-      | FEHBAR           | regulations/fehbar-logo.png       |
-      | GSAM/R           | regulations/gsam-logo.png         |
-      | HHSAR            | regulations/hhsar-logo.png        |
-      | HSAR             | regulations/hsar-logo.png         |
-      | HUDAR            | regulations/hudar-logo.png        |
-      | IAAR             | regulations/iaar-logo.png         |
-      | JAR              | regulations/jar-logo.png          |
-      | LIFAR            | regulations/lifar-logo.png        |
-      | NFS              | regulations/nfs-logo.png          |
-      | NRCAR            | regulations/nrcar-logo.png        |
-      | TAR              | regulations/tar-logo.png          |
-      | VAAR             | regulations/vaar-logo.png         |
+      | FAR              | images/regulations/far-logo.png          |
+      | FAR Smart Matrix | images/regulations/smart-matrix-logo.png |
+      | Chapter 99 (CAS) | images/regulations/far-logo.png          |
+      | DFARS            | images/regulations/dfars-logo.png        |
+      | DFARSPGI         | images/regulations/dfars-logo.png        |
+      | AFARS            | images/regulations/afars-logo.png        |
+      | AFFARS           | images/regulations/affars-logo.png       |
+      | DARS             | images/regulations/dars-logo.png         |
+      | DLAD             | images/regulations/dlad-logo.png         |
+      | NMCARS           | images/regulations/nmcars-logo.png       |
+      | SOFARS           | images/regulations/sofars-logo.png       |
+      | TRANSFARS        | images/regulations/transfars-logo.png    |
+      | AGAR             | images/regulations/agar-logo.png         |
+      | AIDAR            | images/regulations/aidar-logo.png        |
+      | CAR              | images/regulations/car-logo.png          |
+      | DEARS            | images/regulations/dears-logo.png        |
+      | DIARS            | images/regulations/diar-logo.png         |
+      | DOLARS           | images/regulations/dolar-logo.png        |
+      | DOSARS           | images/regulations/dosar-logo.png        |
+      | DTAR             | images/regulations/dtar-logo.png         |
+      | EDAR             | images/regulations/edar-logo.png         |
+      | EPAAR            | images/regulations/epaar-logo.png        |
+      | FEHBAR           | images/regulations/fehbar-logo.png       |
+      | GSAM/R           | images/regulations/gsam-logo.png         |
+      | HHSAR            | images/regulations/hhsar-logo.png        |
+      | HSAR             | images/regulations/hsar-logo.png         |
+      | HUDAR            | images/regulations/hudar-logo.png        |
+      | IAAR             | images/regulations/iaar-logo.png         |
+      | JAR              | images/regulations/jar-logo.png          |
+      | LIFAR            | images/regulations/lifar-logo.png        |
+      | NFS              | images/regulations/nfs-logo.png          |
+      | NRCAR            | images/regulations/nrcar-logo.png        |
+      | TAR              | images/regulations/tar-logo.png          |
+      | VAAR             | images/regulations/vaar-logo.png         |
 
   @header-blank-search
   Scenario: Generic search without search term leads to correct page

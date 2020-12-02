@@ -8,7 +8,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       """
       lnteragency Suspension and Debarment Committee (ISDC)
       """
-    And I see the ISDC header image matches the file "policy-network/isdc-logo-hd.png"
+    And I see the ISDC header image matches the file "images/policy-network/isdc-logo-hd.png"
     And I see the ISDC content is the following:
       """
       About the ISDC \

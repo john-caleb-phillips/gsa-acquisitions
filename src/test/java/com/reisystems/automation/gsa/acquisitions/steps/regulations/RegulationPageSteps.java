@@ -6,7 +6,6 @@ import com.reisystems.automation.gsa.acquisitions.pageobject.regulations.TablePa
 import com.reisystems.blaze.controller.BlazeLibrary;
 import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.PageRegistry;
-import io.cucumber.java.AfterStep;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.commons.validator.routines.EmailValidator;

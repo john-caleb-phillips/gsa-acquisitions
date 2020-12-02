@@ -14,7 +14,7 @@ Feature: Policy Network - Main Page
   @caoc-layout
   Scenario: CAO Council block layout
     Given I am on the main policy network page
-    Then I see that policy network block "CAO" has header image "policy-network/caoc-logo.jpg"
+    Then I see that policy network block "CAO" has header image "images/policy-network/caoc-logo.jpg"
     And I see that policy network block "CAO" has the following text:
       """
       The Chief Acquisition Officers Council (the Council) is established \
@@ -63,7 +63,7 @@ Feature: Policy Network - Main Page
   @isdc-layout
   Scenario: ISDC block layout
     Given I am on the main policy network page
-    Then I see that policy network block "ISDC" has header image "policy-network/isdc-logo.png"
+    Then I see that policy network block "ISDC" has header image "images/policy-network/isdc-logo.png"
     And I see that policy network block "ISDC" has the following text:
       """
       lnteragency Suspension and Debarment Committee (ISDC). \

@@ -2,9 +2,7 @@ package com.reisystems.automation.gsa.acquisitions.steps.smartmatrix;
 
 import com.reisystems.automation.gsa.acquisitions.pageobject.smartmartix.SmartMatrixPage;
 import com.reisystems.blaze.controller.BlazeLibrary;
-import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
-import com.reisystems.blaze.report.LogLevel;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.commons.lang3.StringUtils;

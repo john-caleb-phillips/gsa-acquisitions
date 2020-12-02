@@ -11,6 +11,7 @@ public class EasiSteps extends HasBlazeLibrary {
     }
 
     private static int test1 = 1;
+
     @When("I run a test 1")
     public void runATest1() {
         test1--;
@@ -18,6 +19,7 @@ public class EasiSteps extends HasBlazeLibrary {
     }
 
     private static int test2 = 2;
+
     @When("I run a test 2")
     public void runATest2() {
         test2--;
@@ -25,6 +27,7 @@ public class EasiSteps extends HasBlazeLibrary {
     }
 
     private static int test3 = 3;
+
     @When("I run a test 3")
     public void runATest3() {
         test3--;

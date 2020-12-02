@@ -26,6 +26,7 @@ import io.cucumber.java.en.When;
 
 public class PageNavigationSteps extends HasBlazeLibrary {
     PageRegistry pageRegistry;
+
     public PageNavigationSteps(BlazeLibrary blazeLibrary, PageRegistry pageRegistry) {
         super(blazeLibrary);
         this.pageRegistry = pageRegistry;
