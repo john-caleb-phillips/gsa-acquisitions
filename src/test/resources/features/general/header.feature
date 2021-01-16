@@ -55,10 +55,10 @@ Feature: Header
       | AGAR             | AGAR regulation      |
       | AIDAR            | AIDAR regulation     |
       | CAR              | CAR regulation       |
-      | DEARS            | DEARS regulation     |
-      | DIARS            | DIARS regulation     |
-      | DOLARS           | DOLARS regulation    |
-      | DOSARS           | DOSARS regulation    |
+      | DEAR             | DEAR regulation      |
+      | DIAR             | DIAR regulation      |
+      | DOLAR            | DOLAR regulation     |
+      | DOSAR            | DOSAR regulation     |
       | DTAR             | DTAR regulation      |
       | EDAR             | EDAR regulation      |
       | EPAAR            | EPAAR regulation     |
@@ -94,10 +94,10 @@ Feature: Header
       | AGAR             | images/regulations/agar-logo.png         |
       | AIDAR            | images/regulations/aidar-logo.png        |
       | CAR              | images/regulations/car-logo.png          |
-      | DEARS            | images/regulations/dears-logo.png        |
-      | DIARS            | images/regulations/diar-logo.png         |
-      | DOLARS           | images/regulations/dolar-logo.png        |
-      | DOSARS           | images/regulations/dosar-logo.png        |
+      | DEAR             | images/regulations/dear-logo.png         |
+      | DIAR             | images/regulations/diar-logo.png         |
+      | DOLAR            | images/regulations/dolar-logo.png        |
+      | DOSAR            | images/regulations/dosar-logo.png        |
       | DTAR             | images/regulations/dtar-logo.png         |
       | EDAR             | images/regulations/edar-logo.png         |
       | EPAAR            | images/regulations/epaar-logo.png        |

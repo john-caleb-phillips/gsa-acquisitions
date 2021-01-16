@@ -77,13 +77,13 @@ public class PageNavigationSteps extends HasBlazeLibrary {
     @Given("^I am (on|taken to) the (AIDAR regulation) page$")
     @Given("^I am (on|taken to) the (CAR regulation) page$")
     @Given("^I am (on|taken to) the (DARS regulation) page$")
-    @Given("^I am (on|taken to) the (DEARS regulation) page$")
+    @Given("^I am (on|taken to) the (DEAR regulation) page$")
     @Given("^I am (on|taken to) the (DFARS regulation) page$")
     @Given("^I am (on|taken to) the (DFARSPGI regulation) page$")
-    @Given("^I am (on|taken to) the (DIARS regulation) page$")
+    @Given("^I am (on|taken to) the (DIAR regulation) page$")
     @Given("^I am (on|taken to) the (DLAD regulation) page$")
-    @Given("^I am (on|taken to) the (DOLARS regulation) page$")
-    @Given("^I am (on|taken to) the (DOSARS regulation) page$")
+    @Given("^I am (on|taken to) the (DOLAR regulation) page$")
+    @Given("^I am (on|taken to) the (DOSAR regulation) page$")
     @Given("^I am (on|taken to) the (DTAR regulation) page$")
     @Given("^I am (on|taken to) the (EDAR regulation) page$")
     @Given("^I am (on|taken to) the (EPAAR regulation) page$")
@@ -159,16 +159,16 @@ public class PageNavigationSteps extends HasBlazeLibrary {
         PageRegistry.registerClass("AIDAR regulation", AidarRegulationPage.class);
         PageRegistry.registerClass("CAR regulation", CarRegulationPage.class);
         PageRegistry.registerClass("DARS regulation", DarsRegulationPage.class);
-        PageRegistry.registerClass("DEARS regulation", DearsRegulationPage.class);
+        PageRegistry.registerClass("DEAR regulation", DearsRegulationPage.class);
         PageRegistry.registerClass("DFARS regulation", DfarsRegulationPage.class);
         PageRegistry.registerClass("DFARSPGI regulation", DfarspgiRegulationPage.class);
         PageRegistry.registerClass("DIAR regulation", DiarsRegulationPage.class);
-        PageRegistry.registerClass("DIARS regulation", DiarsRegulationPage.class);
+        PageRegistry.registerClass("DIAR regulation", DiarsRegulationPage.class);
         PageRegistry.registerClass("DLAD regulation", DladRegulationPage.class);
         PageRegistry.registerClass("DOLAR regulation", DolarsRegulationPage.class);
-        PageRegistry.registerClass("DOLARS regulation", DolarsRegulationPage.class);
+        PageRegistry.registerClass("DOLAR regulation", DolarsRegulationPage.class);
         PageRegistry.registerClass("DOSAR regulation", DosarsRegulationPage.class);
-        PageRegistry.registerClass("DOSARS regulation", DosarsRegulationPage.class);
+        PageRegistry.registerClass("DOSAR regulation", DosarsRegulationPage.class);
         PageRegistry.registerClass("DTAR regulation", DtarRegulationPage.class);
         PageRegistry.registerClass("EDAR regulation", EdarRegulationPage.class);
         PageRegistry.registerClass("EPAAR regulation", EpaarRegulationPage.class);

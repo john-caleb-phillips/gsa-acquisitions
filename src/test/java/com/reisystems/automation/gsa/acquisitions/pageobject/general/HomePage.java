@@ -36,7 +36,7 @@ public class HomePage extends PageObject {
 
     private static class locators {
         private static By ovalButton(String buttonText) {
-            return By.xpath(String.format("//div[contains(@class, 'button-wrapper')]/a[text()='%s']", buttonText));
+            return By.xpath(String.format("//div[contains(@class, 'button-wrapper')]/a[normalize-space(.)='%s']", buttonText));
         }
 
         private static By ovalButtons() {

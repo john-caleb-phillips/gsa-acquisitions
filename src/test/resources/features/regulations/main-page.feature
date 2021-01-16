@@ -20,10 +20,10 @@ Feature: Regulations - Main Page
       | AGAR             | images/regulations/agar-logo.png      | table     |
       | AIDAR            | images/regulations/aidar-logo.png     | table     |
       | CAR              | images/regulations/car-logo.png       | table     |
-      | DEARS            | images/regulations/dears-logo.png     | table     |
-      | DIARS            | images/regulations/diar-logo.png      | table     |
-      | DOLARS           | images/regulations/dolar-logo.png     | table     |
-      | DOSARS           | images/regulations/dosar-logo.png     | table     |
+      | DEAR             | images/regulations/dear-logo.png      | table     |
+      | DIAR             | images/regulations/diar-logo.png      | table     |
+      | DOLAR            | images/regulations/dolar-logo.png     | table     |
+      | DOSAR            | images/regulations/dosar-logo.png     | table     |
       | DTAR             | images/regulations/dtar-logo.png      | table     |
       | EDAR             | images/regulations/edar-logo.png      | table     |
       | EPAAR            | images/regulations/epaar-logo.png     | table     |

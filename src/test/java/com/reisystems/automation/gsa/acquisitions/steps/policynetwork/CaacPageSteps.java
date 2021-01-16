@@ -73,6 +73,7 @@ public class CaacPageSteps {
         String currentUrl = blazeLibrary.browser().getCurrentUrl();
         policyNetworkPage.caac().forEachLetter(el -> {
             String subject = el.getSubject();
+            System.out.println(subject);
             el.clickSubject();
             blazeLibrary.assertion().assertThat(blazeLibrary.browser().getCurrentUrl())
                     .as("CAAC Letter '%s' did not link to a new page", subject)

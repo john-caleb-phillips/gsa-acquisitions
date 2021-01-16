@@ -398,8 +398,8 @@ Feature: Regulations - Table Format
       | the ToC links each have an anchor          |
 
   @validate-regulation-dears
-  Scenario: Table Regulation - DEARS
-    Given I am on the DEARS regulation page
+  Scenario: Table Regulation - DEAR
+    Given I am on the DEAR regulation page
     Then I see the regulation header is the following:
       """
       Department of Energy Acquisition Regulations
@@ -408,11 +408,11 @@ Feature: Regulations - Table Format
       """
       Looking for older versions of regulations? Check our Regulation Archives
 
-      A quick reference of the DEARS Parts
+      A quick reference of the DEAR Parts
 
       (Effective 15 Junl, 2016)
 
-      DEARS POC: Barbara Binney
+      DEAR POC: Barbara Binney
       Last Update: 24-Feb-17
       This is not an official version of the regulation. You can confirm the \
       most current version of the regulation on the eCFR.
@@ -438,8 +438,8 @@ Feature: Regulations - Table Format
       | the ToC links each have an anchor          |
 
   @validate-regulation-diars
-  Scenario: Table Regulation - DIARS
-    Given I am on the DIARS regulation page
+  Scenario: Table Regulation - DIAR
+    Given I am on the DIAR regulation page
     Then I see the regulation header is the following:
       """
       Department of the Interior Acquisition Regulation
@@ -478,8 +478,8 @@ Feature: Regulations - Table Format
       | the ToC links each have an anchor          |
 
   @validate-regulation-dolars
-  Scenario: Table Regulation - DOLARS
-    Given I am on the DOLARS regulation page
+  Scenario: Table Regulation - DOLAR
+    Given I am on the DOLAR regulation page
     Then I see the regulation header is the following:
       """
       Department of Labor Acquisition Regulation
@@ -518,8 +518,8 @@ Feature: Regulations - Table Format
       | the ToC links each have an anchor          |
 
   @validate-regulation-dosars
-  Scenario: Table Regulation - DOSARS
-    Given I am on the DOSARS regulation page
+  Scenario: Table Regulation - DOSAR
+    Given I am on the DOSAR regulation page
     Then I see the regulation header is the following:
       """
       Department of State Acquisition Regulation
