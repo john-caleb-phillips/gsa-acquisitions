@@ -85,15 +85,15 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
     Then I see the url is "<Destination Url>"
     Examples:
       | Link Text                                                            | Destination Url                                                                                                                                     |
-#      | Circulars                                                            | https://www.whitehouse.gov/omb/information-for-agencies/circulars/                                                                                  |
-#      | Guides                                                               | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal/                                                    |
-#      | Memoranda                                                            | https://www.whitehouse.gov/omb/information-for-agencies/memoranda/                                                                                  |
-#      | Policy Letters                                                       | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                   |
-#      | Reports                                                              | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_3                                                   |
-#      | Other                                                                | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_4                                                   |
-#      | By Topical Areas                                                     | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                   |
-#      | Acquisition, Program Management and Small Business Excellence Awards | https://www.fai.gov/resources/acquisition-program-management-and-small-business-excellence-awards                                                   |
-#      | DATA Act Section 5 Pilot                                             | {Portal:HOMEPAGE}/data-act-pilot                                                                                                                    |
+      | Circulars                                                            | https://www.whitehouse.gov/omb/information-for-agencies/circulars/                                                                                  |
+      | Guides                                                               | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal/                                                    |
+      | Memoranda                                                            | https://www.whitehouse.gov/omb/information-for-agencies/memoranda/                                                                                  |
+      | Policy Letters                                                       | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                   |
+      | Reports                                                              | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_3                                                   |
+      | Other                                                                | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_4                                                   |
+      | By Topical Areas                                                     | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                   |
+      | Acquisition, Program Management and Small Business Excellence Awards | https://www.fai.gov/resources/acquisition-program-management-and-small-business-excellence-awards                                                   |
+      | DATA Act Section 5 Pilot                                             | {Portal:HOMEPAGE}/data-act-pilot                                                                                                                    |
       | Procurement Data Clarification                                       | {Portal:HOMEPAGE}/sites/default/files/page_file_uploads/Clarifying Procurement Data Information Based on Lessons Learned During DATA Act Audits.pdf |
 
   @verify-caoc-large-agencies-page-layout
