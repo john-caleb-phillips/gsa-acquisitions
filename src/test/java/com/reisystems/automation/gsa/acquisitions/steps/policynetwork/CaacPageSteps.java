@@ -4,6 +4,7 @@ import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.Polic
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.Keys;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -73,8 +74,9 @@ public class CaacPageSteps {
         String currentUrl = blazeLibrary.browser().getCurrentUrl();
         policyNetworkPage.caac().forEachLetter(el -> {
             String subject = el.getSubject();
-            System.out.println(subject);
+            blazeLibrary.mouseAndKeyboard().keyDown(Keys.CONTROL).perform();
             el.clickSubject();
+            blazeLibrary.mouseAndKeyboard().keyUp(Keys.CONTROL).perform();
             blazeLibrary.assertion().assertThat(blazeLibrary.browser().getCurrentUrl())
                     .as("CAAC Letter '%s' did not link to a new page", subject)
                     .isNotEqualTo(currentUrl);
