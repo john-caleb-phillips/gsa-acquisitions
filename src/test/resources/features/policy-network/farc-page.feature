@@ -136,12 +136,10 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
   Scenario Outline: Council Memoranda Page Links
     Given I am on the FARC memoranda page
     Then I see the FARC memoranda link "<Link Text>" goes to "<Destination Url>"
-    #And I click on FARC memoranda link "<Link Text>"
-    #Then I see the url is "<Destination Url>"
     Examples:
       | Link Text                                                               | Destination Url                                                                                              |
-      | Establishment of the Federal Acquisition Regulation Small Business Team | http2s://obamawhitehouse.archives.gov/sites/default/files/omb/assets/procurement_memo/small_bus_team_memo.pdf |
-      | Revised FAR Process                                                     | http2s://obamawhitehouse.archives.gov/sites/default/files/omb/assets/procurement/memo_revised_far.pdf         |
+      | Establishment of the Federal Acquisition Regulation Small Business Team | https://obamawhitehouse.archives.gov/sites/default/files/omb/assets/procurement_memo/small_bus_team_memo.pdf |
+      | Revised FAR Process                                                     | https://obamawhitehouse.archives.gov/sites/default/files/omb/assets/procurement/memo_revised_far.pdf         |
 
   @verify-farc-memoranda-page-link
   Scenario Outline: Council Memoranda Page Footer Links
