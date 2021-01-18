@@ -135,8 +135,9 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
   @verify-farc-memoranda-page-external-links
   Scenario Outline: Council Memoranda Page Links
     Given I am on the FARC memoranda page
-    And I click on FARC memoranda link "<Link Text>"
-    Then I see the url is "<Destination Url>"
+    Then I see the FARC memoranda link "<Link Text>" goes to "<Destination Url>"
+    #And I click on FARC memoranda link "<Link Text>"
+    #Then I see the url is "<Destination Url>"
     Examples:
       | Link Text                                                               | Destination Url                                                                                              |
       | Establishment of the Federal Acquisition Regulation Small Business Team | https://obamawhitehouse.archives.gov/sites/default/files/omb/assets/procurement_memo/small_bus_team_memo.pdf |

@@ -27,6 +27,11 @@ public class FarcPageSteps {
         policyNetworkPage.farc().clickFarcMemorandaLink(linkText);
     }
 
+    @Then("I see the FARC memoranda link {string} goes to {string}")
+    public void verifyFarcMemorandaLink(String linkText, String destinationUrl) {
+        policyNetworkPage.farc().verifyFarcMemorandaLink(linkText, destinationUrl);
+    }
+
     @Then("I see the FARC header is the following:")
     public void verifyPageHeader(String expectedHeader) {
         blazeLibrary.assertion().assertThat(policyNetworkPage.farc().getHeader())
