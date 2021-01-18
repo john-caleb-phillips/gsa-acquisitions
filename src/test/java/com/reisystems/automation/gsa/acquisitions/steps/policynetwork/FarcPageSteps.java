@@ -4,7 +4,11 @@ import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.Polic
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -28,9 +32,23 @@ public class FarcPageSteps {
         policyNetworkPage.farc().clickFarcMemorandaLink(linkText);
     }
 
-    @Then("I see the FARC memoranda links go to the following pages:")
-    public void verifyFarcMemorandaLink(Map<String, String> memorandaUrls) {
-        policyNetworkPage.farc().verifyFarcMemorandaLinks(memorandaUrls);
+    @Then("I see the FARC memoranda links go to the following urls:")
+    public void verifyFarcMemorandaLink(Map<String, String> memorandaLinks) {
+        for (String linkText : memorandaLinks.keySet()) {
+            String href = policyNetworkPage.farc().getMemorandaLinkHref(linkText);
+            blazeLibrary.assertion().assertThat(href)
+                    .withFailMessage("URL for FARC memoranda link '%s' was not was expected.%nExpected: %s%nActual: %s", linkText, memorandaLinks.get(linkText), href)
+                    .isEqualTo(memorandaLinks.get(linkText));
+            if (blazeLibrary.assertion().wasSuccess()) {
+                try {
+                    new URL(href).openStream();
+                } catch (MalformedURLException e) {
+                    blazeLibrary.assertion().fail("FARC memoranda link '%s' href attribute was not a valid URL. It was '%s'", linkText, href);
+                } catch (IOException e) {
+                    blazeLibrary.assertion().fail("FARC memoranda link '%s' could not be opened.", linkText);
+                }
+            }
+        }
     }
 
     @Then("I see the FARC header is the following:")

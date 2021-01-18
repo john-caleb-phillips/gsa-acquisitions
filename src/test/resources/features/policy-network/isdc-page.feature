@@ -479,12 +479,9 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Compelling Reasons Determinations |
 
   @verify-isdc-compelling-reasons-page-external-links
-  Scenario Outline: Compelling Reasons Determinations Page Content Links
+  Scenario: Compelling Reasons Determinations Page Content Links
     Given I am on the ISDC compelling reasons page
-    And I click on ISDC content link "<Link Text>"
-    Then I see the url is "<Destination Url>"
-    Examples:
-      | Link Text                                    | Destination Url                                                                                                     |
+    Then I see the ISDC content links go to the following urls:
       | 10 U.S.C. § 2393                             | https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title10-section2393&num=0&edition=prelim               |
       | 48 C.F.R. § 9.405                            | {Portal:HOMEPAGE}/far/subpart-4.11#i1122064                                                                         |
       | 10 U.S.C. § 2393                             | https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title10-section2393&num=0&edition=prelim               |

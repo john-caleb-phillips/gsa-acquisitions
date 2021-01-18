@@ -36,26 +36,12 @@ public class FarcMainPage extends PageObject {
         blazeLibrary.getElement(By.xpath(String.format("//div[@id='block-menu-menu-about-the-far-council']//li//a[.='%s']", linkText))).click(blazeLibrary.clickResults().REFRESH_PAGE);
     }
 
-    public void clickFarcMemorandaLink(String linkText) {
-        blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'field-items')]//a[.='%s']", linkText))).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
+    public String getMemorandaLinkHref(String linkText) {
+        return blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'field-items')]//a[.='%s']", linkText))).getAttribute("href");
     }
 
-    public void verifyFarcMemorandaLinks(Map<String, String> memorandaLinks) {
-        for (String linkText : memorandaLinks.keySet()) {
-            String href = blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'field-items')]//a[.='%s']", linkText))).getAttribute("href");
-            blazeLibrary.assertion().assertThat(href)
-                    .withFailMessage("URL for FARC memoranda link '%s' was not was expected.%nExpected: %s%nActual: %s", linkText, memorandaLinks.get(linkText), href)
-                    .isEqualTo(memorandaLinks.get(linkText));
-            if (blazeLibrary.assertion().wasSuccess()) {
-                try {
-                    new URL(href).openStream();
-                } catch (MalformedURLException e) {
-                    blazeLibrary.assertion().fail("FARC memoranda link '%s' href attribute was not a valid URL. It was '%s'", linkText, href);
-                } catch (IOException e) {
-                    blazeLibrary.assertion().fail("FARC memoranda link '%s' could not be opened.", linkText);
-                }
-            }
-        }
+    public void clickFarcMemorandaLink(String linkText) {
+        blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'field-items')]//a[.='%s']", linkText))).click(blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);
     }
 
 }

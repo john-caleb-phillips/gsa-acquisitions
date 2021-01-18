@@ -5,10 +5,14 @@ import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.isdc.
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 public class IsdcPageSteps {
 
@@ -28,6 +32,25 @@ public class IsdcPageSteps {
     @When("I click on ISDC footer link {string}")
     public void clickFooterLink(String linkText) {
         policyNetworkPage.isdc().clickFooterLink(linkText);
+    }
+
+    @Then("I see the ISDC content links go to the following urls:")
+    public void verifyContentLinks(Map<String, String> contentLinks) {
+        for (String linkText : contentLinks.keySet()) {
+            String href = blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'field-items')]//a[.='%s']", linkText))).getAttribute("href");
+            blazeLibrary.assertion().assertThat(href)
+                    .withFailMessage("URL for FARC memoranda link '%s' was not was expected.%nExpected: %s%nActual: %s", linkText, contentLinks.get(linkText), href)
+                    .isEqualTo(contentLinks.get(linkText));
+            if (blazeLibrary.assertion().wasSuccess()) {
+                try {
+                    new URL(href).openStream();
+                } catch (MalformedURLException e) {
+                    blazeLibrary.assertion().fail("FARC memoranda link '%s' href attribute was not a valid URL. It was '%s'", linkText, href);
+                } catch (IOException e) {
+                    blazeLibrary.assertion().fail("FARC memoranda link '%s' could not be opened.", linkText);
+                }
+            }
+        }
     }
 
     @Then("I see the ISDC header is the following:")
