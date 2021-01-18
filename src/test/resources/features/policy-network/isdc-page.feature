@@ -289,12 +289,9 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Compelling Reasons Determinations |
 
   @verify-isdc-debarment-page-external-links
-  Scenario Outline: Debarment Regulations Page Content Links
+  Scenario: Debarment Regulations Page Content Links
     Given I am on the ISDC debarment page
-    And I click on ISDC content link "<Link Text>"
-    Then I see the url is "<Destination Url>"
-    Examples:
-      | Link Text                                                                            | Destination Url                                                                      |
+    Then I see the ISDC content links go to the following urls:
       | Federal Register, Nonprocurement Common Rule, Pages 66533 – 66582                    | https://s3.amazonaws.com/sitesusa/wp-content/uploads/sites/272/2014/09/66582.pdf     |
       | Federal Register, Nonprocurement Common Rule, Pages 66583 – 66632                    | https://s3.amazonaws.com/sitesusa/wp-content/uploads/sites/272/2014/09/66632.pdf     |
       | Federal Register, Nonprocurement Common Rule, Pages 66633 – 66646                    | https://s3.amazonaws.com/sitesusa/wp-content/uploads/sites/272/2014/09/66646.pdf     |
