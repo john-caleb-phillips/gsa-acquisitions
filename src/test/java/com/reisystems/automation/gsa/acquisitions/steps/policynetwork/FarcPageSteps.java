@@ -6,6 +6,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.util.List;
+import java.util.Map;
 
 public class FarcPageSteps {
 
@@ -27,9 +28,9 @@ public class FarcPageSteps {
         policyNetworkPage.farc().clickFarcMemorandaLink(linkText);
     }
 
-    @Then("I see the FARC memoranda link {string} goes to {string}")
-    public void verifyFarcMemorandaLink(String linkText, String destinationUrl) {
-        policyNetworkPage.farc().verifyFarcMemorandaLink(linkText, destinationUrl);
+    @Then("I see the FARC memoranda links go to the following pages:")
+    public void verifyFarcMemorandaLink(Map<String, String> memorandaUrls) {
+        policyNetworkPage.farc().verifyFarcMemorandaLinks(memorandaUrls);
     }
 
     @Then("I see the FARC header is the following:")
