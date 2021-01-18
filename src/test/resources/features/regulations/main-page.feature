@@ -1,8 +1,8 @@
 @all @regulations @main-page
-Feature: Regulations - Main Page
+Feature: Regulations
 
   @correct-regulations-are-present
-  Scenario: Correct regulations are present
+  Scenario: Main Page - Correct regulations are present
     Given I am on the main regulation page
     Then I see the following regulations:
       |                  | Logo Image                            | Page Type |

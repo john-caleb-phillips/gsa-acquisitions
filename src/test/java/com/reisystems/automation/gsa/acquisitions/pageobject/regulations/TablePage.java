@@ -211,6 +211,10 @@ public class TablePage extends HasBlazeLibrary {
             }
             return tocLinks;
         }
+
+        public DetailPageInfo getInfo() {
+            return new DetailPageInfo(this);
+        }
     }
 
     public PartRow getPartRow(int rowNumber) {
@@ -271,10 +275,10 @@ public class TablePage extends HasBlazeLibrary {
     }
 
     public static class RowInfo {
-        private final String partNumber;
-        private final String title;
-        private final URL printUrl;
-        private final URL pdfUrl;
+        public final String partNumber;
+        public final String title;
+        public final URL printUrl;
+        public final URL pdfUrl;
 
         public RowInfo(String partNumber, String title, URL printUrl, URL pdfUrl) {
             this.partNumber = partNumber;
@@ -282,39 +286,76 @@ public class TablePage extends HasBlazeLibrary {
             this.printUrl = printUrl;
             this.pdfUrl = pdfUrl;
         }
-
-        public String partNumber() {
-            return partNumber;
-        }
-
-        public String title() {
-            return title;
-        }
-
-        public URL printUrl() {
-            return printUrl;
-        }
-
-        public URL pdfUrl() {
-            return pdfUrl;
-        }
     }
 
-    public static class ContentLink {
-        private final String id;
-        private final String text;
+    public class DetailPageInfo {
+        public final String rowPartNumber, rowTitle;
+        public final String regulationName, partNumber, title;
+        public final String previousPagePartNumber, nextPagePartNumber;
+        public final String tocButtonLink, topButtonLink;
+        public final List<String> breadcrumbs;
+        public final List<URL> contentUrls;
+        public final Map<String, String> tocLinks;
 
-        private ContentLink(String id, String text) {
-            this.id = id;
-            this.text = text;
-        }
+        public DetailPageInfo(DetailPage detailPage) {
+            rowPartNumber = detailPage.getCurrentRowInfo().partNumber;
+            rowTitle = detailPage.getCurrentRowInfo().title;
+            regulationName = detailPage.getRegulationName();
+            partNumber = detailPage.getPartNumber();
+            title = detailPage.getTitle();
+            breadcrumbs = detailPage.getBreadcrumbs();
+            contentUrls = detailPage.getContentUrls();
+            tocLinks = detailPage.getTocLinks();
 
-        public String id() {
-            return id;
-        }
+            String tempPreviousPartNumber = null;
+            if (detailPage.hasPreviousPage()) {
+                detailPage.goToPreviousPage();
 
-        public String text() {
-            return text;
+                tempPreviousPartNumber = detailPage.getPartNumber();
+                if (tempPreviousPartNumber == null) {
+                    tempPreviousPartNumber = "";
+                }
+
+                blazeLibrary.browser().navigateBack();
+            }
+            previousPagePartNumber = tempPreviousPartNumber;
+
+            String tempNextPartNumber = null;
+            if (detailPage.hasNextPage()) {
+                detailPage.goToNextPage();
+
+                tempNextPartNumber = detailPage.getPartNumber();
+                if (tempNextPartNumber == null) {
+                    tempNextPartNumber = "";
+                }
+
+                blazeLibrary.browser().navigateBack();
+            }
+            nextPagePartNumber = tempNextPartNumber;
+
+            String tempTocLink = null;
+            if (detailPage.hasTocLink()) {
+                detailPage.clickTocLink();
+
+                tempTocLink = blazeLibrary.browser().getCurrentUrl().split("[#?]")[0];
+
+                blazeLibrary.browser().navigateBack();
+            }
+            tocButtonLink = tempTocLink;
+
+            String tempTopLink = null;
+            if (detailPage.hasTopLink()) {
+                detailPage.clickTopLink();
+
+                tempTopLink = "";
+                String[] urlParts = blazeLibrary.browser().getCurrentUrl().split("#");
+                if (urlParts.length > 1) {
+                    tempTopLink = urlParts[1];
+                }
+
+                blazeLibrary.browser().navigateBack();
+            }
+            topButtonLink = tempTopLink;
         }
     }
 

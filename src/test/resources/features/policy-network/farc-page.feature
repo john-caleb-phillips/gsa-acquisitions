@@ -1,7 +1,7 @@
 @all @policy-network @farc-page
-Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
+Feature: Policy Network
 
-  Scenario: Main Page Layout
+  Scenario: Federal Acquisition Regulatory Council (FARC) - Main Page Layout
     Given I am on the FARC page
     Then I see the FARC header is the following:
       """
@@ -29,7 +29,7 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Council Memoranda        |
 
   @verify-farc-main-page-links
-  Scenario Outline: Main Page Footer Links
+  Scenario Outline: Federal Acquisition Regulatory Council (FARC) - Main Page Footer Links
     Given I am on the FARC page
     When I click on FARC footer link "<Link Text>"
     Then I am taken to the <Destination> page
@@ -40,7 +40,7 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Council Memoranda        | FARC memoranda |
 
   @verify-farc-members-page-layout
-  Scenario: Council Members Page Layout
+  Scenario: Federal Acquisition Regulatory Council (FARC) - Council Members Page Layout
     Given I am on the FARC members page
     Then I see the FARC header is the following:
       """
@@ -61,7 +61,7 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Council Memoranda        |
 
   @verify-farc-members-page-links
-  Scenario Outline: Council Members Page Footer Links
+  Scenario Outline: Federal Acquisition Regulatory Council (FARC) - Council Members Page Footer Links
     Given I am on the FARC members page
     And I click on FARC footer link "<Link Text>"
     Then I am taken to the <Destination> page
@@ -72,7 +72,7 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Council Memoranda        | FARC memoranda |
 
   @verify-farc-meeting-page-layout
-  Scenario: Meeting Schedule Page Layout
+  Scenario: Federal Acquisition Regulatory Council (FARC) - Meeting Schedule Page Layout
     Given I am on the FARC meeting page
     Then I see the FARC header is the following:
       """
@@ -102,7 +102,7 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Council Memoranda        |
 
   @verify-farc-meeting-page-links
-  Scenario Outline: Meeting Schedule Page Footer Links
+  Scenario Outline: Federal Acquisition Regulatory Council (FARC) - Meeting Schedule Page Footer Links
     Given I am on the FARC meeting page
     And I click on FARC footer link "<Link Text>"
     Then I am taken to the <Destination> page
@@ -113,7 +113,7 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Council Memoranda        | FARC memoranda |
 
   @verify-farc-memoranda-page-layout
-  Scenario: Council Memoranda Page Layout
+  Scenario: Federal Acquisition Regulatory Council (FARC) - Council Memoranda Page Layout
     Given I am on the FARC memoranda page
     Then I see the FARC header is the following:
       """
@@ -133,14 +133,14 @@ Feature: Policy Network - Federal Acquisition Regulatory Council (FARC)
       | Council Memoranda        |
 
   @verify-farc-memoranda-page-external-links
-  Scenario: Council Memoranda Page Links
+  Scenario: Federal Acquisition Regulatory Council (FARC) - Council Memoranda Page Links
     Given I am on the FARC memoranda page
     Then I see the FARC memoranda links go to the following urls:
       | Establishment of the Federal Acquisition Regulation Small Business Team | https://obamawhitehouse.archives.gov/sites/default/files/omb/assets/procurement_memo/small_bus_team_memo.pdf |
       | Revised FAR Process                                                     | https://obamawhitehouse.archives.gov/sites/default/files/omb/assets/procurement/memo_revised_far.pdf         |
 
   @verify-farc-memoranda-page-link
-  Scenario Outline: Council Memoranda Page Footer Links
+  Scenario Outline: Federal Acquisition Regulatory Council (FARC) - Council Memoranda Page Footer Links
     Given I am on the FARC memoranda page
     And I click on FARC footer link "<Link Text>"
     Then I am taken to the <Destination> page

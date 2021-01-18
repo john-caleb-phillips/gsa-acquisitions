@@ -1,7 +1,7 @@
 @all @policy-network @caac-page
-Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
+Feature: Policy Network
 
-  Scenario: main page
+  Scenario: Civilian Agency Acquisition Council (CAAC) - Main Page Layout
     Given I am on the CAAC page
     Then I see the CAAC header is the following:
       """
@@ -101,7 +101,7 @@ Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
       """
 
   @verify-caac-page-links
-  Scenario Outline: Verify main page links work correctly
+  Scenario Outline: Civilian Agency Acquisition Council (CAAC) - Verify main page links work correctly
     Given I am on the CAAC page
     When I navigate to the "<Link Text>" CAAC page
     Then I am taken to the <Destination> page
@@ -111,7 +111,7 @@ Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
       | Members   | CAAC members |
 
   @caac-letters-page-layout
-  Scenario: Verify Letters page layout
+  Scenario: Civilian Agency Acquisition Council (CAAC) - Verify Letters page layout
     Given I am on the CAAC letters page
     Then I see the CAAC header is the following:
       """
@@ -142,7 +142,7 @@ Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
       """
 
   @verify-caac-letters-page-links
-  Scenario Outline: Verify letters page links work correctly
+  Scenario Outline: Civilian Agency Acquisition Council (CAAC) - Verify letters page links work correctly
     Given I am on the CAAC letters page
     And I navigate to the "<Link Text>" CAAC page
     Then I am taken to the <Destination> page
@@ -152,7 +152,7 @@ Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
       | Main      | CAAC         |
 
   @caac-letters-page-table
-  Scenario: Verify letters table
+  Scenario: Civilian Agency Acquisition Council (CAAC) - Verify letters table
     Given I am on the CAAC letters page
     When I navigate to the "Letters" CAAC page
     Then I see the CAAC letters table has the following headers:
@@ -165,7 +165,7 @@ Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
     And I see each attachment name links to a valid pdf file
 
   @caac-members-page-layout
-  Scenario: Verify Members page layout
+  Scenario: Civilian Agency Acquisition Council (CAAC) - Verify Members page layout
     Given I am on the CAAC members page
     Then I see the CAAC header is the following:
       """
@@ -181,7 +181,7 @@ Feature: Policy Network - Civilian Agency Acquisition Council (CAAC)
       """
 
   @verify-caac-members-page-links
-  Scenario Outline: Verify Members page links work correctly
+  Scenario Outline: Civilian Agency Acquisition Council (CAAC) - Verify Members page links work correctly
     Given I am on the CAAC members page
     And I navigate to the "<Link Text>" CAAC page
     Then I am taken to the <Destination> page

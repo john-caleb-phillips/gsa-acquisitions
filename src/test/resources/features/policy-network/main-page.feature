@@ -1,5 +1,5 @@
 @all @policy-network @main-page
-Feature: Policy Network - Main Page
+Feature: Policy Network
 
   @info-blocks
   Scenario: Correct Info Blocks
@@ -12,7 +12,7 @@ Feature: Policy Network - Main Page
       | Other Policy Resources                         |
 
   @caoc-layout
-  Scenario: CAO Council block layout
+  Scenario: Main Page - CAO Council block layout
     Given I am on the main policy network page
     Then I see that policy network block "CAO" has header image "images/policy-network/caoc-logo.jpg"
     And I see that policy network block "CAO" has the following text:
@@ -28,7 +28,7 @@ Feature: Policy Network - Main Page
       """
 
   @caac-layout
-  Scenario: CAAC block layout
+  Scenario: Main Page - CAAC block layout
     Given I am on the main policy network page
     Then I see that policy network block "CAAC" has the following header:
       """
@@ -44,7 +44,7 @@ Feature: Policy Network - Main Page
       """
 
   @far-council-layout
-  Scenario: FAR Council block layout
+  Scenario: Main Page - FAR Council block layout
     Given I am on the main policy network page
     Then I see that policy network block "FAR Council" has the following header:
       """
@@ -61,7 +61,7 @@ Feature: Policy Network - Main Page
       """
 
   @isdc-layout
-  Scenario: ISDC block layout
+  Scenario: Main Page - ISDC block layout
     Given I am on the main policy network page
     Then I see that policy network block "ISDC" has header image "images/policy-network/isdc-logo.png"
     And I see that policy network block "ISDC" has the following text:
@@ -74,7 +74,7 @@ Feature: Policy Network - Main Page
       """
 
   @other-policy-resources-layout
-  Scenario: Other Policy Resources block layout
+  Scenario: Main Page - Other Policy Resources block layout
     Given I am on the main policy network page
     Then I see that policy network block "Other Policy Resources" has the following header:
       """
@@ -87,7 +87,7 @@ Feature: Policy Network - Main Page
       | Chief Information Officers Council             |
 
   @verify-links
-  Scenario Outline: Links work correctly
+  Scenario Outline: Main Page - Links work correctly
     Given I am on the main policy network page
     When I click the header link in policy network block "<Link Text>"
     Then I am taken to the <Destination> page
@@ -99,7 +99,7 @@ Feature: Policy Network - Main Page
       | ISDC        | ISDC        |
 
   @verify-other-links
-  Scenario Outline: Other Policy Resources Links work correctly
+  Scenario Outline: Main Page - Other Policy Resources Links work correctly
     Given I am on the main policy network page
     When I click the link for other policy resource "<Link Text>"
     Then I see the url is "<Destination Url>"

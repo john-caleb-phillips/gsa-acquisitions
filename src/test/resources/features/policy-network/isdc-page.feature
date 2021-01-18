@@ -1,8 +1,8 @@
 @all @policy-network @isdc-page
-Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
+Feature: Policy Network
 
   @verify-isdc-main-page-layout
-  Scenario: Main Page Layout
+  Scenario: Interagency Suspension and Debarment Committee (ISDC) - Main Page Layout
     Given I am on the ISDC page
     Then I see the ISDC header is the following:
       """
@@ -62,7 +62,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Compelling Reasons Determinations |
 
   @verify-isdc-main-page-external-links
-  Scenario Outline: Main Page Content Links
+  Scenario Outline: Interagency Suspension and Debarment Committee (ISDC) - Main Page Content Links
     Given I am on the ISDC page
     When I click on ISDC content link "<Link Text>"
     Then I see the url is "<Destination Url>"
@@ -72,7 +72,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | System for Award Management (SAM) | https://www.sam.gov/SAM/                                                          |
 
   @verify-isdc-main-page-footer-links
-  Scenario Outline: Main Page Footer Links
+  Scenario Outline: Interagency Suspension and Debarment Committee (ISDC) - Main Page Footer Links
     Given I am on the ISDC page
     When I click on ISDC footer link "<Link Text>"
     Then I am taken to the <Destination> page
@@ -84,7 +84,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Compelling Reasons Determinations | ISDC compelling reasons |
 
   @verify-isdc-officals-page-layout
-  Scenario: Debarring Officials Page Layout
+  Scenario: Interagency Suspension and Debarment Committee (ISDC) - Debarring Officials Page Layout
     Given I am on the ISDC officials page
     Then I see the ISDC header is the following:
       """
@@ -176,7 +176,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Compelling Reasons Determinations |
 
   @verify-isdc-officials-page-footer-links
-  Scenario Outline: Debarring Officials Page Footer Links
+  Scenario Outline: Interagency Suspension and Debarment Committee (ISDC) - Debarring Officials Page Footer Links
     Given I am on the ISDC officials page
     And I click on ISDC footer link "<Link Text>"
     Then I am taken to the <Destination> page
@@ -188,7 +188,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Compelling Reasons Determinations | ISDC compelling reasons |
 
   @verify-isdc-debarment-page-layout
-  Scenario: Debarment Regulations Page Layout
+  Scenario: Interagency Suspension and Debarment Committee (ISDC) - Debarment Regulations Page Layout
     Given I am on the ISDC debarment page
     Then I see the ISDC header is the following:
       """
@@ -289,7 +289,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Compelling Reasons Determinations |
 
   @verify-isdc-debarment-page-external-links
-  Scenario: Debarment Regulations Page Content Links
+  Scenario: Interagency Suspension and Debarment Committee (ISDC) - Debarment Regulations Page Content Links
     Given I am on the ISDC debarment page
     Then I see the ISDC content links go to the following urls:
       | Federal Register, Nonprocurement Common Rule, Pages 66533 – 66582                    | https://s3.amazonaws.com/sitesusa/wp-content/uploads/sites/272/2014/09/66582.pdf     |
@@ -300,7 +300,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | http://www.acquisition.gov/content/subpart-94-debarment-suspension-and-ineligibility | {Portal:HOMEPAGE}/far/subpart-9.4                                                    |
 
   @verify-isdc-debarment-page-footer-links
-  Scenario Outline: Debarment Regulations Page Footer Links
+  Scenario Outline: Interagency Suspension and Debarment Committee (ISDC) - Debarment Regulations Page Footer Links
     Given I am on the ISDC debarment page
     And I click on ISDC footer link "<Link Text>"
     Then I am taken to the <Destination> page
@@ -312,7 +312,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Compelling Reasons Determinations | ISDC compelling reasons |
 
   @verify-isdc-reporting-page-layout
-  Scenario: Reporting Page Layout
+  Scenario: Interagency Suspension and Debarment Committee (ISDC) - Reporting Page Layout
     Given I am on the ISDC reporting page
     Then I see the ISDC header is the following:
       """
@@ -364,7 +364,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Compelling Reasons Determinations |
 
   @verify-isdc-debarment-page-footer-links
-  Scenario Outline: Reporting Page Footer Links
+  Scenario Outline: Interagency Suspension and Debarment Committee (ISDC) - Reporting Page Footer Links
     Given I am on the ISDC reporting page
     And I click on ISDC footer link "<Link Text>"
     Then I am taken to the <Destination> page
@@ -376,7 +376,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Compelling Reasons Determinations | ISDC compelling reasons |
 
   @verify-isdc-compelling-reasons-page-layout
-  Scenario: Compelling Reasons Determinations Page Layout
+  Scenario: Interagency Suspension and Debarment Committee (ISDC) - Compelling Reasons Determinations Page Layout
     Given I am on the ISDC compelling reasons page
     Then I see the ISDC header is the following:
       """
@@ -476,7 +476,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | Compelling Reasons Determinations |
 
   @verify-isdc-compelling-reasons-page-external-links
-  Scenario: Compelling Reasons Determinations Page Content Links
+  Scenario: Interagency Suspension and Debarment Committee (ISDC) - Compelling Reasons Determinations Page Content Links
     Given I am on the ISDC compelling reasons page
     Then I see the ISDC content links go to the following urls:
       | 10 U.S.C. § 2393                             | https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title10-section2393&num=0&edition=prelim               |
@@ -487,7 +487,7 @@ Feature: Policy Network - Interagency Suspension and Debarment Committee (ISDC)
       | 10 U.S.C. § 2393                             | https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title10-section2393&num=0&edition=prelim               |
 
   @verify-isdc-compelling-reasons-page-footer-links
-  Scenario Outline: Compelling Reasons Determinations Page Footer Links
+  Scenario Outline: Interagency Suspension and Debarment Committee (ISDC) - Compelling Reasons Determinations Page Footer Links
     Given I am on the ISDC compelling reasons page
     And I click on ISDC footer link "<Link Text>"
     Then I am taken to the <Destination> page

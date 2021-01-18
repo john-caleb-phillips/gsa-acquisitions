@@ -1,8 +1,8 @@
 @all @policy-network @caoc-page
-Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
+Feature: Policy Network
 
   @caoc-main-page-layout
-  Scenario: Verify page layout
+  Scenario: Chief Acquisition Officers Council (CAOC) - Main Page Layout
     Given I am on the CAOC page
     Then I see the CAOC header image matches the file "images/policy-network/caoc-logo.jpg"
     And I see the CAOC header text is "CHIEF ACQUISITION OFFICERS COUNCIL"
@@ -79,7 +79,7 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
       | Procurement Data Clarification                                       |
 
   @caoc-main-page-side-bar-link
-  Scenario Outline: Verify side bar links
+  Scenario Outline: Chief Acquisition Officers Council (CAOC) - Verify side bar links
     Given I am on the CAOC page
     When I click on the CAOC sidebar link "<Link Text>"
     Then I see the url is "<Destination Url>"
@@ -97,7 +97,7 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
       | Procurement Data Clarification                                       | {Portal:HOMEPAGE}/sites/default/files/page_file_uploads/Clarifying Procurement Data Information Based on Lessons Learned During DATA Act Audits.pdf |
 
   @verify-caoc-large-agencies-page-layout
-  Scenario: Verify Large Agencies Page
+  Scenario: Chief Acquisition Officers Council (CAOC) - Verify Large Agencies Page
     Given I am on the CAOC page
     When I navigate to the "Large Agencies" CAOC sub page
     Then I am taken to the CAOC large agencies page
@@ -138,7 +138,7 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
       | U.S. Agency for International Development     |
 
   @verify-caoc-small-agencies-page-layout
-  Scenario: Verify Small Agencies Page
+  Scenario: Chief Acquisition Officers Council (CAOC) - Verify Small Agencies Page
     Given I am on the CAOC page
     When I navigate to the "Small Agencies" CAOC sub page
     Then I am taken to the CAOC small agencies page
@@ -186,7 +186,7 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
       | US Railroad Retirement Board                          | US Trade and Development Agency                               |
 
   @verify-caoc-history-page-layout
-  Scenario: Verify CAOC History Page
+  Scenario: Chief Acquisition Officers Council (CAOC) - Verify CAOC History Page
     Given I am on the CAOC page
     When I navigate to the "CAOC History" CAOC sub page
     Then I am taken to the CAOC history page
@@ -233,7 +233,7 @@ Feature: Policy Network - Chief Acquisition Officers Council (CAOC)
       """
 
   @verify-caoc-charter-page-layout
-  Scenario: Verify CAOC Charter Page
+  Scenario: Chief Acquisition Officers Council (CAOC) - Verify CAOC Charter Page
     Given I am on the CAOC page
     When I navigate to the "CAOC Charter" CAOC sub page
     Then I am on the CAOC charter page
