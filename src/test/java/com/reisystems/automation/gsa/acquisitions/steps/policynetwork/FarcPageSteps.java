@@ -37,7 +37,7 @@ public class FarcPageSteps {
         for (String linkText : memorandaLinks.keySet()) {
             String href = policyNetworkPage.farc().getMemorandaLinkHref(linkText);
             blazeLibrary.assertion().assertThat(href)
-                    .withFailMessage("URL for FARC memoranda link '%s' was not was expected.%nExpected: %s%nActual: %s", linkText, memorandaLinks.get(linkText), href)
+                    .withFailMessage("URL for FARC memoranda link '%s' was not as expected.%nExpected: %s%nActual: %s", linkText, memorandaLinks.get(linkText), href)
                     .isEqualTo(memorandaLinks.get(linkText));
             if (blazeLibrary.assertion().wasSuccess()) {
                 try {

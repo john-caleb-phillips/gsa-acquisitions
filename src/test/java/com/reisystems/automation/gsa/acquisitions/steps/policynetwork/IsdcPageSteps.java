@@ -5,10 +5,11 @@ import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.isdc.
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -35,20 +36,38 @@ public class IsdcPageSteps {
     }
 
     @Then("I see the ISDC content links go to the following urls:")
-    public void verifyContentLinks(Map<String, String> contentLinks) {
-        for (String linkText : contentLinks.keySet()) {
-            String href = blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'field-items')]//a[.='%s']", linkText))).getAttribute("href");
-            blazeLibrary.assertion().assertThat(href)
-                    .withFailMessage("URL for FARC memoranda link '%s' was not was expected.%nExpected: %s%nActual: %s", linkText, contentLinks.get(linkText), href)
-                    .isEqualTo(contentLinks.get(linkText));
-            if (blazeLibrary.assertion().wasSuccess()) {
-                try {
-                    new URL(href).openStream();
-                } catch (MalformedURLException e) {
-                    blazeLibrary.assertion().fail("FARC memoranda link '%s' href attribute was not a valid URL. It was '%s'", linkText, href);
-                } catch (IOException e) {
-                    blazeLibrary.assertion().fail("FARC memoranda link '%s' could not be opened.", linkText);
+    public void verifyContentLinks(List<List<String>> contentLinks) {
+        for (List<String> link : contentLinks) {
+            if (link.size() != 2) {
+                blazeLibrary.assertion().fail("Table must have exactly two columns.");
+                break;
+            }
+
+            String href = policyNetworkPage.isdc().getContentLinkHref(link.get(0));
+
+            if (href.endsWith(".pdf")) {
+                blazeLibrary.assertion().assertThat(href)
+                        .withFailMessage("URL for ISDC content link '%s' did not go to the expected URL.%nExpected: %s%nActual: %s", link.get(0), link.get(1), href)
+                        .isEqualTo(link.get(1));
+                if (blazeLibrary.assertion().wasSuccess()) {
+                    try {
+                        new URL(href).openStream();
+                    } catch (MalformedURLException e) {
+                        blazeLibrary.assertion().fail("ISDC content link '%s' href attribute was not a valid URL. It was '%s'", link.get(0), href);
+                    } catch (IOException e) {
+                        blazeLibrary.assertion().fail("ISDC content link '%s' could not be opened.", link.get(0));
+                    }
                 }
+            } else {
+                blazeLibrary.mouseAndKeyboard().keyUp(Keys.CONTROL).perform();
+                policyNetworkPage.isdc().clickContentLink(link.get(0));
+                blazeLibrary.mouseAndKeyboard().keyDown(Keys.CONTROL).perform();
+
+                blazeLibrary.assertion().assertThat(blazeLibrary.browser().getCurrentUrl())
+                        .withFailMessage("URL for ISDC content link '%s' did not go to the expected URL.%nExpected: %s%nActual: %s", link.get(0), link.get(1), href)
+                        .isEqualTo(link.get(1));
+
+                blazeLibrary.browser().closeTab();
             }
         }
     }

@@ -30,8 +30,6 @@ public class IsdcMainPage extends PageObject {
                 .stream().map(BlazeWebElement::getText).collect(Collectors.joining("\n"));
     }
 
-
-
     public List<BlazeWebElement> getContentLinks() {
         return blazeLibrary.getElements(By.xpath("//div[@id='block-system-main']//a[@href and not(ancestor::table)]"));
     }
@@ -39,6 +37,10 @@ public class IsdcMainPage extends PageObject {
     public List<String> getFooterLinks() {
         return blazeLibrary.getElements(By.xpath("//div[@id='block-menu-menu-about-the-isdc']//li"))
                 .stream().map(BlazeWebElement::getText).collect(Collectors.toList());
+    }
+
+    public String getContentLinkHref(String linkText) {
+        return blazeLibrary.getElement(By.xpath(String.format("//div[@id='block-system-main']//a[@href][not(ancestor::table)][.='%s']", linkText))).getAttribute("href");
     }
 
     public void clickContentLink(String linkText) {
