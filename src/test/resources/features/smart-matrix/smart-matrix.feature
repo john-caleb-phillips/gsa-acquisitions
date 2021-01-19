@@ -137,7 +137,7 @@ Feature: Smart Matrix
   Scenario: Copy Button Works Correctly
     When I search for "Certificate"
     And I click on the Copy button
-    Then I see the system clipboard contains:
+    Then I see the system clipboard:
       """
       Federal Acquisition Regulation (FAR) Smart Matrix Table
 

@@ -7,8 +7,13 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +25,16 @@ public class PolicyNetworkSteps {
     public PolicyNetworkSteps(BlazeLibrary blazeLibrary, PolicyNetworkPages policyNetworkPage) {
         this.blazeLibrary = blazeLibrary;
         this.policyNetworkPage = policyNetworkPage;
+    }
+
+    // TEMP
+
+    @Then("I see the system clipboard:")
+    public void verifySystemClipboard(String expectedContents) throws IOException, UnsupportedFlavorException {
+        System.out.println(Arrays.stream(Toolkit.getDefaultToolkit().getSystemClipboard().getAvailableDataFlavors()).map(DataFlavor::toString).collect(Collectors.joining("\n")));
+        blazeLibrary.assertion().assertThat((String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor))
+                .as("Verify the system clipboard contents")
+                .isEqualToIgnoringWhitespace(expectedContents);
     }
 
     @When("I click the header link in policy network block {string}")
