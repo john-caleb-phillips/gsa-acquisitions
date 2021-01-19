@@ -112,22 +112,19 @@ public class RegulationPageSteps {
                 .isEqualTo(expectedHeader);
     }
 
+    private final static Pattern replacementString =  Pattern.compile("DATE\\{([^}]+)}");
     String shortMonth = "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)";
     String longMonth = "(January|February|March|April|May|June|July|August|September|October|November|December)";
 
     @Then("I see the regulation content is the following:")
     public void verifyRegulationContent(String expectedContent) {
-        // replace dates as necessary
 
         String actualContent = StringUtils.normalizeSpace(regulationPages.tablePage().getContent());
         actualContent = actualContent.replaceAll("\n", " ");
         expectedContent = StringUtils.normalizeSpace(expectedContent);
         expectedContent = expectedContent.replaceAll("\n", " ");
-//        expectedContent = expectedContent;
 
-        System.out.println("The changes:\n" + Pattern.quote(expectedContent));
-
-        Matcher matcher = Pattern.compile("DATE\\{([^}]+)}").matcher(expectedContent);
+        Matcher matcher = replacementString.matcher(expectedContent);
 
         StringBuilder builder = new StringBuilder("\\Q");
         int previousEnd = 0;
@@ -148,7 +145,9 @@ public class RegulationPageSteps {
         builder.append(expectedContent.substring(previousEnd)).append("\\E");
 
         blazeLibrary.assertion().assertThat(actualContent)
-                .as("Content for regulation '%s' was not as expected", regulationPages.tablePage().getRegulationName())
+                .withFailMessage("Content for regulation '%s' was not as expect%n"
+                                + "Expecting:%n\"%s\"%nto match pattern:%n\"%s\"",
+                        regulationPages.tablePage().getRegulationName(), actualContent, expectedContent)
                 .matches(Pattern.compile(builder.toString()));
 
     }
@@ -381,7 +380,8 @@ public class RegulationPageSteps {
         if (savedDetailPageInfo.size() > 0) {
             blazeLibrary.assertion().assertThat(savedDetailPageInfo.get(savedDetailPageInfo.size() - 1).nextPagePartNumber == null)
                     .withFailMessage("%s - %s: 'Next' button was present on the last part",
-                            savedDetailPageInfo.get(0).regulationName, savedDetailPageInfo.get(0).rowPartNumber)
+                            savedDetailPageInfo.get(savedDetailPageInfo.size() - 1).regulationName,
+                            savedDetailPageInfo.get(savedDetailPageInfo.size() - 1).rowPartNumber)
                     .isTrue();
         }
 
