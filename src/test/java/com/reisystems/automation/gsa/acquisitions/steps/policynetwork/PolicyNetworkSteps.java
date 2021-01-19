@@ -31,7 +31,9 @@ public class PolicyNetworkSteps {
 
     @Then("I see the system clipboard:")
     public void verifySystemClipboard(String expectedContents) throws IOException, UnsupportedFlavorException {
-        System.out.println(Arrays.stream(Toolkit.getDefaultToolkit().getSystemClipboard().getAvailableDataFlavors()).map(DataFlavor::toString).collect(Collectors.joining("\n")));
+        System.out.println("{\n"
+                + Arrays.stream(Toolkit.getDefaultToolkit().getSystemClipboard().getAvailableDataFlavors()).map(DataFlavor::toString).collect(Collectors.joining("\n    "))
+                + "\n}");
         blazeLibrary.assertion().assertThat((String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor))
                 .as("Verify the system clipboard contents")
                 .isEqualToIgnoringWhitespace(expectedContents);
