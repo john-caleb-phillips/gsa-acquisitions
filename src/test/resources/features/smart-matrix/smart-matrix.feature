@@ -133,11 +133,13 @@ Feature: Smart Matrix
     When I click any of the links in the "Prescribed in" column
     Then I am taken to the correct page
 
+  # Jenkins does not support any data flavors so this test always fails on Jenkins
+  # Will be remedied whenever we move to a dedicated Jenkins server
   @click-copy-button
   Scenario: Copy Button Works Correctly
     When I search for "Certificate"
     And I click on the Copy button
-    Then I see the system clipboard:
+    Then I see the system clipboard contains:
       """
       Federal Acquisition Regulation (FAR) Smart Matrix Table
 

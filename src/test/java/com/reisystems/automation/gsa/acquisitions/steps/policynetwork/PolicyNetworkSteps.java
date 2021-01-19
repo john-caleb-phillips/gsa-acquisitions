@@ -27,18 +27,6 @@ public class PolicyNetworkSteps {
         this.policyNetworkPage = policyNetworkPage;
     }
 
-    // TEMP
-
-    @Then("I see the system clipboard:")
-    public void verifySystemClipboard(String expectedContents) throws IOException, UnsupportedFlavorException {
-        System.out.println("{\n"
-                + Arrays.stream(Toolkit.getDefaultToolkit().getSystemClipboard().getAvailableDataFlavors()).map(DataFlavor::toString).collect(Collectors.joining("\n    "))
-                + "\n}");
-        blazeLibrary.assertion().assertThat((String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor))
-                .as("Verify the system clipboard contents")
-                .isEqualToIgnoringWhitespace(expectedContents);
-    }
-
     @When("I click the header link in policy network block {string}")
     public void clickHeader(String desiredBlock) {
         policyNetworkPage.main().clickHeaderLink(desiredBlock);
