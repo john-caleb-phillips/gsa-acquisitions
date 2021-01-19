@@ -32,9 +32,9 @@ public class PageNavigationSteps extends HasBlazeLibrary {
         this.pageRegistry = pageRegistry;
     }
 
-    @When("^I am (on|taken to) the (home) page$")
-    @When("^I am (on|taken to) the (archive search) page$")
-    @When("^I am (on|taken to) the (main regulation) page$")
+    @Given("^I am (on|taken to) the (home) page$")
+    @Given("^I am (on|taken to) the (archive search) page$")
+    @Given("^I am (on|taken to) the (main regulation) page$")
     @Given("^I am (on|taken to) the (main policy network) page$")
     @Given("^I am (on|taken to) the (CAAC) page$")
     @Given("^I am (on|taken to) the (CAAC letters) page$")

@@ -380,7 +380,7 @@ public class RegulationPageSteps {
     public void verifyTableRegulationDetailPageNextButton() {
         if (savedDetailPageInfo.size() > 0) {
             blazeLibrary.assertion().assertThat(savedDetailPageInfo.get(savedDetailPageInfo.size() - 1).nextPagePartNumber == null)
-                    .withFailMessage("%s - %s: 'Next' button was present on the first part",
+                    .withFailMessage("%s - %s: 'Next' button was present on the last part",
                             savedDetailPageInfo.get(0).regulationName, savedDetailPageInfo.get(0).rowPartNumber)
                     .isTrue();
         }
