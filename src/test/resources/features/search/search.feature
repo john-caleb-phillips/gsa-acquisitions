@@ -46,8 +46,9 @@ Feature: Search
       | HUDAR | FEHBAR | HHSAR | DIAR      | CAR  | AGAR   | AIDAR    | EDAR   |
       | LIFAR | TAR    | DOLAR | IAAR      | JAR  | NRCAR  | DFARSPGI |        |
     And I see the following options under filter "Filter by year:":
-      | 2014 | 2018 | 2017 | 2016 | 2013 | 2012 | 2006 | 2015 | 2011 | 2008 | 2010 | 1970 | 2004 |
-      | 2009 | 2019 | 2005 | 2007 | 2002 | 2003 | 1999 | 2000 | 1998 | 2020 | 2001 | 1997 | 1996 |
+      | 1970 | 1996 | 1997 | 1998 | 1999 | 2000 | 2001 | 2002 | 2003 |
+      | 2004 | 2005 | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 |
+      | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 |
     And I see the following options under filter "Sort by":
       | Title     |
       | Relevancy |
@@ -62,6 +63,7 @@ Feature: Search
   Scenario Outline: Filter by "<Archive Type>" archive type shows only the correct archive types
     Given I am on the site search page
     When I perform search for "*"
+    And I expand all sidebar options
     And I filter by archive type "<Archive Type>"
     Then I see every search result is from "<Archive Type>" archive
     Examples:
@@ -190,13 +192,11 @@ Feature: Search
       | Document Type          |
       | Tags                   |
     And I see the following options under filter "Filter by part number:":
-      | 52  | 252 | 225 | 22  | 552 | 32  | 19  |
-      | 4   | 204 | 3   | 49  | 217 | 47  | 232 |
-      | 9   | 42  | 227 | 215 | 31  | 237 | 25  |
-      | 222 | 219 | 15  | 36  | 14  | 8   | 16  |
-      | 53  | 208 | 242 | 209 | 23  | 46  | 570 |
-      | 28  | 1   | 27  | 239 | 216 | 245 | 246 |
-      | 504 | 13  | 37  | 17  | 519 | 223 | 536 |
+      | 1   | 3   | 4   | 8   | 9   | 13  | 14  | 15  | 16  | 17  |
+      | 19  | 22  | 23  | 25  | 27  | 28  | 31  | 32  | 36  | 37  |
+      | 42  | 46  | 47  | 49  | 52  | 53  | 78  | 204 | 208 | 209 |
+      | 215 | 216 | 217 | 219 | 222 | 223 | 225 | 227 | 232 | 237 |
+      | 239 | 242 | 245 | 246 | 252 | 504 | 519 | 536 | 552 | 570 |
     And I see the following options under filter "Sort by":
       | Title     |
       | Relevancy |

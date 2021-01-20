@@ -54,8 +54,19 @@ public class SearchPage extends HasBlazeLibrary {
                 .map(option -> Arrays.stream(option.getText().trim().split("\n"))
                         .filter(part -> (!part.startsWith("Apply") && !part.startsWith("Remove")) || !part.endsWith("filter"))
                         .collect(Collectors.toList()))
-                .map(list -> new SearchFilterOption(list.get(0), list.size() > 1 ? list.get(1) : null))
+                .map(list -> new SearchFilterOption(
+                        list.size() == 1  && !isInteger(list.get(0)) || list.size() > 1 ? list.get(0) : null,
+                        list.size() > 1 ? list.get(1) : list.size() == 1 && isInteger(list.get(0)) ? list.get(0) : null))
                 .collect(Collectors.toList());
+    }
+
+    private boolean isInteger(String toTest) {
+        try {
+            Integer.parseInt(toTest);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     public void forEachRowOnThePage(Consumer<SearchResult> consumer) {

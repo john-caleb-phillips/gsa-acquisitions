@@ -127,7 +127,7 @@ public class SearchPageSteps {
     public void checkSidebarHeaders(List<String> expectedSidebarHeaders) {
         blazeLibrary.assertion().assertThat(searchPage.getFilterHeaders())
                 .as("Search sidebar filter headers were not as expected")
-                .containsExactlyElementsOf(expectedSidebarHeaders);
+                .containsExactlyInAnyOrderElementsOf(expectedSidebarHeaders);
     }
 
     @Then("I see the following options under filter {string}:")
