@@ -78,23 +78,20 @@ Feature: Policy Network
       | DATA Act Section 5 Pilot                                             |
       | Procurement Data Clarification                                       |
 
-  @caoc-main-page-side-bar-link
-  Scenario Outline: Chief Acquisition Officers Council (CAOC) - Verify side bar links
+  @caoc-main-page-side-bar-links
+  Scenario: Chief Acquisition Officers Council (CAOC) - Verify side bar links
     Given I am on the CAOC page
-    When I click on the CAOC sidebar link "<Link Text>"
-    Then I see the url is "<Destination Url>"
-    Examples:
-      | Link Text                                                            | Destination Url                                                                                                                                     |
-      | Circulars                                                            | https://www.whitehouse.gov/omb/information-for-agencies/circulars/                                                                                  |
-      | Guides                                                               | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal/                                                    |
-      | Memoranda                                                            | https://www.whitehouse.gov/omb/information-for-agencies/memoranda/                                                                                  |
-      | Policy Letters                                                       | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                   |
-      | Reports                                                              | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_3                                                   |
-      | Other                                                                | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_4                                                   |
-      | By Topical Areas                                                     | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                   |
-      | Acquisition, Program Management and Small Business Excellence Awards | https://www.fai.gov/resources/acquisition-program-management-and-small-business-excellence-awards                                                   |
-      | DATA Act Section 5 Pilot                                             | {Portal:HOMEPAGE}/data-act-pilot                                                                                                                    |
-      | Procurement Data Clarification                                       | {Portal:HOMEPAGE}/sites/default/files/page_file_uploads/Clarifying Procurement Data Information Based on Lessons Learned During DATA Act Audits.pdf |
+    Then I see the CAOC sidebar links go to the following urls:
+      | Circulars                                                            | https://www.whitehouse.gov/omb/information-for-agencies/circulars/                                                                                                        |
+      | Guides                                                               | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal/                                                                          |
+      | Memoranda                                                            | https://www.whitehouse.gov/omb/information-for-agencies/memoranda/                                                                                                        |
+      | Policy Letters                                                       | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                                         |
+      | Reports                                                              | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_3                                                                         |
+      | Other                                                                | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_4                                                                         |
+      | By Topical Areas                                                     | https://www.whitehouse.gov/omb/management/office-federal-procurement-policy/#_Office_of_Federal_2                                                                         |
+      | Acquisition, Program Management and Small Business Excellence Awards | https://www.fai.gov/resources/acquisition-program-management-and-small-business-excellence-awards                                                                         |
+      | DATA Act Section 5 Pilot                                             | {Portal:HOMEPAGE}/data-act-pilot                                                                                                                                          |
+      | Procurement Data Clarification                                       | {Portal:HOMEPAGE}/sites/default/files/page_file_uploads/Clarifying%20Procurement%20Data%20Information%20Based%20on%20Lessons%20Learned%20During%20DATA%20Act%20Audits.pdf |
 
   @verify-caoc-large-agencies-page-layout
   Scenario: Chief Acquisition Officers Council (CAOC) - Verify Large Agencies Page

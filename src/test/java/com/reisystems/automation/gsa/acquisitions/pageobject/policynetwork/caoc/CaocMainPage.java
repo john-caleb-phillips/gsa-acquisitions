@@ -43,6 +43,11 @@ public class CaocMainPage extends PageObject {
                 .stream().map(BlazeWebElement::getText).collect(Collectors.toList());
     }
 
+    public String getSideBarLinkHref(String linkText) {
+        return blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'caoc-resources')]//a[normalize-space(.)='%s']", linkText)))
+                .getAttribute("href");
+    }
+
     public void clickSideBarLink(String linkText) {
         blazeLibrary.getElement(By.xpath(String.format("//div[contains(@class, 'caoc-resources')]//a[normalize-space(.)='%s']", linkText)))
                 .click(blazeLibrary.clickResults().REFRESH_PAGE, blazeLibrary.clickResults().OPEN_WINDOW_OR_TAB);

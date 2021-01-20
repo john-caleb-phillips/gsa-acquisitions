@@ -4,9 +4,14 @@ import com.reisystems.automation.gsa.acquisitions.pageobject.policynetwork.Polic
 import com.reisystems.blaze.controller.BlazeLibrary;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.Keys;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 public class CaocPageSteps {
 
@@ -26,6 +31,38 @@ public class CaocPageSteps {
     @When("I click on the CAOC sidebar link {string}")
     public void clickSideBarLink(String linkText) {
         policyNetworkPage.caoc().clickSideBarLink(linkText);
+    }
+
+    @When("I see the CAOC sidebar links go to the following urls:")
+    public void clickSideBarLink(Map<String, String> sidebarLinks) {
+        for (String link : sidebarLinks.keySet()) {
+            String href = policyNetworkPage.caoc().getSideBarLinkHref(link);
+
+            if (href.endsWith(".pdf")) {
+                blazeLibrary.assertion().assertThat(href)
+                        .withFailMessage("URL for CAOC sidebar link '%s' did not go to the expected URL.%nExpected: %s%nActual: %s", link, sidebarLinks.get(link), href)
+                        .isEqualTo(sidebarLinks.get(link));
+                if (blazeLibrary.assertion().wasSuccess()) {
+                    try {
+                        new URL(href).openStream();
+                    } catch (MalformedURLException e) {
+                        blazeLibrary.assertion().fail("CAOC sidebar link '%s' href attribute was not a valid URL. It was '%s'", link, href);
+                    } catch (IOException e) {
+                        blazeLibrary.assertion().fail("CAOC sidebar link '%s' could not be opened.", link);
+                    }
+                }
+            } else {
+                blazeLibrary.mouseAndKeyboard().keyUp(Keys.CONTROL).perform();
+                policyNetworkPage.isdc().clickContentLink(link);
+                blazeLibrary.mouseAndKeyboard().keyDown(Keys.CONTROL).perform();
+
+                blazeLibrary.assertion().assertThat(blazeLibrary.browser().getCurrentUrl())
+                        .withFailMessage("URL for CAOC sidebar link '%s' did not go to the expected URL.%nExpected: %s%nActual: %s", link, sidebarLinks.get(link), href)
+                        .isEqualTo(sidebarLinks.get(link));
+
+                blazeLibrary.browser().closeTab();
+            }
+        }
     }
 
     @Then("I see the CAOC header image matches the file {string}")
