@@ -63,7 +63,6 @@ Feature: Search
   Scenario Outline: Filter by "<Archive Type>" archive type shows only the correct archive types
     Given I am on the site search page
     When I perform search for "*"
-    And I expand all sidebar options
     And I filter by archive type "<Archive Type>"
     Then I see every search result is from "<Archive Type>" archive
     Examples:

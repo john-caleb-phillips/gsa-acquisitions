@@ -7,6 +7,7 @@ import com.reisystems.blaze.elements.BlazeWebElement;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,9 @@ public class SearchPageSteps {
     public void expandSidebars() {
         By expandLocator = By.xpath("//div[(contains(@class, 'block-facetapi') or contains(@class, 'block-apachesolr-search'))]//a[.='Show more']");
         while (blazeLibrary.getElement(expandLocator).isPresent()) {
-            blazeLibrary.getElement(expandLocator).click();
+            try {
+                blazeLibrary.getElement(expandLocator).click();
+            } catch (ElementClickInterceptedException ignored) {}
         }
     }
 
