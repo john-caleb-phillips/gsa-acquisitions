@@ -13,10 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ArchivesPageSteps {
@@ -94,6 +91,11 @@ public class ArchivesPageSteps {
                 row -> {
                     String foundFacNumber = row.getFacNumber();
                     String foundArchiveType = row.getArchiveType();
+
+                    if (facNumbersToSkipWithRepeatedFacNumbers.contains(foundFacNumber)) {
+                        return;
+                    }
+
                     foundFacNumbers.putIfAbsent(foundFacNumber, new ArrayList<>());
                     blazeLibrary.assertion().assertThat(!foundFacNumbers.get(foundFacNumber).contains(foundArchiveType))
                             .withFailMessage("[%s] This FAC number was found for Archive Type '%s'. It was previously found for {%s}",
@@ -286,37 +288,6 @@ public class ArchivesPageSteps {
         }
     }
 
-    // As per Francis, the archives in this list were historically brought over with the
-    // Hill AF Migration.  They are to be skipped in the validation. Also, if there are
-    // any other archives that should be skipped they can bee added here.
-
-    private final static List<String> facNumbersToSkipWithNoDownloadLinks = new ArrayList<>();
-    static {
-        facNumbersToSkipWithNoDownloadLinks.add("2019-0415");
-        facNumbersToSkipWithNoDownloadLinks.add("Dpn20180919");
-        facNumbersToSkipWithNoDownloadLinks.add("Dpn20160923");
-        facNumbersToSkipWithNoDownloadLinks.add("Dpn20160226");
-        facNumbersToSkipWithNoDownloadLinks.add("Dpn20130522");
-        facNumbersToSkipWithNoDownloadLinks.add("Dpn20110920");
-        facNumbersToSkipWithNoDownloadLinks.add("Dpn20110606 & 08");
-        facNumbersToSkipWithNoDownloadLinks.add("Dcn20060519");
-        facNumbersToSkipWithNoDownloadLinks.add("Dcn20050207");
-        facNumbersToSkipWithNoDownloadLinks.add("Dcn20041101");
-        facNumbersToSkipWithNoDownloadLinks.add("Dcn20031215");
-        facNumbersToSkipWithNoDownloadLinks.add("Dcn20031114");
-        facNumbersToSkipWithNoDownloadLinks.add("Dcn20011102");
-        facNumbersToSkipWithNoDownloadLinks.add("Dcn20001001");
-        facNumbersToSkipWithNoDownloadLinks.add("Dcn19990923");
-        facNumbersToSkipWithNoDownloadLinks.add("Dcn19981117");
-        facNumbersToSkipWithNoDownloadLinks.add("Dcn19981014");
-        facNumbersToSkipWithNoDownloadLinks.add("Ev5_Procltr05-12");
-        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Procltr10-02 & 9-61&62&63");
-        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-8_Fd05-01");
-        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-8");
-        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-7");
-        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-3");
-        facNumbersToSkipWithNoDownloadLinks.add("Nmcars_18-05");
-    }
     @Then("I see there is at least one download link for each archive")
     public void verifyPresenceOfDownloadLinks() {
         for (ArchiveDetails detail : theSavedDetails) {
@@ -457,5 +428,65 @@ public class ArchivesPageSteps {
         public String toString() {
             return String.format("ArchiveDownloadLink(header='%s',text='%s',url='%s')", header, text, url);
         }
+    }
+
+
+    // As per Francis, the archives in this list were historically brought over with the Hill
+    // AF Migration.  Therefore, they should be skipped in the validation for download links.
+    private final static Set<String> facNumbersToSkipWithNoDownloadLinks = new HashSet<>();
+    static {
+        facNumbersToSkipWithNoDownloadLinks.add("2019-0415");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20180919");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20160923");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20160226");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20130522");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20110920");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20110606 & 08");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20060519");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20050207");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20041101");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20031215");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20031114");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20011102");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20001001");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn19990923");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn19981117");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn19981014");
+        facNumbersToSkipWithNoDownloadLinks.add("Ev5_Procltr05-12");
+        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Procltr10-02 & 9-61&62&63");
+        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-8_Fd05-01");
+        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-8");
+        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-7");
+        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-3");
+        facNumbersToSkipWithNoDownloadLinks.add("Nmcars_18-05");
+    }
+
+    // As per Francis, the DEARS archives in this list were historically brought over with the Hill
+    // AF Migration. Therefore, they should be skipped in the validation for repeated FAC numbers.
+    private final static Set<String> facNumbersToSkipWithRepeatedFacNumbers = new HashSet<>();
+    static {
+        facNumbersToSkipWithRepeatedFacNumbers.add("1997");
+        facNumbersToSkipWithRepeatedFacNumbers.add("1999Jun15");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2000Dec22");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2002Jul28");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2003Dec10");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2003Feb07");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2005Jan15");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2005Jul28");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2006Mar31");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2007May24");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2007May29");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2008Apr29");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2009Jul22");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2010Jun25");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2010Nov10");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2010Oct22");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2011Mar14");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2013Jan14");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2013Jul02");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2014Sep19");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2015Oct23");
+        facNumbersToSkipWithRepeatedFacNumbers.add("2016Jul15");
+        facNumbersToSkipWithRepeatedFacNumbers.add("97-01");
     }
 }
