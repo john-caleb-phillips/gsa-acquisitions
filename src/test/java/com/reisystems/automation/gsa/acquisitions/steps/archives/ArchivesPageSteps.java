@@ -286,9 +286,44 @@ public class ArchivesPageSteps {
         }
     }
 
+    // As per Francis, the archives in this list were historically brought over with the
+    // Hill AF Migration.  They are to be skipped in the validation. Also, if there are
+    // any other archives that should be skipped they can bee added here.
+
+    private final static List<String> facNumbersToSkipWithNoDownloadLinks = new ArrayList<>();
+    static {
+        facNumbersToSkipWithNoDownloadLinks.add("2019-0415");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20180919");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20160923");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20160226");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20130522");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20110920");
+        facNumbersToSkipWithNoDownloadLinks.add("Dpn20110606 & 08");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20060519");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20050207");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20041101");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20031215");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20031114");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20011102");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn20001001");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn19990923");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn19981117");
+        facNumbersToSkipWithNoDownloadLinks.add("Dcn19981014");
+        facNumbersToSkipWithNoDownloadLinks.add("Ev5_Procltr05-12");
+        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Procltr10-02 & 9-61&62&63");
+        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-8_Fd05-01");
+        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-8");
+        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-7");
+        facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-3");
+        facNumbersToSkipWithNoDownloadLinks.add("Nmcars_18-05");
+    }
     @Then("I see there is at least one download link for each archive")
     public void verifyPresenceOfDownloadLinks() {
         for (ArchiveDetails detail : theSavedDetails) {
+            if (facNumbersToSkipWithNoDownloadLinks.contains(detail.detailFacNumber)) {
+                continue;
+            }
+
             blazeLibrary.assertion().assertThat(detail.downloadLinks.size() == 0)
                     .withFailMessage("[%s:%s] There were no download links", detail.rowArchiveType, detail.rowFacNumber)
                     .isFalse();
