@@ -2,7 +2,7 @@
 Feature: Regulations
 
   @validate-regulation-lifar-page-layout
-  Scenario: LIFAR Page Layout
+  Scenario: LIFAR - Page Layout
     Given I am on the LIFAR regulation page
     Then I see the regulation header is the following:
       """
@@ -27,7 +27,7 @@ Feature: Regulations
     And I see the regulation table can be sorted by "Title"
 
   @validate-regulation-lifar-table
-  Scenario: LIFAR Table Contents
+  Scenario: LIFAR - Table Contents
     Given I am on the LIFAR regulation page
     When I save the info from the table regulation rows
     Then the part number in each row is not blank
@@ -36,7 +36,7 @@ Feature: Regulations
     And the "PDF" icon in each row works correctly
 
   @validate-regulation-lifar-detail-pages
-  Scenario: LIFAR Detail Pages
+  Scenario: LIFAR - Detail Pages
     Given I am on the LIFAR regulation page
     When I save the info from the table regulation detail pages
     Then the regulation name on each table regulation detail page is "LIFAR"

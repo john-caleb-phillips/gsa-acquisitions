@@ -188,5 +188,6 @@ public class PageNavigationSteps extends HasBlazeLibrary {
         PageRegistry.registerClass("TAR regulation", TarRegulationPage.class);
         PageRegistry.registerClass("TRANSFARS regulation", TransfarsRegulationPage.class);
         PageRegistry.registerClass("VAAR regulation", VaarRegulationPage.class);
+        PageRegistry.registerClass("DOD deviations", DodDeviations.class);
     }
 }

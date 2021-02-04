@@ -1,6 +1,7 @@
 @all @policy-network @farc-page
 Feature: Policy Network
 
+  @farc-main-page-layout
   Scenario: Federal Acquisition Regulatory Council (FARC) - Main Page Layout
     Given I am on the FARC page
     Then I see the FARC header is the following:

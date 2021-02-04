@@ -2,7 +2,7 @@
 Feature: Regulations
 
   @validate-regulation-dtar-page-layout
-  Scenario: DTAR Page Layout
+  Scenario: DTAR - Page Layout
     Given I am on the DTAR regulation page
     Then I see the regulation header is the following:
       """
@@ -27,7 +27,7 @@ Feature: Regulations
     And I see the regulation table can be sorted by "Title"
 
   @validate-regulation-dtar-table
-  Scenario: DTAR Table Contents
+  Scenario: DTAR - Table Contents
     Given I am on the DTAR regulation page
     When I save the info from the table regulation rows
     Then the part number in each row is not blank
@@ -36,7 +36,7 @@ Feature: Regulations
     And the "PDF" icon in each row works correctly
 
   @validate-regulation-dtar-detail-pages
-  Scenario: DTAR Detail Pages
+  Scenario: DTAR - Detail Pages
     Given I am on the DTAR regulation page
     When I save the info from the table regulation detail pages
     Then the regulation name on each table regulation detail page is "DTAR"

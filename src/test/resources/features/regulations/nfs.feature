@@ -2,7 +2,7 @@
 Feature: Regulations
 
   @validate-regulation-nfs-page-layout
-  Scenario: NFS Page Layout
+  Scenario: NFS - Page Layout
     Given I am on the NFS regulation page
     Then I see the regulation header is the following:
       """
@@ -30,7 +30,7 @@ Feature: Regulations
     And I see the regulation table can be sorted by "Title"
 
   @validate-regulation-nfs-table
-  Scenario: NFS Table Contents
+  Scenario: NFS - Table Contents
     Given I am on the NFS regulation page
     When I save the info from the table regulation rows
     Then the part number in each row is not blank
@@ -39,7 +39,7 @@ Feature: Regulations
     And the "PDF" icon in each row works correctly
 
   @validate-regulation-nfs-detail-pages
-  Scenario: NFS Detail Pages
+  Scenario: NFS - Detail Pages
     Given I am on the NFS regulation page
     When I save the info from the table regulation detail pages
     Then the regulation name on each table regulation detail page is "NFS"

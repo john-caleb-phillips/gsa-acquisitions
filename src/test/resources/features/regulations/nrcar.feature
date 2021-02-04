@@ -2,7 +2,7 @@
 Feature: Regulations
 
   @validate-regulation-nrcar-page-layout
-  Scenario: NRCAR Page Layout
+  Scenario: NRCAR - Page Layout
     Given I am on the NRCAR regulation page
     Then I see the regulation header is the following:
       """
@@ -27,7 +27,7 @@ Feature: Regulations
     And I see the regulation table can be sorted by "Title"
 
   @validate-regulation-nrcar-table
-  Scenario: NRCAR Table Contents
+  Scenario: NRCAR - Table Contents
     Given I am on the NRCAR regulation page
     When I save the info from the table regulation rows
     Then the part number in each row is not blank
@@ -36,7 +36,7 @@ Feature: Regulations
     And the "PDF" icon in each row works correctly
 
   @validate-regulation-nrcar-detail-pages
-  Scenario: NRCAR Detail Pages
+  Scenario: NRCAR - Detail Pages
     Given I am on the NRCAR regulation page
     When I save the info from the table regulation detail pages
     Then the regulation name on each table regulation detail page is "NRCAR"

@@ -2,7 +2,7 @@
 Feature: Regulations
 
   @validate-regulation-epaar-page-layout
-  Scenario: EPAAR Page Layout
+  Scenario: EPAAR - Page Layout
     Given I am on the EPAAR regulation page
     Then I see the regulation header is the following:
       """
@@ -27,7 +27,7 @@ Feature: Regulations
     And I see the regulation table can be sorted by "Title"
 
   @validate-regulation-epaar-table
-  Scenario: EPAAR Table Contents
+  Scenario: EPAAR - Table Contents
     Given I am on the EPAAR regulation page
     When I save the info from the table regulation rows
     Then the part number in each row is not blank
@@ -36,7 +36,7 @@ Feature: Regulations
     And the "PDF" icon in each row works correctly
 
   @validate-regulation-epaar-detail-pages
-  Scenario: EPAAR Detail Pages
+  Scenario: EPAAR - Detail Pages
     Given I am on the EPAAR regulation page
     When I save the info from the table regulation detail pages
     Then the regulation name on each table regulation detail page is "EPAAR"

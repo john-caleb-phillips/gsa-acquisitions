@@ -2,7 +2,7 @@
 Feature: Regulations
 
   @validate-regulation-dars-page-layout
-  Scenario: DARS Page Layout
+  Scenario: DARS - Page Layout
     Given I am on the DARS regulation page
     Then I see the regulation header is the following:
       """
@@ -28,7 +28,7 @@ Feature: Regulations
     And I see the regulation table can be sorted by "Title"
 
   @validate-regulation-dars-table
-  Scenario: DARS Table Contents
+  Scenario: DARS - Table Contents
     Given I am on the DARS regulation page
     When I save the info from the table regulation rows
     Then the part number in each row is not blank
@@ -37,7 +37,7 @@ Feature: Regulations
     And the "PDF" icon in each row works correctly
 
   @validate-regulation-dars-detail-pages
-  Scenario: DARS Detail Pages
+  Scenario: DARS - Detail Pages
     Given I am on the DARS regulation page
     When I save the info from the table regulation detail pages
     Then the regulation name on each table regulation detail page is "DARS"

@@ -4,10 +4,13 @@ public class RegulationPages {
 
     private final RegulationMainPage regulationMainPage;
     private final TablePage tablePage;
+    private final SidebarPage sidebarPage;
 
-    public RegulationPages(RegulationMainPage regulationMainPage, TablePage tablePage) {
+    public RegulationPages(RegulationMainPage regulationMainPage, TablePage tablePage,
+                           SidebarPage sidebarPage) {
         this.regulationMainPage = regulationMainPage;
         this.tablePage = tablePage;
+        this.sidebarPage = sidebarPage;
     }
 
     public RegulationMainPage mainPage() {
@@ -16,5 +19,9 @@ public class RegulationPages {
 
     public TablePage tablePage() {
         return tablePage;
+    }
+
+    public SidebarPage sidebarPage() {
+        return sidebarPage;
     }
 }

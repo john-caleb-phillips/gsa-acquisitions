@@ -1,6 +1,7 @@
 @all @policy-network @caac-page
 Feature: Policy Network
 
+  @caac-main-page-layout
   Scenario: Civilian Agency Acquisition Council (CAAC) - Main Page Layout
     Given I am on the CAAC page
     Then I see the CAAC header is the following:
