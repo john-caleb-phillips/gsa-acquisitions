@@ -198,7 +198,8 @@ public class ArchivesPageSteps {
     @Then("I see the year header is present for every archive detail")
     public void verifyPresenceOfYearHeader() {
         for (ArchiveDetails detail : theSavedDetails) {
-            if (facNumbersToSkipWithMissingYearHeader.contains(detail.detailFacNumber)) {
+            if (facNumbersToSkipWithMissingYearHeader.contains(detail.detailFacNumber)
+                    || facNumbersToSkipWithMissingYearHeader.contains(detail.rowFacNumber)) {
                 continue;
             }
 
@@ -463,6 +464,7 @@ public class ArchivesPageSteps {
         facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-7");
         facNumbersToSkipWithNoDownloadLinks.add("Rev5_Pl05-3");
         facNumbersToSkipWithNoDownloadLinks.add("Nmcars_18-05");
+        facNumbersToSkipWithNoDownloadLinks.add("97.63");
     }
 
     // As per Francis, the DEARS archives in this list were historically brought over with the Hill
