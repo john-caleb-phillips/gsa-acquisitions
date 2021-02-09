@@ -52,7 +52,7 @@ Feature: Policy Network
 
       ISDC Leadership
       Acting Chair: Lori Vassar, Department of the Interior-OIG
-      Vice Chair: Lori Vassar, Department of the Interior-OIG
+      Chair: Lori Vassar, Department of the Interior-OIG
       Vice Chair:  Monica Aquino-Thieman, NASA
       """
     And I see the following ISDC footer links:
@@ -167,8 +167,8 @@ Feature: Policy Network
       | DOT John A. Volpe National Transportation Systems Center (VOLPE)                                 | Patrick Ingram                                       | Felecia McBride       | (617) 494-2734 Felecia.McBride@dot.gov          |
       | DOT - Saint Lawrence Seaway (GLS)                                                                | Kristin Mulvaney                                     | Carrie Lavigne        | (315) 764-3231 Carrie.lavigne@dot.gov           |
       | U.S. Department of the Treasury                                                                  | Michelle D. Sharpe, Actg.                            | Sean McClure          | (202) 622-0903 Sean.mcclure@treasury.gov        |
-      | U.S Agency for International Development (USAID)                                                 | Patrick Robinson                                     | Katie Stohs           | (571) 243 5887 kstohs@usaid.gov                 |
-      | U.S. Department of Veterans Affairs (VA)                                                         | Angela Billups                                       | William A. Cox        | (703) 441-4025 vasuspension&debarment@va.gov    |
+      | U.S Agency for International Development (USAID)                                                 | Patrick Robinson Collen Allen                        | Katie Stohs           | (571) 243 5887 kstohs@usaid.gov                 |
+      | U.S. Department of Veterans Affairs (VA)                                                         | Angela Billups                                       | Jayson Hwang          | (202) 669-9479 jayson.hwang@va.gov              |
     And I see the following ISDC footer links:
       | Debarring Officials               |
       | Debarment Regulations             |
