@@ -51,7 +51,6 @@ Feature: Policy Network
       framework of the Federal suspension and debarment remedy.
 
       ISDC Leadership
-      Acting Chair: Lori Vassar, Department of the Interior-OIG
       Chair: Lori Vassar, Department of the Interior-OIG
       Vice Chair:  Monica Aquino-Thieman, NASA
       """
@@ -149,7 +148,7 @@ Feature: Policy Network
       | U.S. Postal Service                                                                              | Karen Pompanella, Acting                             | Emmanuel Niba         | (202) 288-8378 Emmanuel.Niba@usps.gov           |
       | Small Business Administration (SBA) – Financial Assistance Programs                              | Susan Streich                                        | Oussama Bachraoui     | (202) 205-6714 Oussama.bachraoui@sba.gov        |
       | SBA – All Other Programs (Procurement)                                                           | John W. Klein                                        | Edmund Bender         | (202) 205-6455 Edmund.bender@sba.gov            |
-      | U.S. Department of State                                                                         | Vince Chaverini                                      | Steven C. Johnston    | (703) 875-6769 johnstonsc@state.gov             |
+      | U.S. Department of State                                                                         | Michael Derrios                                      | Karin Pacheco         | (202) 316-3213 pachecokm@state.gov              |
       | Social Security Administration (SSA)                                                             | Michelle King                                        | Dawn Caracci          | (410) 965-5499 dawn.caracci@ssa.gov             |
       | U.S. Department of Transportation (DOT) – Federal Aviation Administration (FAA) (Nonprocurement) | David F. Cushing (Airports) and Jodie Baker (Safety) | Elizabeth Newman      | (202) 267-7713 Elizabeth.newman@faa.gov         |
       | DOT FAA (Procurement)                                                                            | Mark Bury                                            | Anne Brickates        | (202) 710-1820 Anne.p.brickates@faa.gov         |
