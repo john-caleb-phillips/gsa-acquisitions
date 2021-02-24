@@ -19,10 +19,12 @@ import com.reisystems.automation.gsa.acquisitions.pageobject.search.RegulationSe
 import com.reisystems.automation.gsa.acquisitions.pageobject.search.SiteSearchPage;
 import com.reisystems.automation.gsa.acquisitions.pageobject.smartmartix.SmartMatrixPage;
 import com.reisystems.blaze.controller.BlazeLibrary;
+import com.reisystems.blaze.elements.BlazeWebElement;
 import com.reisystems.blaze.elements.HasBlazeLibrary;
 import com.reisystems.blaze.elements.PageRegistry;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
 
 public class PageNavigationSteps extends HasBlazeLibrary {
     PageRegistry pageRegistry;
@@ -106,10 +108,18 @@ public class PageNavigationSteps extends HasBlazeLibrary {
     public void goToPage(String onOrTakenTo, String desiredPage) {
         if ("on".equals(onOrTakenTo)) {
             pageRegistry.getPage(desiredPage).goToPage();
+            closeMaintenanceWindowIfPresent();
         } else {
             if (!pageRegistry.getPage(desiredPage).areOnPage()) {
                 blazeLibrary.assertion().fail("Should have been on %s page, but were not.", desiredPage);
             }
+        }
+    }
+
+    public void closeMaintenanceWindowIfPresent() {
+        BlazeWebElement button = blazeLibrary.getElement(By.xpath("//button[@id='cboxClose']"));
+        if (button.isPresent()) {
+            button.click();
         }
     }
 
