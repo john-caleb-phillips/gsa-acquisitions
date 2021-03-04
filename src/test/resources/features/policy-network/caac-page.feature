@@ -177,7 +177,7 @@ Feature: Policy Network
 
       MEMBERS' ADDRESSES AND PHONE NUMBERS
 
-      (Updated: 10/2/2020)
+      (Updated: 3/2/2021)
       """
 
   @verify-caac-members-page-links
